@@ -246,10 +246,10 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
   }
 
   return (
-    <div className="p-0 sm:p-2 md:p-4 bg-gray-50 min-h-full space-y-6">
+    <div className="p-0 sm:p-2 md:p-4 bg-gray-50 min-h-full space-y-2">
       <h1 className="text-2xl sm:text-3xl font-bold text-hegra-deep-navy">Manajemen Tiket & Kupon</h1>
       <p className="text-sm text-gray-600 mb-6">
-        Menampilkan tiket & kupon untuk event: <strong className="text-hegra-turquoise">{currentEventContext.name}</strong>
+        Event: <strong className="text-hegra-turquoise">{currentEventContext.name}</strong>
       </p>
 
       <div className="border-b border-gray-200 bg-white px-4 pt-2 rounded-t-lg">

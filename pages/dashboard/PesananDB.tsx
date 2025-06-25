@@ -494,13 +494,13 @@ const PesananDB: React.FC<PesananDBProps> = ({ allCreatorEvents, selectedEvent, 
               Event: <strong className="text-hegra-turquoise">{selectedEvent.name}</strong>
             </p>
         </div>
-        <button
+        {/* <button
             onClick={onBackToEventList}
             className="text-sm text-hegra-turquoise hover:text-hegra-navy font-semibold transition-colors group flex items-center mt-3 sm:mt-0"
         >
             <ArrowLeftIcon size={16} className="mr-1.5 transform group-hover:-translate-x-0.5 transition-transform" />
             Pilih Event Lain
-        </button>
+        </button> */}
       </div>
 
       {/* Summary Cards */}

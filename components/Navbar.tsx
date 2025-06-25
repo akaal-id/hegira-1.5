@@ -156,7 +156,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const navItems = [
     { name: 'Beranda', target: 'landing' as PageName },
     { name: 'Event', target: 'events' as PageName },
-    { name: 'Business Matching', target: 'business' as PageName },
+    // { name: 'Business Matching', target: 'business' as PageName },
   ];
 
   const handleLinkClick = (target: PageName) => {
