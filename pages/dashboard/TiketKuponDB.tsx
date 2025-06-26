@@ -18,6 +18,8 @@ export interface TicketCategoryWithEventInfo extends TicketCategory {
   eventDateDisplay: string;
   eventTimeDisplay: string;
   eventTimezone?: string;
+  maxQuantity?: number; // Make it optional if it can be undefined
+  ticketsPurchased?: number;
 }
 
 interface TiketKuponDBProps {

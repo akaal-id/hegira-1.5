@@ -434,7 +434,18 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   }
 
 
-  const handleSwitchView = (viewId: DashboardViewId, data?: any) => {
+const handleSwitchView = (viewId: string, data?: any) => {
+    // Validate viewId to be one of the known DashboardViewId values
+    const validViewIds: DashboardViewId[] = [
+      'daftarEvent', 'ticketsCoupons', 'pesanan', 'pengunjung', 'accountInfo',
+      'createEventView', 'editEventView', 'detailEventView',
+      'savedEvents', 'ticketHistory', 'manajemenCrew', 'pendapatan'
+    ];
+    if (!validViewIds.includes(viewId as DashboardViewId)) {
+      console.warn(`handleSwitchView called with invalid viewId: ${viewId}`);
+      return;
+    }
+
     if (viewId === 'daftarEvent') { 
         setContextualEventSelected(null);
         setSelectedEventForDetail(null);
@@ -463,7 +474,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         setContextualEventSelected(null); 
     }
     
-    setActiveView(viewId);
+    setActiveView(viewId as DashboardViewId);
   };
   
   const handleEventSelectedForDataView = (event: EventData) => {
