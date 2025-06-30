@@ -1,4 +1,5 @@
 
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -6,42 +7,46 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { EventData, TicketCategory, formatEventTime } from '../../HegiraApp';
 import TicketItemCardDB from '../../components/dashboard/TicketItemCardDB';
-import CouponItemCardDB, { CouponData } from '../../components/dashboard/CouponItemCardDB'; 
-import AddTicketModal from '../../components/dashboard/modals/AddTicketModal'; 
-import AddCouponModal from '../../components/dashboard/modals/AddCouponModal'; 
+import CouponItemCardDB, { CouponData } from '../../components/dashboard/CouponItemCardDB';
+import AddTicketModal from '../../components/dashboard/modals/AddTicketModal';
+import AddCouponModal from '../../components/dashboard/modals/AddCouponModal';
 import { PlusCircle, Search, ChevronLeft, ChevronRight as ChevronRightIcon, ArrowLeft, Info } from 'lucide-react';
-import { DashboardViewId } from '../DashboardPage'; 
+import { DashboardViewId } from '../DashboardPage';
+
 
 export interface TicketCategoryWithEventInfo extends TicketCategory {
   eventId: number;
   eventName: string;
-  eventDateDisplay: string;
-  eventTimeDisplay: string;
-  eventTimezone?: string;
-  maxQuantity?: number; // Make it optional if it can be undefined
-  ticketsPurchased?: number;
+  eventDateDisplay: string; // Main event date
+  eventTimeDisplay: string; // Main event time
+  eventTimezone?: string; // Main event timezone
 }
 
+
 interface TiketKuponDBProps {
-  allEvents: EventData[]; 
-  currentEventContext: EventData | null; 
-  onSetContextEvent: (event: EventData | null) => void; 
-  onSwitchView: (viewId: DashboardViewId, data?: any) => void; 
+  allEvents: EventData[];
+  currentEventContext: EventData | null;
+  onSetContextEvent: (event: EventData | null) => void;
+  onSwitchView: (viewId: DashboardViewId, data?: any) => void;
 }
+
 
 const ITEMS_PER_PAGE_TICKETS = 10;
 const ITEMS_PER_PAGE_COUPONS = 10;
+
+
 
 
 const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventContext, onSetContextEvent, onSwitchView }) => {
   const [activeTab, setActiveTab] = useState<'tiket' | 'kupon'>('tiket');
   const [searchTermTickets, setSearchTermTickets] = useState('');
   const [searchTermCoupons, setSearchTermCoupons] = useState('');
-  
+ 
   const [couponsForSelectedEvent, setCouponsForSelectedEvent] = useState<CouponData[]>([]);
-  
+ 
   const [currentPageTickets, setCurrentPageTickets] = useState(1);
   const [currentPageCoupons, setCurrentPageCoupons] = useState(1);
+
 
   const [showAddEditTicketModal, setShowAddEditTicketModal] = useState(false);
   const [editingTicket, setEditingTicket] = useState<TicketCategoryWithEventInfo | null>(null);
@@ -49,9 +54,11 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
   const [editingCoupon, setEditingCoupon] = useState<CouponData | null>(null);
 
 
+
+
   useEffect(() => {
     if (currentEventContext) {
-      setCouponsForSelectedEvent([]); 
+      setCouponsForSelectedEvent([]);
       setCurrentPageTickets(1);
       setCurrentPageCoupons(1);
       setActiveTab('tiket');
@@ -59,14 +66,18 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
   }, [currentEventContext]);
 
 
+
+
   const handleBackToEventList = () => {
-    onSwitchView('daftarEvent'); 
+    onSwitchView('daftarEvent');
   };
+
+
 
 
   const ticketsForSelectedEvent: TicketCategoryWithEventInfo[] = useMemo(() => {
     if (!currentEventContext) return [];
-    return (currentEventContext.ticketCategories || []) 
+    return (currentEventContext.ticketCategories || [])
       .map(tc => ({
         ...tc,
         eventId: currentEventContext.id,
@@ -75,10 +86,11 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
         eventTimeDisplay: currentEventContext.timeDisplay,
         eventTimezone: currentEventContext.timezone,
       }))
-      .filter(ticket => 
+      .filter(ticket =>
         ticket.name.toLowerCase().includes(searchTermTickets.toLowerCase())
       );
   }, [currentEventContext, searchTermTickets]);
+
 
   const totalPagesTickets = Math.ceil(ticketsForSelectedEvent.length / ITEMS_PER_PAGE_TICKETS);
   const currentDisplayTickets = useMemo(() => {
@@ -86,12 +98,14 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
     return ticketsForSelectedEvent.slice(startIndex, startIndex + ITEMS_PER_PAGE_TICKETS);
   }, [ticketsForSelectedEvent, currentPageTickets]);
 
+
   const filteredCoupons = useMemo(() => {
-    return couponsForSelectedEvent.filter(coupon => 
+    return couponsForSelectedEvent.filter(coupon =>
       coupon.name.toLowerCase().includes(searchTermCoupons.toLowerCase()) ||
       coupon.code.toLowerCase().includes(searchTermCoupons.toLowerCase())
     );
   }, [couponsForSelectedEvent, searchTermCoupons]);
+
 
   const totalPagesCoupons = Math.ceil(filteredCoupons.length / ITEMS_PER_PAGE_COUPONS);
   const currentDisplayCoupons = useMemo(() => {
@@ -100,35 +114,68 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
   }, [filteredCoupons, currentPageCoupons]);
 
 
+
+
   const handleAddTicketClick = () => {
     setEditingTicket(null);
     setShowAddEditTicketModal(true);
   };
 
+
   const handleEditTicketClick = (ticket: TicketCategoryWithEventInfo) => {
     setEditingTicket(ticket);
     setShowAddEditTicketModal(true);
   };
-  
+ 
   const handleSaveTicket = (ticketData: Omit<TicketCategory, 'id'> & { id?: string }) => {
     if (!currentEventContext) return;
 
+
     const updatedCategories = [...(currentEventContext.ticketCategories || [])];
-    if (editingTicket) { 
+    // Ensure all fields from TicketCategory are preserved or updated
+    const fullTicketData: TicketCategory = {
+      id: ticketData.id || `ticket-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+      name: ticketData.name,
+      price: ticketData.price,
+      description: ticketData.description,
+      maxQuantity: ticketData.maxQuantity,
+      availabilityStatus: ticketData.availabilityStatus,
+      useEventSchedule: ticketData.useEventSchedule,
+      ticketStartDate: ticketData.ticketStartDate,
+      ticketEndDate: ticketData.ticketEndDate,
+      ticketStartTime: ticketData.ticketStartTime,
+      ticketEndTime: ticketData.ticketEndTime,
+      ticketIsTimeRange: ticketData.ticketIsTimeRange,
+      ticketTimezone: ticketData.ticketTimezone,
+    };
+
+
+
+
+    if (editingTicket && editingTicket.id === fullTicketData.id) {
       const index = updatedCategories.findIndex(tc => tc.id === editingTicket.id);
       if (index !== -1) {
-        updatedCategories[index] = { ...updatedCategories[index], ...ticketData, id: editingTicket.id };
+        updatedCategories[index] = { ...updatedCategories[index], ...fullTicketData };
       }
-    } else { 
-      const newTicketId = ticketData.id || `ticket-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-      updatedCategories.push({ ...ticketData, id: newTicketId });
+    } else if (editingTicket && ticketData.id && ticketData.id !== editingTicket.id) { // ID changed during edit, treat as new but try to replace old one if found
+      const oldIndex = updatedCategories.findIndex(tc => tc.id === editingTicket.id);
+      if (oldIndex !== -1) {
+        updatedCategories.splice(oldIndex, 1, fullTicketData);
+      } else {
+         updatedCategories.push(fullTicketData); // Fallback to add if old not found
+      }
     }
-    
+    else {
+      updatedCategories.push(fullTicketData);
+    }
+   
     onSetContextEvent({ ...currentEventContext, ticketCategories: updatedCategories });
+
 
     setShowAddEditTicketModal(false);
     setEditingTicket(null);
   };
+
 
   const handleDeleteTicket = (ticketToDelete: TicketCategoryWithEventInfo) => {
     if (!currentEventContext) return;
@@ -139,35 +186,40 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
     }
   };
 
+
   const handleAddCouponClick = () => {
     setEditingCoupon(null);
     setShowAddEditCouponModal(true);
   };
+
 
   const handleEditCouponClick = (coupon: CouponData) => {
     setEditingCoupon(coupon);
     setShowAddEditCouponModal(true);
   };
 
+
   const handleSaveCoupon = (couponData: Omit<CouponData, 'id'> & { id?: string }) => {
-    if (editingCoupon) { 
-      setCouponsForSelectedEvent(prev => 
+    if (editingCoupon) {
+      setCouponsForSelectedEvent(prev =>
         prev.map(c => c.id === editingCoupon.id ? { ...editingCoupon, ...couponData } : c)
       );
-    } else { 
+    } else {
       const newCouponId = couponData.id || `coupon-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
       setCouponsForSelectedEvent(prev => [...prev, { ...couponData, id: newCouponId }]);
     }
     setShowAddEditCouponModal(false);
     setEditingCoupon(null);
   };
-  
+ 
   const handleDeleteCoupon = (couponToDelete: CouponData) => {
      if (window.confirm(`Anda yakin ingin menghapus kupon "${couponToDelete.name}"? Aksi ini tidak dapat diurungkan.`)) {
       setCouponsForSelectedEvent(prev => prev.filter(c => c.id !== couponToDelete.id));
       alert(`Kupon "${couponToDelete.name}" dihapus (simulasi).`);
     }
   };
+
+
 
 
   const renderPagination = (currentPage: number, totalPages: number, onPageChange: (page: number) => void, totalItems: number, itemsPerPage: number, displayedItems: number) => {
@@ -184,6 +236,7 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
         if (currentPage < totalPages - 3) pageNumbers.push('...');
         pageNumbers.push(totalPages);
     }
+
 
     return (
       <div className="mt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600 bg-white p-4 rounded-b-lg border-t border-gray-200">
@@ -207,8 +260,8 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
                 key={number}
                 onClick={() => onPageChange(number)}
                 className={`px-3 py-1.5 rounded-md transition-colors border focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50
-                  ${currentPage === number 
-                    ? 'bg-hegra-turquoise text-white font-semibold border-hegra-turquoise' 
+                  ${currentPage === number
+                    ? 'bg-hegra-turquoise text-white font-semibold border-hegra-turquoise'
                     : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'
                   }`}
                 aria-label={`Ke Halaman ${number}`}
@@ -231,6 +284,7 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
     );
   };
 
+
   if (!currentEventContext) {
     return (
       <div className="p-0 sm:p-2 md:p-4 bg-gray-50 min-h-full space-y-6 text-center">
@@ -247,6 +301,7 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
     );
   }
 
+
   return (
     <div className="p-0 sm:p-2 md:p-4 bg-gray-50 min-h-full space-y-2">
       <h1 className="text-2xl sm:text-3xl font-bold text-hegra-deep-navy">Manajemen Tiket & Kupon</h1>
@@ -254,13 +309,14 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
         Event: <strong className="text-hegra-turquoise">{currentEventContext.name}</strong>
       </p>
 
+
       <div className="border-b border-gray-200 bg-white px-4 pt-2 rounded-t-lg">
         <nav className="-mb-px flex space-x-6" aria-label="Tabs">
             <button
               onClick={() => setActiveTab('tiket')}
               className={`whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm
-                  ${activeTab === 'tiket' 
-                  ? 'border-hegra-turquoise text-hegra-turquoise' 
+                  ${activeTab === 'tiket'
+                  ? 'border-hegra-turquoise text-hegra-turquoise'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
             >
               Tiket
@@ -268,8 +324,8 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
             <button
               onClick={() => setActiveTab('kupon')}
               className={`whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm
-                  ${activeTab === 'kupon' 
-                  ? 'border-hegra-turquoise text-hegra-turquoise' 
+                  ${activeTab === 'kupon'
+                  ? 'border-hegra-turquoise text-hegra-turquoise'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
             >
               Kupon
@@ -277,9 +333,10 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
         </nav>
       </div>
 
+
       {activeTab === 'tiket' && (
         <div className="space-y-6 bg-white p-4 rounded-b-lg border border-t-0 border-gray-200">
-          <div className="flex items-center gap-4"> 
+          <div className="flex items-center gap-4">
             <div className="relative flex-grow">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
@@ -300,8 +357,8 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
           {currentDisplayTickets.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {currentDisplayTickets.map((ticket) => (
-                <TicketItemCardDB 
-                  key={`${ticket.eventId}-${ticket.id}`} 
+                <TicketItemCardDB
+                  key={`${ticket.eventId}-${ticket.id}`}
                   ticket={ticket}
                   onEdit={() => handleEditTicketClick(ticket)}
                   onDelete={() => handleDeleteTicket(ticket)}
@@ -317,7 +374,7 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
           {renderPagination(currentPageTickets, totalPagesTickets, setCurrentPageTickets, ticketsForSelectedEvent.length, ITEMS_PER_PAGE_TICKETS, currentDisplayTickets.length)}
         </div>
       )}
-      
+     
       {activeTab === 'kupon' && (
         <div className="space-y-6 bg-white p-4 rounded-b-lg border border-t-0 border-gray-200">
            <div className="flex items-center gap-4">
@@ -359,6 +416,7 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
         </div>
       )}
 
+
       {showAddEditTicketModal && (
         <AddTicketModal
           isOpen={showAddEditTicketModal}
@@ -368,6 +426,7 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
           eventTimezone={currentEventContext?.timezone}
         />
       )}
+
 
       {showAddEditCouponModal && (
         <AddCouponModal
@@ -381,4 +440,8 @@ const TiketKuponDB: React.FC<TiketKuponDBProps> = ({ allEvents, currentEventCont
   );
 };
 
+
 export default TiketKuponDB;
+
+
+

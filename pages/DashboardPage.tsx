@@ -3,30 +3,31 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState, useMemo, useEffect } from 'react';
-import { UserRole, PageName, EventData } from '../HegiraApp'; 
-import { Bookmark, Ticket as TicketIconLucide, BarChart2, Settings, PlusCircle, LogOut, LayoutDashboard, Edit3, Users, Info, FileText, UserCircle, ClipboardList, Briefcase, ArrowLeft, ShoppingCart, Search as SearchIcon, UserCog, DollarSign as DollarSignIcon } from 'lucide-react'; 
+import { UserRole, PageName, EventData, TicketCategory } from '../HegiraApp';
+import { Bookmark, Ticket as TicketIconLucide, BarChart2, Settings, PlusCircle, LogOut, LayoutDashboard, Edit3, Users, Info, FileText, UserCircle, ClipboardList, Briefcase, ArrowLeft, ShoppingCart, Search as SearchIcon, UserCog, DollarSign as DollarSignIcon } from 'lucide-react';
 import EventCard from '../components/EventCard';
-import EventListPageDB from './dashboard/EventListPageDB'; 
-import CreateEventPageDB from './dashboard/CreateEventPageDB'; 
-import EditEventPageDB from './dashboard/EditEventPageDB'; 
-import EventDetailPageDB from './dashboard/EventDetailPageDB'; 
-import TiketKuponDB from './dashboard/TiketKuponDB'; 
-import PesananDB from './dashboard/PesananDB'; 
-import PengunjungDB from './dashboard/PengunjungDB'; 
-import AccountInfoDB from './dashboard/AccountInfoDB'; 
-import DashboardLayout from '../components/dashboard/DashboardLayout'; 
+import EventListPageDB from './dashboard/EventListPageDB';
+import CreateEventPageDB from './dashboard/CreateEventPageDB';
+import EditEventPageDB from './dashboard/EditEventPageDB';
+import EventDetailPageDB from './dashboard/EventDetailPageDB';
+import TiketKuponDB from './dashboard/TiketKuponDB';
+import PesananDB from './dashboard/PesananDB';
+import PengunjungDB from './dashboard/PengunjungDB';
+import AccountInfoDB from './dashboard/AccountInfoDB';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
 import EventSelectorCardDB from '../components/dashboard/EventSelectorCardDB';
-import { ChevronLeft, ChevronRight } from 'lucide-react'; 
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ManajemenCrewPageDB from './dashboard/ManajemenCrewPageDB';
 import PendapatanDB from './dashboard/PendapatanDB'; // New Import
 
-const sampleSavedEvents: EventData[] = [ 
+
+const sampleSavedEvents: EventData[] = [
   {
     id: 10, category: 'B2C', name: 'Global Harmony Fest 2025',
     location: 'ICE BSD, Tangerang', posterUrl: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/10/25 - 2025/10/26', timeDisplay: '14:00 - 23:30', timezone: 'WIB',
     fullDescription: 'Festival musik internasional terbesar tahun ini! Menampilkan headliner kelas dunia dan talenta lokal terbaik.',
-    ticketCategories: [{ id: 'ga-2day', name: 'GA - Terusan 2 Hari', price: 1500000, availabilityStatus: 'almost-sold' }], displayPrice: 'Mulai Rp 850.000',
+    ticketCategories: [{ id: 'ga-2day', name: 'GA - Terusan 2 Hari', price: 1500000, availabilityStatus: 'almost-sold', maxQuantity: 5000 }], displayPrice: 'Mulai Rp 850.000',
     organizerName: 'InterStage Productions', summary: 'Festival musik internasional dengan artis papan atas.', googleMapsQuery: 'ICE BSD City',
     status: 'Aktif', theme: 'Festival Musik', address: 'ICE BSD, Tangerang',
   },
@@ -35,32 +36,36 @@ const sampleSavedEvents: EventData[] = [
     location: 'Hotel Mulia Senayan, Jakarta', posterUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/11/12 - 2025/11/13', timeDisplay: '09:00 - 18:00', timezone: 'WIB',
     fullDescription: 'Konferensi teknologi terdepan di Indonesia, mempertemukan para inovator, investor, dan pemimpin industri.',
-    ticketCategories: [{ id: 'delegate', name: 'Delegate Pass', price: 1800000, availabilityStatus: 'available' }], displayPrice: 'Mulai Rp 1.800.000',
+    ticketCategories: [{ id: 'delegate', name: 'Delegate Pass', price: 1800000, availabilityStatus: 'available', maxQuantity: 500 }], displayPrice: 'Mulai Rp 1.800.000',
     organizerName: 'Organisasi Hegira', summary: 'Konferensi teknologi, inovasi, dan investasi B2B.', googleMapsQuery: 'Hotel Mulia Senayan Jakarta',
     status: 'Aktif', theme: 'Konferensi Teknologi', address: 'Hotel Mulia Senayan, Jakarta',
   },
 ];
-const sampleTicketHistory = [ 
+const sampleTicketHistory = [
   { id: 'TRX001', eventName: 'Local Soundscape: Indie Music Night', date: '28 Juni 2025', price: 'Rp 75.000', ticketCode: 'HGR-LSN1-A001', status: 'Confirmed' },
   { id: 'TRX002', eventName: 'Konser Populer Akhir Pekan', date: '05 Juli 2025', price: 'Rp 150.000', ticketCode: 'HGR-KPA2-B015', status: 'Used' },
 ];
+
 
 export interface CreatorAccountData {
   fullName: string;
   email: string;
   gender: 'Laki-laki' | 'Perempuan' | 'Lainnya' | '';
-  dateOfBirth: string; 
+  dateOfBirth: string;
   phoneNumber: string | null;
   profilePictureUrl?: string;
-  currentPassword?: string; 
+  currentPassword?: string;
 }
 
 
-export type DashboardViewId = 
-  'daftarEvent' | 'ticketsCoupons' | 'pesanan' | 'pengunjung' | 
-  'accountInfo' | 
-  'createEventView' | 'editEventView' | 'detailEventView' | 
+
+
+export type DashboardViewId =
+  'daftarEvent' | 'ticketsCoupons' | 'pesanan' | 'pengunjung' |
+  'accountInfo' |
+  'createEventView' | 'editEventView' | 'detailEventView' |
   'savedEvents' | 'ticketHistory' | 'manajemenCrew' | 'pendapatan'; // Added pendapatan
+
 
 // Default sidebar for Creator/Organization
 export const sidebarSectionsCreatorDefault: { title: string; items: { id: DashboardViewId; label: string; icon: React.ElementType; path: string; }[] }[] = [
@@ -77,6 +82,7 @@ export const sidebarSectionsCreatorDefault: { title: string; items: { id: Dashbo
       ],
     },
 ];
+
 
 // Visitor sidebar (simplified)
 export const sidebarSectionsVisitor: { title: string; items: { id: DashboardViewId; label: string; icon: React.ElementType; path: string; }[] }[] = [
@@ -96,20 +102,24 @@ export const sidebarSectionsVisitor: { title: string; items: { id: DashboardView
 ];
 
 
+
+
 interface DashboardPageProps {
-  userRole: UserRole; 
-  userName: string; 
+  userRole: UserRole;
+  userName: string;
   onNavigate: (page: PageName, data?: any) => void;
   onLogout: () => void;
-  allEvents: EventData[]; 
-  onAddNewEvent: (newEvent: EventData) => void; 
-  eventBeingEdited: EventData | null; 
-  onSetEventForEditing: (event: EventData | null) => void; 
-  onUpdateExistingEvent: (updatedEvent: EventData) => void; 
-  onOpenRoleSwitchModal: () => void; 
+  allEvents: EventData[];
+  onAddNewEvent: (newEvent: EventData) => void;
+  eventBeingEdited: EventData | null;
+  onSetEventForEditing: (event: EventData | null) => void;
+  onUpdateExistingEvent: (updatedEvent: EventData) => void;
+  onOpenRoleSwitchModal: () => void;
 }
 
+
 const ITEMS_PER_PAGE_EVENT_SELECTION = 6;
+
 
 // Larger dataset for creator/organization dashboard event list
 const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
@@ -121,7 +131,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     coverImageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=450&q=80',
     dateDisplay: '2025/11/01 - 2025/11/03', timeDisplay: '10:00 - 21:00', timezone: 'WIB',
     fullDescription: 'Pameran kuliner terbesar se-Asia Tenggara. Menampilkan chef ternama, workshop memasak, dan ratusan tenant makanan lezat.',
-    ticketCategories: [{ id: 'daily-pass-jce', name: 'Daily Pass', price: 75000, availabilityStatus: 'available' }], displayPrice: 'Rp 75.000',
+    ticketCategories: [{ id: 'daily-pass-jce', name: 'Daily Pass', price: 75000, availabilityStatus: 'available', maxQuantity: 5000 }], displayPrice: 'Rp 75.000',
     organizerName: creatorName, summary: 'Pameran kuliner akbar dengan chef internasional.', googleMapsQuery: 'JIExpo Kemayoran',
     parkingAvailable: true, ageRestriction: 'Semua Umur', arrivalInfo: 'Gunakan pintu masuk Hall C.',
     status: 'Draf', theme: 'Pameran Kuliner', address: 'JIExpo Kemayoran, Jakarta Pusat',
@@ -133,7 +143,10 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     coverImageUrl: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=450&q=80',
     dateDisplay: '2026/03/15 - 2026/03/17', timeDisplay: '09:00 - 18:00', timezone: 'WITA',
     fullDescription: 'Pertemuan para pendiri startup, investor, dan mentor dari seluruh ASEAN. Pitching session, networking, dan diskusi panel.',
-    ticketCategories: [{ id: 'startup-delegate', name: 'Startup Delegate', price: 1500000, availabilityStatus: 'available' }, {id: 'investor-pass-asean', name: 'Investor Pass', price: 3000000, availabilityStatus: 'available'}], displayPrice: 'Mulai Rp 1.500.000',
+    ticketCategories: [
+        { id: 'startup-delegate', name: 'Startup Delegate', price: 1500000, availabilityStatus: 'available', maxQuantity: 300 },
+        {id: 'investor-pass-asean', name: 'Investor Pass', price: 3000000, availabilityStatus: 'available', maxQuantity: 100 }
+    ], displayPrice: 'Mulai Rp 1.500.000',
     organizerName: creatorName, summary: 'Konferensi startup dan investor tingkat ASEAN.', googleMapsQuery: 'Bali International Convention Centre',
     parkingAvailable: true, ageRestriction: 'Professional Only', arrivalInfo: 'Registrasi di lobi utama BICC.',
     status: 'Aktif', theme: 'Konferensi Startup', address: 'Kawasan Pariwisata Nusa Dua, Lot NW/1, Benoa, Badung Regency, Bali',
@@ -145,7 +158,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Trans Studio Mall Bandung', posterUrl: 'https://images.unsplash.com/photo-1517457373958-7ce8b7104698?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/09/10 - 2025/09/14', timeDisplay: '10:00 - 22:00', timezone: 'WIB',
     fullDescription: 'Pekan kreatif Bandung menampilkan desainer lokal, workshop seni, pertunjukan musik, dan bazaar produk unik.',
-    ticketCategories: [{ id: 'free-entry-bcw', name: 'Free Entry (Registrasi)', price: 0, availabilityStatus: 'available' }], displayPrice: 'Gratis',
+    ticketCategories: [{ id: 'free-entry-bcw', name: 'Free Entry (Registrasi)', price: 0, availabilityStatus: 'available', maxQuantity: 10000 }], displayPrice: 'Gratis',
     organizerName: creatorName, summary: 'Pekan kreatif dengan bazaar dan workshop di Bandung.', googleMapsQuery: 'Trans Studio Mall Bandung',
     status: 'Aktif', theme: 'Festival Kreatif', address: 'Jl. Gatot Subroto No.289, Cibangkong, Bandung', eventSlug: 'bandung-creative-week-2025', narahubungName: creatorName
   },
@@ -154,7 +167,10 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Hotel Indonesia Kempinski Jakarta', posterUrl: 'https://images.unsplash.com/photo-1560250056-07ba64664864?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/05/20 - 2025/05/21', timeDisplay: '08:30 - 17:30', timezone: 'WIB',
     fullDescription: 'Forum diskusi tingkat tinggi antara pemerintah dan sektor swasta untuk percepatan pembangunan infrastruktur di Indonesia.',
-    ticketCategories: [{ id: 'gov-delegate-iif', name: 'Government Delegate', price: 0, availabilityStatus: 'available' }, { id: 'private-sector-iif', name: 'Private Sector Pass', price: 2500000, availabilityStatus: 'available' }], displayPrice: 'Invitation / Rp 2.500.000',
+    ticketCategories: [
+        { id: 'gov-delegate-iif', name: 'Government Delegate', price: 0, availabilityStatus: 'available', maxQuantity: 300 },
+        { id: 'private-sector-iif', name: 'Private Sector Pass', price: 2500000, availabilityStatus: 'available', maxQuantity: 200 }
+    ], displayPrice: 'Invitation / Rp 2.500.000',
     organizerName: creatorName, summary: 'Forum infrastruktur pemerintah dan swasta.', googleMapsQuery: 'Hotel Indonesia Kempinski Jakarta',
     status: 'Draf', theme: 'Forum Pemerintah', address: 'Jl. M.H. Thamrin No.1, Menteng, Jakarta Pusat', eventSlug: 'indonesia-infra-forum-2025', narahubungName: creatorName
   },
@@ -163,7 +179,10 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Balai Kota Surabaya', posterUrl: 'https://images.unsplash.com/photo-1475771553025-88559b5a4148?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/08/17', timeDisplay: '05:00 - 10:00', timezone: 'WIB',
     fullDescription: 'Ajang lari marathon tahunan di Surabaya. Kategori 5K, 10K, Half Marathon, dan Full Marathon.',
-    ticketCategories: [{ id: '5k-sbm', name: '5K Run', price: 150000, availabilityStatus: 'available' }, { id: 'full-marathon-sbm', name: 'Full Marathon', price: 450000, availabilityStatus: 'almost-sold' }], displayPrice: 'Mulai Rp 150.000',
+    ticketCategories: [
+        { id: '5k-sbm', name: '5K Run', price: 150000, availabilityStatus: 'available', maxQuantity: 2000 },
+        { id: 'full-marathon-sbm', name: 'Full Marathon', price: 450000, availabilityStatus: 'almost-sold', maxQuantity: 500 }
+    ], displayPrice: 'Mulai Rp 150.000',
     organizerName: creatorName, summary: 'Event lari marathon di Surabaya untuk semua level.', googleMapsQuery: 'Balai Kota Surabaya',
     status: 'Aktif', theme: 'Olahraga', address: 'Jl. Taman Surya No.1, Ketabang, Genteng, Surabaya', eventSlug: 'surabaya-marathon-2025', narahubungName: creatorName
   },
@@ -172,7 +191,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'The Ritz-Carlton Jakarta, Pacific Place', posterUrl: 'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/10/01 - 2025/10/02', timeDisplay: '09:00 - 17:00', timezone: 'WIB',
     fullDescription: 'Pameran dan konferensi teknologi finansial terkemuka. Showcase produk, diskusi tren, dan networking.',
-    ticketCategories: [{ id: 'expo-visitor-fintech', name: 'Expo Visitor Pass', price: 500000, availabilityStatus: 'available' }], displayPrice: 'Rp 500.000',
+    ticketCategories: [{ id: 'expo-visitor-fintech', name: 'Expo Visitor Pass', price: 500000, availabilityStatus: 'available', maxQuantity: 500 }], displayPrice: 'Rp 500.000',
     organizerName: creatorName, summary: 'Pameran inovasi fintech dan konferensi.', googleMapsQuery: 'Ritz-Carlton Pacific Place Jakarta',
     status: 'Draf', theme: 'Pameran Teknologi', address: 'SCBD, Jl. Jend. Sudirman Kav. 52-53, Jakarta', eventSlug: 'fintech-innovation-expo', narahubungName: creatorName
   },
@@ -181,7 +200,10 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Mall @ Alam Sutera, Tangerang', posterUrl: 'https://images.unsplash.com/photo-1580584126903-9c469379969e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/12/06 - 2025/12/07', timeDisplay: '11:00 - 20:00', timezone: 'WIB',
     fullDescription: 'Festival budaya pop Jepang terbesar! Kompetisi cosplay, meet & greet dengan guest star, bazaar merchandise, dan pertunjukan J-Pop.',
-    ticketCategories: [{ id: '1day-pass-nv', name: '1-Day Pass', price: 120000, availabilityStatus: 'available' }, { id: '2day-pass-nv', name: '2-Day Pass', price: 200000, availabilityStatus: 'available' }], displayPrice: 'Mulai Rp 120.000',
+    ticketCategories: [
+        { id: '1day-pass-nv', name: '1-Day Pass', price: 120000, availabilityStatus: 'available', maxQuantity: 1500 },
+        { id: '2day-pass-nv', name: '2-Day Pass', price: 200000, availabilityStatus: 'available', maxQuantity: 1000 }
+    ], displayPrice: 'Mulai Rp 120.000',
     organizerName: creatorName, summary: 'Festival anime, cosplay, dan budaya Jepang.', googleMapsQuery: 'Mall @ Alam Sutera',
     status: 'Aktif', theme: 'Festival Budaya Pop', address: 'Jl. Jalur Sutera Barat Kav. 16, Alam Sutera, Tangerang', eventSlug: 'nippon-vibes-fest', narahubungName: creatorName
   },
@@ -190,7 +212,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Shangri-La Hotel Jakarta', posterUrl: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2026/02/18 - 2026/02/19', timeDisplay: '08:00 - 17:00', timezone: 'WIB',
     fullDescription: 'Konferensi untuk para profesional HR. Pembahasan tren terbaru dalam pengembangan SDM, talent management, dan leadership.',
-    ticketCategories: [{ id: 'hr-pro-pass', name: 'HR Professional Pass', price: 2200000, availabilityStatus: 'available' }], displayPrice: 'Rp 2.200.000',
+    ticketCategories: [{ id: 'hr-pro-pass', name: 'HR Professional Pass', price: 2200000, availabilityStatus: 'available', maxQuantity: 250 }], displayPrice: 'Rp 2.200.000',
     organizerName: creatorName, summary: 'Konferensi HR tentang pengembangan SDM.', googleMapsQuery: 'Shangri-La Hotel Jakarta',
     status: 'Draf', theme: 'Konferensi HR', address: 'Kota BNI, Jl. Jend. Sudirman Kav. 1, Jakarta', eventSlug: 'hc-dev-conf-2026', narahubungName: creatorName
   },
@@ -199,7 +221,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Kopi Studio Hegira, Kemang', posterUrl: 'https://images.unsplash.com/photo-1511920183318-afa7a848f096?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/07/26', timeDisplay: '09:00 - 15:00', timezone: 'WIB',
     fullDescription: 'Pelatihan intensif menjadi barista profesional. Materi meliputi pengenalan biji kopi, teknik brewing, latte art, dan manajemen kafe.',
-    ticketCategories: [{ id: 'barista-ws', name: 'Peserta Workshop', price: 850000, availabilityStatus: 'available' }], displayPrice: 'Rp 850.000',
+    ticketCategories: [{ id: 'barista-ws', name: 'Peserta Workshop', price: 850000, availabilityStatus: 'available', maxQuantity: 20 }], displayPrice: 'Rp 850.000',
     organizerName: creatorName, summary: 'Pelatihan barista dari dasar hingga mahir.', googleMapsQuery: 'Kemang Jakarta Selatan',
     status: 'Aktif', theme: 'Workshop Kopi', address: 'Jl. Kemang Raya No. 10, Jakarta Selatan', eventSlug: 'workshop-barista-kemang', narahubungName: creatorName
   },
@@ -208,7 +230,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Balai Kartini Jakarta', posterUrl: 'https://images.unsplash.com/photo-1591015605894-908f709d8134?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/11/22 - 2025/11/23', timeDisplay: '10:00 - 21:00', timezone: 'WIB',
     fullDescription: 'Pameran pernikahan terlengkap dengan vendor gaun, katering, dekorasi, fotografi, dan lainnya. Diskon spesial selama pameran.',
-    ticketCategories: [{ id: 'wedding-expo-entry', name: 'Tiket Masuk Pameran', price: 25000, availabilityStatus: 'available' }], displayPrice: 'Rp 25.000',
+    ticketCategories: [{ id: 'wedding-expo-entry', name: 'Tiket Masuk Pameran', price: 25000, availabilityStatus: 'available', maxQuantity: 3000 }], displayPrice: 'Rp 25.000',
     organizerName: creatorName, summary: 'Pameran vendor pernikahan lengkap.', googleMapsQuery: 'Balai Kartini Jakarta',
     status: 'Aktif', theme: 'Pameran Pernikahan', address: 'Jl. Gatot Subroto Kav. 37, Jakarta Selatan', eventSlug: 'wedding-expo-balkar', narahubungName: creatorName
   },
@@ -218,7 +240,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Ubud, Bali', posterUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2026/04/10 - 2026/04/13', timeDisplay: 'Full Day Program', timezone: 'WITA',
     fullDescription: 'Retret yoga dan kesehatan selama 4 hari 3 malam di tengah keindahan alam Ubud. Sesi yoga, meditasi, healthy cooking class, dan spa.',
-    ticketCategories: [{ id: 'retreat-package', name: 'Paket Retret (All-in)', price: 5500000, availabilityStatus: 'available' }], displayPrice: 'Rp 5.500.000',
+    ticketCategories: [{ id: 'retreat-package', name: 'Paket Retret (All-in)', price: 5500000, availabilityStatus: 'available', maxQuantity: 15 }], displayPrice: 'Rp 5.500.000',
     organizerName: creatorName, summary: 'Retret yoga dan kesehatan di Ubud.', googleMapsQuery: 'Ubud Bali',
     status: 'Draf', theme: 'Retret Kesehatan', address: 'Salah satu vila di Ubud (detail menyusul)', eventSlug: 'bali-yoga-retreat-2026', narahubungName: creatorName
   },
@@ -227,7 +249,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Marina Bay Sands, Singapore', posterUrl: 'https://images.unsplash.com/photo-1577415124269-fc1148050993?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2026/01/15 - 2026/01/16', timeDisplay: '09:00 - 17:00', timezone: 'SGT',
     fullDescription: 'Konferensi internasional membahas inovasi dan tantangan dalam rantai pasok dan logistik di Asia. Untuk profesional logistik dan supply chain.',
-    ticketCategories: [{ id: 'delegate-asia-log', name: 'Delegate Pass', price: 3500000, availabilityStatus: 'available' }], displayPrice: 'Rp 3.500.000 (approx)',
+    ticketCategories: [{ id: 'delegate-asia-log', name: 'Delegate Pass', price: 3500000, availabilityStatus: 'available', maxQuantity: 400 }], displayPrice: 'Rp 3.500.000 (approx)',
     organizerName: creatorName, summary: 'Konferensi rantai pasok dan logistik Asia.', googleMapsQuery: 'Marina Bay Sands Singapore',
     status: 'Draf', theme: 'Konferensi Logistik', address: '10 Bayfront Ave, Singapore', eventSlug: 'asia-logistics-conf-2026', narahubungName: creatorName
   },
@@ -236,7 +258,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Area Kota Tua & SCBD Jakarta', posterUrl: 'https://images.unsplash.com/photo-1518002171503-807377329fd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/08/01 - 2025/08/31', timeDisplay: 'Periode Lomba', timezone: 'WIB',
     fullDescription: 'Kompetisi fotografi dengan tema "Wajah Urban Jakarta". Submit karya terbaikmu dan menangkan hadiah menarik. Kategori: Street, Architecture, Human Interest.',
-    ticketCategories: [{ id: 'reg-photocomp', name: 'Registrasi Peserta', price: 50000, availabilityStatus: 'available' }], displayPrice: 'Rp 50.000',
+    ticketCategories: [{ id: 'reg-photocomp', name: 'Registrasi Peserta', price: 50000, availabilityStatus: 'available', maxQuantity: 500 }], displayPrice: 'Rp 50.000',
     organizerName: creatorName, summary: 'Kompetisi fotografi urban di Jakarta.', googleMapsQuery: 'Kota Tua Jakarta',
     status: 'Aktif', theme: 'Kompetisi Foto', address: 'Jakarta', eventSlug: 'jakarta-urban-photo-2025', narahubungName: creatorName
   },
@@ -245,7 +267,10 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Kineforum Jakarta & Online Streaming', posterUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/11/05 - 2025/11/10', timeDisplay: 'Sesuai Jadwal Pemutaran', timezone: 'WIB',
     fullDescription: 'Festival pemutaran film-film independen karya sineas muda Indonesia. Diskusi film, workshop, dan malam penghargaan.',
-    ticketCategories: [{ id: 'all-access-ffn', name: 'All Access Pass (Online & Offline)', price: 250000, availabilityStatus: 'available' }, { id: 'single-screening', name: 'Single Screening Ticket', price: 35000, availabilityStatus: 'available' }], displayPrice: 'Mulai Rp 35.000',
+    ticketCategories: [
+        { id: 'all-access-ffn', name: 'All Access Pass (Online & Offline)', price: 250000, availabilityStatus: 'available', maxQuantity: 300 },
+        { id: 'single-screening', name: 'Single Screening Ticket', price: 35000, availabilityStatus: 'available', maxQuantity: 2000 }
+    ], displayPrice: 'Mulai Rp 35.000',
     organizerName: creatorName, summary: 'Festival film independen Indonesia.', googleMapsQuery: 'Kineforum TIM Jakarta',
     status: 'Draf', theme: 'Festival Film', address: 'Taman Ismail Marzuki, Cikini, Jakarta', eventSlug: 'ffn-2025', narahubungName: creatorName
   },
@@ -254,7 +279,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Grand City Convex Surabaya', posterUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2026/05/12 - 2026/05/14', timeDisplay: '10:00 - 18:00', timezone: 'WIB',
     fullDescription: 'Pameran teknologi hijau dan solusi keberlanjutan untuk industri. Forum diskusi, presentasi inovasi, dan business matching.',
-    ticketCategories: [{ id: 'trade-visitor-green', name: 'Trade Visitor', price: 100000, availabilityStatus: 'available' }], displayPrice: 'Rp 100.000',
+    ticketCategories: [{ id: 'trade-visitor-green', name: 'Trade Visitor', price: 100000, availabilityStatus: 'available', maxQuantity: 1000 }], displayPrice: 'Rp 100.000',
     organizerName: creatorName, summary: 'Pameran teknologi hijau dan keberlanjutan.', googleMapsQuery: 'Grand City Convex Surabaya',
     status: 'Draf', theme: 'Pameran B2B', address: 'Jl. Walikota Mustajab No.1, Ketabang, Genteng, Surabaya', eventSlug: 'green-tech-expo-sby', narahubungName: creatorName
   },
@@ -263,7 +288,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Jogja Expo Center (JEC)', posterUrl: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/09/25 - 2025/09/29', timeDisplay: '10:00 - 21:00', timezone: 'WIB',
     fullDescription: 'Pesta buku terbesar di Yogyakarta! Diskon buku, meet & greet penulis, workshop menulis, dan diskusi literasi.',
-    ticketCategories: [{ id: 'entry-bookfair', name: 'Tiket Masuk Harian', price: 15000, availabilityStatus: 'available' }], displayPrice: 'Rp 15.000',
+    ticketCategories: [{ id: 'entry-bookfair', name: 'Tiket Masuk Harian', price: 15000, availabilityStatus: 'available', maxQuantity: 10000 }], displayPrice: 'Rp 15.000',
     organizerName: creatorName, summary: 'Pameran buku dan festival penulis di Yogyakarta.', googleMapsQuery: 'Jogja Expo Center',
     status: 'Aktif', theme: 'Pameran Buku', address: 'Jl. Raya Janti, Banguntapan, Bantul, Yogyakarta', eventSlug: 'jogja-bookfair-2025', narahubungName: creatorName
   },
@@ -272,7 +297,10 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Usmar Ismail Hall Jakarta', posterUrl: 'https://images.unsplash.com/photo-1576075409408-9c708d490372?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/10/18', timeDisplay: '19:30 - Selesai', timezone: 'WIB',
     fullDescription: 'Malam penuh tawa bersama komika-komika papan atas Indonesia. Pertunjukan spesial yang mengocok perut dan menyegarkan pikiran.',
-    ticketCategories: [{ id: 'regular-standup', name: 'Regular Seat', price: 175000, availabilityStatus: 'available' }, {id: 'vip-standup', name: 'VIP Seat (Front Row)', price: 300000, availabilityStatus: 'almost-sold'}], displayPrice: 'Mulai Rp 175.000',
+    ticketCategories: [
+        { id: 'regular-standup', name: 'Regular Seat', price: 175000, availabilityStatus: 'available', maxQuantity: 300 },
+        {id: 'vip-standup', name: 'VIP Seat (Front Row)', price: 300000, availabilityStatus: 'almost-sold', maxQuantity: 50 }
+    ], displayPrice: 'Mulai Rp 175.000',
     organizerName: creatorName, summary: 'Pertunjukan spesial stand up comedy.', googleMapsQuery: 'Usmar Ismail Hall Kuningan Jakarta',
     status: 'Aktif', theme: 'Pertunjukan Komedi', address: 'Jl. H.R. Rasuna Said Kav. C-22, Kuningan, Jakarta Selatan', eventSlug: 'standup-special-sehat', narahubungName: creatorName
   },
@@ -281,7 +309,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Online via Zoom', posterUrl: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/07/15 - 2025/07/17', timeDisplay: '09:00 - 12:00 (3 Sesi)', timezone: 'WIB',
     fullDescription: 'Workshop online 3 hari untuk membantu UMKM bertransformasi digital. Materi meliputi pemasaran digital, e-commerce, dan efisiensi operasional.',
-    ticketCategories: [{ id: 'sme-workshop-online', name: 'Peserta Workshop Online', price: 450000, availabilityStatus: 'available' }], displayPrice: 'Rp 450.000',
+    ticketCategories: [{ id: 'sme-workshop-online', name: 'Peserta Workshop Online', price: 450000, availabilityStatus: 'available', maxQuantity: 100 }], displayPrice: 'Rp 450.000',
     organizerName: creatorName, summary: 'Workshop transformasi digital untuk UMKM.', googleMapsQuery: 'Online',
     status: 'Draf', theme: 'Workshop Online B2B', address: 'Online', eventSlug: 'workshop-sme-digital', narahubungName: creatorName
   },
@@ -290,7 +318,10 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Scientia Square Park, Gading Serpong', posterUrl: 'https://images.unsplash.com/photo-1576769490440-98cb416c0586?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/08/02 - 2025/08/03', timeDisplay: '09:00 - 17:00', timezone: 'WIB',
     fullDescription: 'Pameran sains interaktif untuk anak-anak. Eksperimen seru, demo sains, workshop robotik, dan planetarium mini.',
-    ticketCategories: [{ id: 'kids-entry-science', name: 'Tiket Anak (3-12 thn)', price: 75000, availabilityStatus: 'available' }, { id: 'adult-entry-science', name: 'Tiket Pendamping (13+ thn)', price: 50000, availabilityStatus: 'available' }], displayPrice: 'Mulai Rp 50.000',
+    ticketCategories: [
+        { id: 'kids-entry-science', name: 'Tiket Anak (3-12 thn)', price: 75000, availabilityStatus: 'available', maxQuantity: 1000 },
+        { id: 'adult-entry-science', name: 'Tiket Pendamping (13+ thn)', price: 50000, availabilityStatus: 'available', maxQuantity: 1000 }
+    ], displayPrice: 'Mulai Rp 50.000',
     organizerName: creatorName, summary: 'Pameran sains interaktif untuk anak-anak.', googleMapsQuery: 'Scientia Square Park Gading Serpong',
     status: 'Aktif', theme: 'Pameran Edukasi Anak', address: 'Jl. Scientia Boulevard, Gading Serpong, Tangerang', eventSlug: 'kids-science-fair-2025', narahubungName: creatorName
   },
@@ -299,49 +330,57 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     location: 'Parkir Timur Senayan, Jakarta', posterUrl: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
     dateDisplay: '2025/09/07', timeDisplay: '08:00 - 15:00', timezone: 'WIB',
     fullDescription: 'Pameran mobil klasik dari berbagai era dan merek. Kumpul komunitas pecinta mobil klasik, kontes modifikasi, dan bazaar spare part langka.',
-    ticketCategories: [{ id: 'visitor-carshow', name: 'Tiket Pengunjung', price: 30000, availabilityStatus: 'available' }, {id: 'display-car-reg', name: 'Registrasi Mobil Display', price: 150000, availabilityStatus: 'available'}], displayPrice: 'Mulai Rp 30.000',
+    ticketCategories: [
+        { id: 'visitor-carshow', name: 'Tiket Pengunjung', price: 30000, availabilityStatus: 'available', maxQuantity: 2000 },
+        {id: 'display-car-reg', name: 'Registrasi Mobil Display', price: 150000, availabilityStatus: 'available', maxQuantity: 150 }
+    ], displayPrice: 'Mulai Rp 30.000',
     organizerName: creatorName, summary: 'Pameran mobil klasik dan kumpul komunitas.', googleMapsQuery: 'Parkir Timur Senayan Jakarta',
     status: 'Aktif', theme: 'Pameran Otomotif', address: 'Area Parkir Timur Senayan, Jakarta Pusat', eventSlug: 'classic-car-show-jkt', narahubungName: creatorName
   }
 ];
 
 
-const DashboardPage: React.FC<DashboardPageProps> = ({ 
-    userRole, 
-    userName, 
-    onNavigate, 
-    onLogout, 
-    allEvents, 
+
+
+const DashboardPage: React.FC<DashboardPageProps> = ({
+    userRole,
+    userName,
+    onNavigate,
+    onLogout,
+    allEvents,
     onAddNewEvent,
-    eventBeingEdited, 
+    eventBeingEdited,
     onSetEventForEditing,
     onUpdateExistingEvent,
-    onOpenRoleSwitchModal 
+    onOpenRoleSwitchModal
 }) => {
   const isCreatorOrOrg = userRole === 'creator' || userRole === 'organization';
-  const initialView: DashboardViewId = isCreatorOrOrg ? 'daftarEvent' : 'savedEvents'; 
+  const initialView: DashboardViewId = isCreatorOrOrg ? 'daftarEvent' : 'savedEvents';
   const [activeView, setActiveView] = useState<DashboardViewId>(initialView);
-  
+ 
   const [contextualEventSelected, setContextualEventSelected] = useState<EventData | null>(null);
   const [selectedEventForDetail, setSelectedEventForDetail] = useState<EventData | null>(null); // For EventDetailPageDB
   const [currentTicketEventContext, setCurrentTicketEventContext] = useState<EventData | null>(null); // For TiketKuponDB
   const [selectedEventForDataView, setSelectedEventForDataView] = useState<EventData | null>(null); // For PesananDB, PengunjungDB
+
 
   // State for EventSelectorCardDB when used standalone (not currently with new flow)
   const [searchTermForEventSelection, setSearchTermForEventSelection] = useState('');
   const [currentPageForEventSelection, setCurrentPageForEventSelection] = useState(1);
 
 
+
+
   const [creatorData, setCreatorData] = useState<CreatorAccountData>({
-    fullName: userName, 
+    fullName: userName,
     email: userRole === 'creator' ? 'kreator@hegira.com' : (userRole === 'organization' ? 'org@hegira.com' : 'visitor@hegira.com'),
     gender: 'Laki-laki',
     dateOfBirth: '1990-01-15',
-    phoneNumber: null, 
+    phoneNumber: null,
     profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
     currentPassword: 'PasswordRahasia123',
   });
-  
+ 
   useEffect(() => {
     if (userName !== creatorData.fullName) {
         setCreatorData(prev => ({ ...prev, fullName: userName, email: userRole === 'creator' ? 'kreator@hegira.com' : (userRole === 'organization' ? 'org@hegira.com' : 'visitor@hegira.com') }));
@@ -349,17 +388,20 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   }, [userName, userRole, creatorData.fullName]);
 
 
+
+
   const handleUpdatePhoneNumber = (newPhoneNumber: string) => {
     setCreatorData(prev => ({ ...prev, phoneNumber: newPhoneNumber }));
     console.log(`Nomor telepon berhasil disimpan: ${newPhoneNumber}`);
     alert(`Nomor telepon berhasil disimpan: ${newPhoneNumber}`);
   };
-  
+ 
   const handleUpdateProfilePicture = (newPictureUrl: string) => {
     setCreatorData(prev => ({ ...prev, profilePictureUrl: newPictureUrl }));
     console.log(`Foto profil berhasil diperbarui: ${newPictureUrl}`);
     alert(`Foto profil berhasil diperbarui.`);
   };
+
 
   const handleUpdatePassword = (oldPassword: string, newPassword: string) => {
     if (oldPassword !== creatorData.currentPassword) {
@@ -370,8 +412,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     alert(`Password berhasil diubah (simulasi).`);
   };
 
+
   const getSidebarSections = () => {
     if (!isCreatorOrOrg) return sidebarSectionsVisitor;
+
 
     if (contextualEventSelected) {
       const eventNameShort = contextualEventSelected.name.substring(0, 22) + (contextualEventSelected.name.length > 22 ? '...' : '');
@@ -383,7 +427,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           ]
         },
         {
-          title: eventNameShort, 
+          title: eventNameShort,
           items: [
             { id: 'detailEventView' as DashboardViewId, label: 'Detail Event', icon: Info, path: `/dashboard/event/${contextualEventSelected.id}/detail` },
             { id: 'ticketsCoupons' as DashboardViewId, label: 'Tiket & Kupon', icon: TicketIconLucide, path: `/dashboard/event/${contextualEventSelected.id}/tickets` },
@@ -403,14 +447,15 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     }
     return sidebarSectionsCreatorDefault;
   };
-  
+ 
   const currentSidebarSections = getSidebarSections();
 
-  
+
+ 
   const getLabelForView = (viewId: DashboardViewId): string => {
     if (viewId === 'createEventView') return 'Buat Event Baru';
     if (viewId === 'editEventView' && eventBeingEdited) return `Edit: ${eventBeingEdited.name.substring(0,25)}...`;
-    
+   
     if (contextualEventSelected) {
         const eventNameShort = contextualEventSelected.name.substring(0, 22) + (contextualEventSelected.name.length > 22 ? '...' : '');
         const kelolaSection = currentSidebarSections.find(section => section.title === eventNameShort);
@@ -420,71 +465,78 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         }
     }
 
+
     const generalItem = currentSidebarSections.flatMap(s => s.items).find(i => i.id === viewId);
     if (generalItem) return generalItem.label;
-    
+   
     if (viewId === 'detailEventView' && selectedEventForDetail) return `Detail: ${selectedEventForDetail.name.substring(0,25)}...`;
     if (viewId === 'ticketsCoupons' && currentTicketEventContext) return `Tiket: ${currentTicketEventContext.name.substring(0,20)}...`;
     if (viewId === 'pesanan' && selectedEventForDataView) return `Pesanan: ${selectedEventForDataView.name.substring(0,20)}...`;
     if (viewId === 'pengunjung' && selectedEventForDataView) return `Pengunjung: ${selectedEventForDataView.name.substring(0,15)}...`;
     if (viewId === 'manajemenCrew' && contextualEventSelected) return `Manajemen Crew: ${contextualEventSelected.name.substring(0,15)}...`;
     if (viewId === 'pendapatan' && contextualEventSelected) return `Pendapatan: ${contextualEventSelected.name.substring(0,15)}...`;
-    
+   
     return 'Dashboard';
   }
 
 
-const handleSwitchView = (viewId: string, data?: any) => {
-    // Validate viewId to be one of the known DashboardViewId values
-    const validViewIds: DashboardViewId[] = [
-      'daftarEvent', 'ticketsCoupons', 'pesanan', 'pengunjung', 'accountInfo',
-      'createEventView', 'editEventView', 'detailEventView',
-      'savedEvents', 'ticketHistory', 'manajemenCrew', 'pendapatan'
-    ];
-    if (!validViewIds.includes(viewId as DashboardViewId)) {
-      console.warn(`handleSwitchView called with invalid viewId: ${viewId}`);
-      return;
-    }
 
-    if (viewId === 'daftarEvent') { 
-        setContextualEventSelected(null);
-        setSelectedEventForDetail(null);
-        setCurrentTicketEventContext(null);
-        setSelectedEventForDataView(null);
-        onSetEventForEditing(null);
-    } else if (viewId === 'detailEventView' && data && !contextualEventSelected) { 
-        setContextualEventSelected(data as EventData);
-        setSelectedEventForDetail(data as EventData);
-    } else if (contextualEventSelected) { 
-        if (viewId === 'ticketsCoupons' || viewId === 'manajemenCrew' || viewId === 'pendapatan') { 
-            setCurrentTicketEventContext(contextualEventSelected); 
-            setSelectedEventForDataView(null); 
-        } else if (viewId === 'pesanan' || viewId === 'pengunjung') {
-            setSelectedEventForDataView(contextualEventSelected);
-            setCurrentTicketEventContext(null);
-        } else if (viewId === 'editEventView' && data) { 
-             onSetEventForEditing(data as EventData);
-        } else if (viewId === 'detailEventView') { 
-            setSelectedEventForDetail(contextualEventSelected);
-        }
+
+  const handleSwitchView = (viewId: string, data?: any) => {
+  // Validate that the viewId is a valid DashboardViewId
+  const validViewIds: DashboardViewId[] = [
+    'daftarEvent', 'ticketsCoupons', 'pesanan', 'pengunjung',
+    'accountInfo', 'createEventView', 'editEventView', 'detailEventView',
+    'savedEvents', 'ticketHistory', 'manajemenCrew', 'pendapatan'
+  ];
+
+  if (!validViewIds.includes(viewId as DashboardViewId)) {
+    console.error(`Invalid viewId: ${viewId}`);
+    return;
+  }
+
+  const typedViewId = viewId as DashboardViewId;
+
+  if (typedViewId === 'daftarEvent') {
+    setContextualEventSelected(null);
+    setSelectedEventForDetail(null);
+    setCurrentTicketEventContext(null);
+    setSelectedEventForDataView(null);
+    onSetEventForEditing(null);
+  } else if (typedViewId === 'detailEventView' && data && !contextualEventSelected) {
+    setContextualEventSelected(data as EventData);
+    setSelectedEventForDetail(data as EventData);
+  } else if (contextualEventSelected) {
+    if (typedViewId === 'ticketsCoupons' || typedViewId === 'manajemenCrew' || typedViewId === 'pendapatan') {
+      setCurrentTicketEventContext(contextualEventSelected);
+      setSelectedEventForDataView(null);
+    } else if (typedViewId === 'pesanan' || typedViewId === 'pengunjung') {
+      setSelectedEventForDataView(contextualEventSelected);
+      setCurrentTicketEventContext(null);
+    } else if (typedViewId === 'editEventView' && data) {
+      onSetEventForEditing(data as EventData);
+    } else if (typedViewId === 'detailEventView') {
+      setSelectedEventForDetail(contextualEventSelected);
     }
-    
-    if (viewId === 'createEventView') {
-        onSetEventForEditing(null); 
-        setContextualEventSelected(null); 
-    }
-    
-    setActiveView(viewId as DashboardViewId);
-  };
-  
+  }
+
+  if (typedViewId === 'createEventView') {
+    onSetEventForEditing(null);
+    setContextualEventSelected(null);
+  }
+
+  setActiveView(typedViewId);
+};
+ 
   const handleEventSelectedForDataView = (event: EventData) => {
     setSelectedEventForDataView(event);
   };
 
+
   const handleBackToEventSelectionForDataView = () => {
     setSelectedEventForDataView(null);
   };
-  
+ 
   const filteredEventsForSelectionList = useMemo(() => {
     return allEvents.filter(event =>
       event.name.toLowerCase().includes(searchTermForEventSelection.toLowerCase()) ||
@@ -492,11 +544,14 @@ const handleSwitchView = (viewId: string, data?: any) => {
     );
   }, [allEvents, searchTermForEventSelection]);
 
+
   const totalPagesForEventSelection = Math.ceil(filteredEventsForSelectionList.length / ITEMS_PER_PAGE_EVENT_SELECTION);
   const currentDisplayEventsForSelection = useMemo(() => {
     const startIndex = (currentPageForEventSelection - 1) * ITEMS_PER_PAGE_EVENT_SELECTION;
     return filteredEventsForSelectionList.slice(startIndex, startIndex + ITEMS_PER_PAGE_EVENT_SELECTION);
   }, [filteredEventsForSelectionList, currentPageForEventSelection]);
+
+
 
 
   const renderVisitorDashboardContent = () => {
@@ -548,10 +603,10 @@ const handleSwitchView = (viewId: string, data?: any) => {
           </section>
         );
       case 'accountInfo':
-        return <AccountInfoDB 
-                  creatorData={creatorData} 
+        return <AccountInfoDB
+                  creatorData={creatorData}
                   onUpdatePhoneNumber={handleUpdatePhoneNumber}
-                  onUpdateProfilePicture={handleUpdateProfilePicture} 
+                  onUpdateProfilePicture={handleUpdateProfilePicture}
                   onUpdatePassword={handleUpdatePassword}
                 />;
       default:
@@ -559,10 +614,12 @@ const handleSwitchView = (viewId: string, data?: any) => {
     }
   };
 
+
   const handleToggleEventStatus = (event: EventData, newStatus?: string) => {
-    const targetStatus = newStatus || (event.status === 'Aktif' ? 'Selesai' : event.status === 'Draf' ? 'Aktif' : 'Draf'); 
+    const targetStatus = newStatus || (event.status === 'Aktif' ? 'Selesai' : event.status === 'Draf' ? 'Aktif' : 'Draf');
     const eventToUpdate = { ...event, status: targetStatus as EventData['status'] };
-    onUpdateExistingEvent(eventToUpdate); 
+    onUpdateExistingEvent(eventToUpdate);
+
 
     if (selectedEventForDetail && selectedEventForDetail.id === event.id) {
       setSelectedEventForDetail(eventToUpdate);
@@ -573,16 +630,19 @@ const handleSwitchView = (viewId: string, data?: any) => {
     alert(`Status event "${event.name}" diubah menjadi ${targetStatus}.`);
   };
 
+
   const eventsForCreatorOrgList = useMemo(() => {
     if (isCreatorOrOrg) {
         return manyCreatorDashboardEvents(userName).map(event => ({
             ...event,
-            organizerName: userName, 
-            narahubungName: userName, 
+            organizerName: userName,
+            narahubungName: userName,
         }));
     }
-    return allEvents; 
+    return allEvents;
   }, [isCreatorOrOrg, userName, allEvents]);
+
+
 
 
   const renderCreatorOrgDashboardContent = () => {
@@ -603,11 +663,11 @@ const handleSwitchView = (viewId: string, data?: any) => {
                 </button>
             </div>;
       case 'detailEventView':
-        if (selectedEventForDetail) { 
-            return <EventDetailPageDB 
-                        eventData={selectedEventForDetail} 
-                        onSwitchView={handleSwitchView} 
-                        onToggleEventStatus={handleToggleEventStatus} 
+        if (selectedEventForDetail) {
+            return <EventDetailPageDB
+                        eventData={selectedEventForDetail}
+                        onSwitchView={handleSwitchView}
+                        onToggleEventStatus={handleToggleEventStatus}
                         onNavigate={onNavigate}
                     />;
         }
@@ -619,39 +679,39 @@ const handleSwitchView = (viewId: string, data?: any) => {
                 </button>
             </div>;
       case 'ticketsCoupons':
-        if (!currentTicketEventContext && contextualEventSelected) { 
+        if (!currentTicketEventContext && contextualEventSelected) {
             setCurrentTicketEventContext(contextualEventSelected);
         }
-        return <TiketKuponDB 
-                  allEvents={eventsForCreatorOrgList} 
-                  currentEventContext={currentTicketEventContext || contextualEventSelected} 
-                  onSetContextEvent={setCurrentTicketEventContext} 
+        return <TiketKuponDB
+                  allEvents={eventsForCreatorOrgList}
+                  currentEventContext={currentTicketEventContext || contextualEventSelected}
+                  onSetContextEvent={setCurrentTicketEventContext}
                   onSwitchView={handleSwitchView}
                 />;
       case 'pesanan':
         if (!selectedEventForDataView && contextualEventSelected) {
             setSelectedEventForDataView(contextualEventSelected);
         }
-        return <PesananDB 
-                    allCreatorEvents={eventsForCreatorOrgList} 
-                    selectedEvent={selectedEventForDataView || contextualEventSelected!} 
-                    onBackToEventList={() => handleSwitchView('daftarEvent')} 
-                    onNavigate={onNavigate} 
+        return <PesananDB
+                    allCreatorEvents={eventsForCreatorOrgList}
+                    selectedEvent={selectedEventForDataView || contextualEventSelected!}
+                    onBackToEventList={() => handleSwitchView('daftarEvent')}
+                    onNavigate={onNavigate}
                 />;
       case 'pengunjung':
         if (!selectedEventForDataView && contextualEventSelected) {
             setSelectedEventForDataView(contextualEventSelected);
         }
-        return <PengunjungDB 
-                    allCreatorEvents={eventsForCreatorOrgList} 
+        return <PengunjungDB
+                    allCreatorEvents={eventsForCreatorOrgList}
                     selectedEvent={selectedEventForDataView || contextualEventSelected!}
                     onBackToEventList={() => handleSwitchView('daftarEvent')}
-                />; 
+                />;
       case 'manajemenCrew':
         if (contextualEventSelected) {
-          return <ManajemenCrewPageDB 
-                    selectedEvent={contextualEventSelected} 
-                    onSwitchView={handleSwitchView} 
+          return <ManajemenCrewPageDB
+                    selectedEvent={contextualEventSelected}
+                    onSwitchView={handleSwitchView}
                   />;
         }
         return <div className="p-6 text-center">
@@ -673,19 +733,21 @@ const handleSwitchView = (viewId: string, data?: any) => {
                  </button>
                </div>;
       case 'accountInfo':
-         return <AccountInfoDB 
-                    creatorData={creatorData} 
+         return <AccountInfoDB
+                    creatorData={creatorData}
                     onUpdatePhoneNumber={handleUpdatePhoneNumber}
-                    onUpdateProfilePicture={handleUpdateProfilePicture} 
+                    onUpdateProfilePicture={handleUpdateProfilePicture}
                     onUpdatePassword={handleUpdatePassword}
                  />;
-      default: 
-        if (activeView === 'savedEvents' || activeView === 'ticketHistory') return renderVisitorDashboardContent(); 
-        return <EventListPageDB initialEvents={eventsForCreatorOrgList} onNavigate={onNavigate} onSwitchView={handleSwitchView} />; 
+      default:
+        if (activeView === 'savedEvents' || activeView === 'ticketHistory') return renderVisitorDashboardContent();
+        return <EventListPageDB initialEvents={eventsForCreatorOrgList} onNavigate={onNavigate} onSwitchView={handleSwitchView} />;
     }
   };
-  
+ 
   const currentViewLabel = getLabelForView(activeView);
+
+
 
 
   return (
@@ -696,10 +758,10 @@ const handleSwitchView = (viewId: string, data?: any) => {
       onSelectView={handleSwitchView}
       onNavigate={onNavigate}
       onLogout={onLogout}
-      userName={userName} 
-      userRole={userRole} 
-      onOpenRoleSwitchModal={onOpenRoleSwitchModal} 
-      contextEvent={contextualEventSelected} 
+      userName={userName}
+      userRole={userRole}
+      onOpenRoleSwitchModal={onOpenRoleSwitchModal}
+      contextEvent={contextualEventSelected}
     >
       {isCreatorOrOrg ? renderCreatorOrgDashboardContent() : renderVisitorDashboardContent()}
     </DashboardLayout>
