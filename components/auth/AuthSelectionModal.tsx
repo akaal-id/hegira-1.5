@@ -18,9 +18,8 @@ const AuthSelectionModal: React.FC<AuthSelectionModalProps> = ({ isOpen, onClose
   if (!isOpen) return null;
 
   const roles: { type: AuthRoleType; label: string; icon: React.ElementType }[] = [
-    { type: "Event Visitor", label: "Masuk sebagai Visitor", icon: User },
-    // "Event Creator" button removed
-    { type: "Organization", label: "Masuk sebagai Organisasi", icon: Briefcase },
+    // { type: "Event Visitor", label: "Masuk sebagai Visitor", icon: User },
+    // { type: "Organization", label: "Masuk sebagai Organisasi", icon: Briefcase },
   ];
 
   const handleCreatorDashboardLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
