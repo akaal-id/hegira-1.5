@@ -128,7 +128,11 @@ const TicketCategoryCard: React.FC<TicketCategoryCardProps> = ({ category, quant
     >
       <div>
         <div className="flex justify-between items-start mb-4"> {/* Gap: Title to Date/Time = 16px (was mb-6) */}
+<<<<<<< HEAD
           <h4 className="text-lg font-jakarta font-semibold text-hegra-navy">{category.name}</h4>
+=======
+          <h4 className="text-lg font-semibold text-hegra-navy">{category.name}</h4>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           {currentStatus && (
             <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${currentStatus.chip}`}>
               {currentStatus.text}
@@ -300,7 +304,11 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
     descriptionHtml = `
       <p class="mb-4">Bersiaplah untuk menyongsong era baru dengan AI FUTURE FEST - Menuju Indonesia 5.0, festival teknologi AI terbesar di Indonesia! Acara ini menghadirkan berbagai inovasi terkini dalam kecerdasan buatan, dari otomatisasi industri hingga AI dalam kehidupan sehari-hari.</p>
       <p class="mb-4">Dengan mengusung visi "Membangun Ekosistem AI yang Inklusif dan Berkelanjutan", AI FUTURE FEST menghadirkan para pakar, startup AI, pelaku industri, serta pemerintah untuk bersama-sama mendukung transformasi digital menuju Indonesia 5.0.</p>
+<<<<<<< HEAD
       <h3 class="text-lg font-jakarta font-semibold text-hegra-navy mt-6 mb-3">Apa yang Bisa Anda Dapatkan?</h3>
+=======
+      <h3 class="text-lg font-semibold text-hegra-navy mt-6 mb-3">Apa yang Bisa Anda Dapatkan?</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       <ul class="space-y-2 list-none p-0">
         <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Keynote Speech dari pakar AI global & pemimpin industri</li>
         <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Panel Diskusi & Talkshow tentang tren AI & implementasinya di Indonesia</li>
@@ -310,7 +318,11 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
       </ul>
       <p class="mt-6">Jangan lewatkan kesempatan emas ini untuk menjadi bagian dari revolusi AI di Indonesia!</p>
       <div class="mt-8 pt-6 border-t border-gray-200">
+<<<<<<< HEAD
         <h3 class="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Daftar & Informasi Kontak</h3>
+=======
+        <h3 class="text-lg font-semibold text-hegra-navy mb-3">Daftar & Informasi Kontak</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         <p class="flex items-center text-gray-700 mb-1.5"><span class="text-hegra-turquoise mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"></path></svg></span>Daftar sekarang di: <a href="https://www.aifuturefest.com" target="_blank" rel="noopener noreferrer" class="text-hegra-turquoise hover:underline ml-1">www.aifuturefest.com</a></p>
         <p class="flex items-center text-gray-700"><span class="text-hegra-turquoise mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>Kontak: (+62) 812-3456-7890 | <span class="text-hegra-turquoise mr-1 ml-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><a href="mailto:info@aifuturefest.com" class="text-hegra-turquoise hover:underline">info@aifuturefest.com</a></p>
       </div>
@@ -342,7 +354,11 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
           <div className="lg:w-2/3">
             {/* Island Card for Core Info */}
             <section aria-labelledby="event-main-info" className="bg-white p-6 rounded-xl border border-hegra-navy/10 mb-8 -mt-16 lg:-mt-24 relative z-10">
+<<<<<<< HEAD
               <h1 id="event-main-info" className="text-3xl md:text-4xl font-bold font-jakarta text-hegra-navy mb-3">{event.name}</h1>
+=======
+              <h1 id="event-main-info" className="text-3xl md:text-4xl font-bold text-hegra-navy mb-3">{event.name}</h1>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               {event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && event.summary && (
                 <p className="text-gray-700 mb-6 text-lg">{event.summary}</p>
               )}
@@ -394,7 +410,11 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
               {/* Event Creator Profile Section */}
               {(event.organizerName || event.narahubungPhone || event.narahubungEmail) && (
                  <div className="mt-6 pt-6 border-t border-gray-100">
+<<<<<<< HEAD
                     <h3 className="text-md font-jakarta font-semibold text-gray-700 mb-3">Diselenggarakan oleh:</h3>
+=======
+                    <h3 className="text-md font-semibold text-gray-700 mb-3">Diselenggarakan oleh:</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             {event.organizerLogoUrl ? (
@@ -472,7 +492,11 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
             {/* Full Event Description */}
             <section aria-labelledby="event-description-heading" className="bg-white p-6 rounded-xl border border-hegra-navy/10 mb-8">
               <div className="flex justify-between items-center mb-4">
+<<<<<<< HEAD
                 <h2 id="event-description-heading" className="text-2xl font-jakarta font-bold text-hegra-navy">Deskripsi Event</h2>
+=======
+                <h2 id="event-description-heading" className="text-2xl font-semibold text-hegra-navy">Deskripsi Event</h2>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 {event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && (
                   <button
                     onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
@@ -496,7 +520,11 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
               <section id="ticket-section" aria-labelledby="ticket-options-heading" className="bg-white p-6 rounded-xl border border-hegra-navy/10">
                 <div className="flex items-center gap-3 mb-6">
                   <Ticket size={28} className="text-hegra-turquoise" />
+<<<<<<< HEAD
                   <h2 id="ticket-options-heading" className="text-2xl font-jakarta font-bold text-hegra-navy">Pilih Tiket Anda</h2>
+=======
+                  <h2 id="ticket-options-heading" className="text-2xl font-semibold text-hegra-navy">Pilih Tiket Anda</h2>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 </div>
                 {event.ticketCategories && event.ticketCategories.length > 0 ? (
                   <div className="space-y-4">
@@ -523,7 +551,11 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
           {event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && (
             <div className="hidden lg:block lg:w-1/3 mt-8 lg:mt-0">
               <div className="sticky top-24 bg-white p-6 rounded-xl border border-hegra-navy/10">
+<<<<<<< HEAD
                 <h3 className="text-xl font-jakarta font-bold text-hegra-navy mb-4">Ringkasan Pesanan</h3>
+=======
+                <h3 className="text-xl font-semibold text-hegra-navy mb-4">Ringkasan Pesanan</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 {totalSelectedQuantity > 0 ? (
                   <div className="space-y-2 mb-4 text-sm">
                     {event.ticketCategories.map(cat => {
@@ -597,4 +629,8 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
   );
 };
 
+<<<<<<< HEAD
 export default EventDetailPage;
+=======
+export default EventDetailPage;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

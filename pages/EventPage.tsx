@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -80,7 +84,11 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       <header className="mb-8 md:mb-12 text-center">
+<<<<<<< HEAD
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-jakarta font-bold text-hegra-turquoise">Jelajahi Event</h1>
+=======
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-hegra-turquoise">Jelajahi Event</h1>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         <p className="mt-3 text-lg text-gray-700 max-w-3xl mx-auto">
           Selami dunia penuh kegembiraan dan peluang. Jelajahi beragam koleksi acara mendatang, 
           dari festival yang meriah dan konferensi yang berwawasan hingga pameran yang menarik. Temukan pengalaman tak terlupakan Anda berikutnya di sini.
@@ -106,7 +114,11 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
       <div className="flex flex-col md:flex-row gap-8">
         <aside className="w-full md:w-1/4 lg:w-1/5 bg-white p-6 rounded-lg shadow-sm border border-gray-200 self-start">
           <div className="flex justify-between items-center mb-4">
+<<<<<<< HEAD
             <h2 className="text-2xl font-jakarta font-semibold text-hegra-navy">Filters</h2>
+=======
+            <h2 className="text-2xl font-semibold text-hegra-navy">Filters</h2>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             <button 
               onClick={() => setIsFilterVisible(!isFilterVisible)} 
               className="text-hegra-navy hover:text-hegra-turquoise p-1"
@@ -121,7 +133,11 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
             <div id="event-filters-content" className="space-y-6">
               {/* Category Filter */}
               <div>
+<<<<<<< HEAD
                 <h3 className="text-lg font-jakarta font-medium text-gray-800 mb-2">Category</h3>
+=======
+                <h3 className="text-lg font-medium text-gray-800 mb-2">Category</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 <ul className="space-y-1">
                   {categories.map(category => (
                     <li key={category}>
@@ -141,7 +157,11 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
 
               {/* Date Range Filter */}
               <div>
+<<<<<<< HEAD
                 <h3 className="text-lg font-jakarta font-medium text-gray-800 mb-2">Date Range</h3>
+=======
+                <h3 className="text-lg font-medium text-gray-800 mb-2">Date Range</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 <div className="space-y-2">
                   <div>
                     <label htmlFor="start-date" className="sr-only">Start date</label>
@@ -230,4 +250,8 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
   );
 };
 
+<<<<<<< HEAD
 export default EventPage;
+=======
+export default EventPage;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

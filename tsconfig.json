@@ -1,10 +1,18 @@
 {
   "compilerOptions": {
+<<<<<<< HEAD
     "target": "ES2020",
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+=======
+    "target": "ESNext",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     "skipLibCheck": true,
 
     /* Bundler mode */

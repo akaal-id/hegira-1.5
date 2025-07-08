@@ -2,6 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
+<<<<<<< HEAD
 import React, { useState, useMemo, useEffect } from 'react';
 import { UserRole, PageName, EventData, TicketCategory } from '../HegiraApp'; 
 import { Bookmark, Ticket as TicketIconLucide, BarChart2, Settings, PlusCircle, LogOut, LayoutDashboard, Edit3, Users, Info, FileText, UserCircle, ClipboardList, Briefcase, ArrowLeft, ShoppingCart, Search as SearchIcon, UserCog, DollarSign as DollarSignIcon } from 'lucide-react'; 
@@ -21,6 +22,28 @@ import ManajemenCrewPageDB from './dashboard/ManajemenCrewPageDB';
 import PendapatanDB from './dashboard/PendapatanDB'; // New Import
 
 const sampleSavedEvents: EventData[] = [ 
+=======
+import { useState, useMemo, useEffect } from 'react';
+import { UserRole, PageName, EventData, TicketCategory } from '../HegiraApp';
+import { Bookmark, Ticket as TicketIconLucide, BarChart2, Settings, PlusCircle, LogOut, LayoutDashboard, Edit3, Users, Info, FileText, UserCircle, ClipboardList, Briefcase, ArrowLeft, ShoppingCart, Search as SearchIcon, UserCog, DollarSign as DollarSignIcon } from 'lucide-react';
+import EventCard from '../components/EventCard';
+import EventListPageDB from './dashboard/EventListPageDB';
+import CreateEventPageDB from './dashboard/CreateEventPageDB';
+import EditEventPageDB from './dashboard/EditEventPageDB';
+import EventDetailPageDB from './dashboard/EventDetailPageDB';
+import TiketKuponDB from './dashboard/TiketKuponDB';
+import PesananDB from './dashboard/PesananDB';
+import PengunjungDB from './dashboard/PengunjungDB';
+import AccountInfoDB from './dashboard/AccountInfoDB';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
+import EventSelectorCardDB from '../components/dashboard/EventSelectorCardDB';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ManajemenCrewPageDB from './dashboard/ManajemenCrewPageDB';
+import PendapatanDB from './dashboard/PendapatanDB'; // New Import
+
+
+const sampleSavedEvents: EventData[] = [
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   {
     id: 10, category: 'B2C', name: 'Global Harmony Fest 2025',
     location: 'ICE BSD, Tangerang', posterUrl: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=60',
@@ -40,15 +63,24 @@ const sampleSavedEvents: EventData[] = [
     status: 'Aktif', theme: 'Konferensi Teknologi', address: 'Hotel Mulia Senayan, Jakarta',
   },
 ];
+<<<<<<< HEAD
 const sampleTicketHistory = [ 
+=======
+const sampleTicketHistory = [
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   { id: 'TRX001', eventName: 'Local Soundscape: Indie Music Night', date: '28 Juni 2025', price: 'Rp 75.000', ticketCode: 'HGR-LSN1-A001', status: 'Confirmed' },
   { id: 'TRX002', eventName: 'Konser Populer Akhir Pekan', date: '05 Juli 2025', price: 'Rp 150.000', ticketCode: 'HGR-KPA2-B015', status: 'Used' },
 ];
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 export interface CreatorAccountData {
   fullName: string;
   email: string;
   gender: 'Laki-laki' | 'Perempuan' | 'Lainnya' | '';
+<<<<<<< HEAD
   dateOfBirth: string; 
   phoneNumber: string | null;
   profilePictureUrl?: string;
@@ -62,6 +94,24 @@ export type DashboardViewId =
   'createEventView' | 'editEventView' | 'detailEventView' | 
   'savedEvents' | 'ticketHistory' | 'manajemenCrew' | 'pendapatan'; // Added pendapatan
 
+=======
+  dateOfBirth: string;
+  phoneNumber: string | null;
+  profilePictureUrl?: string;
+  currentPassword?: string;
+}
+
+
+
+
+export type DashboardViewId =
+  'daftarEvent' | 'ticketsCoupons' | 'pesanan' | 'pengunjung' |
+  'accountInfo' |
+  'createEventView' | 'editEventView' | 'detailEventView' |
+  'savedEvents' | 'ticketHistory' | 'manajemenCrew' | 'pendapatan'; // Added pendapatan
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 // Default sidebar for Creator/Organization
 export const sidebarSectionsCreatorDefault: { title: string; items: { id: DashboardViewId; label: string; icon: React.ElementType; path: string; }[] }[] = [
     {
@@ -78,6 +128,10 @@ export const sidebarSectionsCreatorDefault: { title: string; items: { id: Dashbo
     },
 ];
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 // Visitor sidebar (simplified)
 export const sidebarSectionsVisitor: { title: string; items: { id: DashboardViewId; label: string; icon: React.ElementType; path: string; }[] }[] = [
   {
@@ -96,6 +150,7 @@ export const sidebarSectionsVisitor: { title: string; items: { id: DashboardView
 ];
 
 
+<<<<<<< HEAD
 interface DashboardPageProps {
   userRole: UserRole; 
   userName: string; 
@@ -111,6 +166,27 @@ interface DashboardPageProps {
 
 const ITEMS_PER_PAGE_EVENT_SELECTION = 6;
 
+=======
+
+
+interface DashboardPageProps {
+  userRole: UserRole;
+  userName: string;
+  onNavigate: (page: PageName, data?: any) => void;
+  onLogout: () => void;
+  allEvents: EventData[];
+  onAddNewEvent: (newEvent: EventData) => void;
+  eventBeingEdited: EventData | null;
+  onSetEventForEditing: (event: EventData | null) => void;
+  onUpdateExistingEvent: (updatedEvent: EventData) => void;
+  onOpenRoleSwitchModal: () => void;
+}
+
+
+const ITEMS_PER_PAGE_EVENT_SELECTION = 6;
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 // Larger dataset for creator/organization dashboard event list
 const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
   // Original events for creator/org can be included or new ones. Let's assume new ones for more volume.
@@ -134,7 +210,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2026/03/15 - 2026/03/17', timeDisplay: '09:00 - 18:00', timezone: 'WITA',
     fullDescription: 'Pertemuan para pendiri startup, investor, dan mentor dari seluruh ASEAN. Pitching session, networking, dan diskusi panel.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: 'startup-delegate', name: 'Startup Delegate', price: 1500000, availabilityStatus: 'available', maxQuantity: 300 }, 
+=======
+        { id: 'startup-delegate', name: 'Startup Delegate', price: 1500000, availabilityStatus: 'available', maxQuantity: 300 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         {id: 'investor-pass-asean', name: 'Investor Pass', price: 3000000, availabilityStatus: 'available', maxQuantity: 100 }
     ], displayPrice: 'Mulai Rp 1.500.000',
     organizerName: creatorName, summary: 'Konferensi startup dan investor tingkat ASEAN.', googleMapsQuery: 'Bali International Convention Centre',
@@ -158,7 +238,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2025/05/20 - 2025/05/21', timeDisplay: '08:30 - 17:30', timezone: 'WIB',
     fullDescription: 'Forum diskusi tingkat tinggi antara pemerintah dan sektor swasta untuk percepatan pembangunan infrastruktur di Indonesia.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: 'gov-delegate-iif', name: 'Government Delegate', price: 0, availabilityStatus: 'available', maxQuantity: 300 }, 
+=======
+        { id: 'gov-delegate-iif', name: 'Government Delegate', price: 0, availabilityStatus: 'available', maxQuantity: 300 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         { id: 'private-sector-iif', name: 'Private Sector Pass', price: 2500000, availabilityStatus: 'available', maxQuantity: 200 }
     ], displayPrice: 'Invitation / Rp 2.500.000',
     organizerName: creatorName, summary: 'Forum infrastruktur pemerintah dan swasta.', googleMapsQuery: 'Hotel Indonesia Kempinski Jakarta',
@@ -170,7 +254,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2025/08/17', timeDisplay: '05:00 - 10:00', timezone: 'WIB',
     fullDescription: 'Ajang lari marathon tahunan di Surabaya. Kategori 5K, 10K, Half Marathon, dan Full Marathon.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: '5k-sbm', name: '5K Run', price: 150000, availabilityStatus: 'available', maxQuantity: 2000 }, 
+=======
+        { id: '5k-sbm', name: '5K Run', price: 150000, availabilityStatus: 'available', maxQuantity: 2000 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         { id: 'full-marathon-sbm', name: 'Full Marathon', price: 450000, availabilityStatus: 'almost-sold', maxQuantity: 500 }
     ], displayPrice: 'Mulai Rp 150.000',
     organizerName: creatorName, summary: 'Event lari marathon di Surabaya untuk semua level.', googleMapsQuery: 'Balai Kota Surabaya',
@@ -191,7 +279,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2025/12/06 - 2025/12/07', timeDisplay: '11:00 - 20:00', timezone: 'WIB',
     fullDescription: 'Festival budaya pop Jepang terbesar! Kompetisi cosplay, meet & greet dengan guest star, bazaar merchandise, dan pertunjukan J-Pop.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: '1day-pass-nv', name: '1-Day Pass', price: 120000, availabilityStatus: 'available', maxQuantity: 1500 }, 
+=======
+        { id: '1day-pass-nv', name: '1-Day Pass', price: 120000, availabilityStatus: 'available', maxQuantity: 1500 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         { id: '2day-pass-nv', name: '2-Day Pass', price: 200000, availabilityStatus: 'available', maxQuantity: 1000 }
     ], displayPrice: 'Mulai Rp 120.000',
     organizerName: creatorName, summary: 'Festival anime, cosplay, dan budaya Jepang.', googleMapsQuery: 'Mall @ Alam Sutera',
@@ -258,7 +350,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2025/11/05 - 2025/11/10', timeDisplay: 'Sesuai Jadwal Pemutaran', timezone: 'WIB',
     fullDescription: 'Festival pemutaran film-film independen karya sineas muda Indonesia. Diskusi film, workshop, dan malam penghargaan.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: 'all-access-ffn', name: 'All Access Pass (Online & Offline)', price: 250000, availabilityStatus: 'available', maxQuantity: 300 }, 
+=======
+        { id: 'all-access-ffn', name: 'All Access Pass (Online & Offline)', price: 250000, availabilityStatus: 'available', maxQuantity: 300 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         { id: 'single-screening', name: 'Single Screening Ticket', price: 35000, availabilityStatus: 'available', maxQuantity: 2000 }
     ], displayPrice: 'Mulai Rp 35.000',
     organizerName: creatorName, summary: 'Festival film independen Indonesia.', googleMapsQuery: 'Kineforum TIM Jakarta',
@@ -288,7 +384,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2025/10/18', timeDisplay: '19:30 - Selesai', timezone: 'WIB',
     fullDescription: 'Malam penuh tawa bersama komika-komika papan atas Indonesia. Pertunjukan spesial yang mengocok perut dan menyegarkan pikiran.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: 'regular-standup', name: 'Regular Seat', price: 175000, availabilityStatus: 'available', maxQuantity: 300 }, 
+=======
+        { id: 'regular-standup', name: 'Regular Seat', price: 175000, availabilityStatus: 'available', maxQuantity: 300 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         {id: 'vip-standup', name: 'VIP Seat (Front Row)', price: 300000, availabilityStatus: 'almost-sold', maxQuantity: 50 }
     ], displayPrice: 'Mulai Rp 175.000',
     organizerName: creatorName, summary: 'Pertunjukan spesial stand up comedy.', googleMapsQuery: 'Usmar Ismail Hall Kuningan Jakarta',
@@ -309,7 +409,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2025/08/02 - 2025/08/03', timeDisplay: '09:00 - 17:00', timezone: 'WIB',
     fullDescription: 'Pameran sains interaktif untuk anak-anak. Eksperimen seru, demo sains, workshop robotik, dan planetarium mini.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: 'kids-entry-science', name: 'Tiket Anak (3-12 thn)', price: 75000, availabilityStatus: 'available', maxQuantity: 1000 }, 
+=======
+        { id: 'kids-entry-science', name: 'Tiket Anak (3-12 thn)', price: 75000, availabilityStatus: 'available', maxQuantity: 1000 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         { id: 'adult-entry-science', name: 'Tiket Pendamping (13+ thn)', price: 50000, availabilityStatus: 'available', maxQuantity: 1000 }
     ], displayPrice: 'Mulai Rp 50.000',
     organizerName: creatorName, summary: 'Pameran sains interaktif untuk anak-anak.', googleMapsQuery: 'Scientia Square Park Gading Serpong',
@@ -321,7 +425,11 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
     dateDisplay: '2025/09/07', timeDisplay: '08:00 - 15:00', timezone: 'WIB',
     fullDescription: 'Pameran mobil klasik dari berbagai era dan merek. Kumpul komunitas pecinta mobil klasik, kontes modifikasi, dan bazaar spare part langka.',
     ticketCategories: [
+<<<<<<< HEAD
         { id: 'visitor-carshow', name: 'Tiket Pengunjung', price: 30000, availabilityStatus: 'available', maxQuantity: 2000 }, 
+=======
+        { id: 'visitor-carshow', name: 'Tiket Pengunjung', price: 30000, availabilityStatus: 'available', maxQuantity: 2000 },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         {id: 'display-car-reg', name: 'Registrasi Mobil Display', price: 150000, availabilityStatus: 'available', maxQuantity: 150 }
     ], displayPrice: 'Mulai Rp 30.000',
     organizerName: creatorName, summary: 'Pameran mobil klasik dan kumpul komunitas.', googleMapsQuery: 'Parkir Timur Senayan Jakarta',
@@ -330,6 +438,7 @@ const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
 ];
 
 
+<<<<<<< HEAD
 const DashboardPage: React.FC<DashboardPageProps> = ({ 
     userRole, 
     userName, 
@@ -346,16 +455,41 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   const initialView: DashboardViewId = isCreatorOrOrg ? 'daftarEvent' : 'savedEvents'; 
   const [activeView, setActiveView] = useState<DashboardViewId>(initialView);
   
+=======
+
+
+const DashboardPage: React.FC<DashboardPageProps> = ({
+    userRole,
+    userName,
+    onNavigate,
+    onLogout,
+    allEvents,
+    onAddNewEvent,
+    eventBeingEdited,
+    onSetEventForEditing,
+    onUpdateExistingEvent,
+    onOpenRoleSwitchModal
+}) => {
+  const isCreatorOrOrg = userRole === 'creator' || userRole === 'organization';
+  const initialView: DashboardViewId = isCreatorOrOrg ? 'daftarEvent' : 'savedEvents';
+  const [activeView, setActiveView] = useState<DashboardViewId>(initialView);
+ 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const [contextualEventSelected, setContextualEventSelected] = useState<EventData | null>(null);
   const [selectedEventForDetail, setSelectedEventForDetail] = useState<EventData | null>(null); // For EventDetailPageDB
   const [currentTicketEventContext, setCurrentTicketEventContext] = useState<EventData | null>(null); // For TiketKuponDB
   const [selectedEventForDataView, setSelectedEventForDataView] = useState<EventData | null>(null); // For PesananDB, PengunjungDB
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   // State for EventSelectorCardDB when used standalone (not currently with new flow)
   const [searchTermForEventSelection, setSearchTermForEventSelection] = useState('');
   const [currentPageForEventSelection, setCurrentPageForEventSelection] = useState(1);
 
 
+<<<<<<< HEAD
   const [creatorData, setCreatorData] = useState<CreatorAccountData>({
     fullName: userName, 
     email: userRole === 'creator' ? 'kreator@hegira.com' : (userRole === 'organization' ? 'org@hegira.com' : 'visitor@hegira.com'),
@@ -366,6 +500,20 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     currentPassword: 'PasswordRahasia123',
   });
   
+=======
+
+
+  const [creatorData, setCreatorData] = useState<CreatorAccountData>({
+    fullName: userName,
+    email: userRole === 'creator' ? 'kreator@hegira.com' : (userRole === 'organization' ? 'org@hegira.com' : 'visitor@hegira.com'),
+    gender: 'Laki-laki',
+    dateOfBirth: '1990-01-15',
+    phoneNumber: null,
+    profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+    currentPassword: 'PasswordRahasia123',
+  });
+ 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   useEffect(() => {
     if (userName !== creatorData.fullName) {
         setCreatorData(prev => ({ ...prev, fullName: userName, email: userRole === 'creator' ? 'kreator@hegira.com' : (userRole === 'organization' ? 'org@hegira.com' : 'visitor@hegira.com') }));
@@ -373,18 +521,31 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   }, [userName, userRole, creatorData.fullName]);
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const handleUpdatePhoneNumber = (newPhoneNumber: string) => {
     setCreatorData(prev => ({ ...prev, phoneNumber: newPhoneNumber }));
     console.log(`Nomor telepon berhasil disimpan: ${newPhoneNumber}`);
     alert(`Nomor telepon berhasil disimpan: ${newPhoneNumber}`);
   };
+<<<<<<< HEAD
   
+=======
+ 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const handleUpdateProfilePicture = (newPictureUrl: string) => {
     setCreatorData(prev => ({ ...prev, profilePictureUrl: newPictureUrl }));
     console.log(`Foto profil berhasil diperbarui: ${newPictureUrl}`);
     alert(`Foto profil berhasil diperbarui.`);
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const handleUpdatePassword = (oldPassword: string, newPassword: string) => {
     if (oldPassword !== creatorData.currentPassword) {
       alert("Password lama salah. Silakan coba lagi.");
@@ -394,9 +555,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     alert(`Password berhasil diubah (simulasi).`);
   };
 
+<<<<<<< HEAD
   const getSidebarSections = () => {
     if (!isCreatorOrOrg) return sidebarSectionsVisitor;
 
+=======
+
+  const getSidebarSections = () => {
+    if (!isCreatorOrOrg) return sidebarSectionsVisitor;
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (contextualEventSelected) {
       const eventNameShort = contextualEventSelected.name.substring(0, 22) + (contextualEventSelected.name.length > 22 ? '...' : '');
       return [
@@ -407,7 +576,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           ]
         },
         {
+<<<<<<< HEAD
           title: eventNameShort, 
+=======
+          title: eventNameShort,
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           items: [
             { id: 'detailEventView' as DashboardViewId, label: 'Detail Event', icon: Info, path: `/dashboard/event/${contextualEventSelected.id}/detail` },
             { id: 'ticketsCoupons' as DashboardViewId, label: 'Tiket & Kupon', icon: TicketIconLucide, path: `/dashboard/event/${contextualEventSelected.id}/tickets` },
@@ -427,6 +600,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     }
     return sidebarSectionsCreatorDefault;
   };
+<<<<<<< HEAD
   
   const currentSidebarSections = getSidebarSections();
 
@@ -435,6 +609,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     if (viewId === 'createEventView') return 'Buat Event Baru';
     if (viewId === 'editEventView' && eventBeingEdited) return `Edit: ${eventBeingEdited.name.substring(0,25)}...`;
     
+=======
+ 
+  const currentSidebarSections = getSidebarSections();
+
+
+ 
+  const getLabelForView = (viewId: DashboardViewId): string => {
+    if (viewId === 'createEventView') return 'Buat Event Baru';
+    if (viewId === 'editEventView' && eventBeingEdited) return `Edit: ${eventBeingEdited.name.substring(0,25)}...`;
+   
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (contextualEventSelected) {
         const eventNameShort = contextualEventSelected.name.substring(0, 22) + (contextualEventSelected.name.length > 22 ? '...' : '');
         const kelolaSection = currentSidebarSections.find(section => section.title === eventNameShort);
@@ -444,20 +629,32 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         }
     }
 
+<<<<<<< HEAD
     const generalItem = currentSidebarSections.flatMap(s => s.items).find(i => i.id === viewId);
     if (generalItem) return generalItem.label;
     
+=======
+
+    const generalItem = currentSidebarSections.flatMap(s => s.items).find(i => i.id === viewId);
+    if (generalItem) return generalItem.label;
+   
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (viewId === 'detailEventView' && selectedEventForDetail) return `Detail: ${selectedEventForDetail.name.substring(0,25)}...`;
     if (viewId === 'ticketsCoupons' && currentTicketEventContext) return `Tiket: ${currentTicketEventContext.name.substring(0,20)}...`;
     if (viewId === 'pesanan' && selectedEventForDataView) return `Pesanan: ${selectedEventForDataView.name.substring(0,20)}...`;
     if (viewId === 'pengunjung' && selectedEventForDataView) return `Pengunjung: ${selectedEventForDataView.name.substring(0,15)}...`;
     if (viewId === 'manajemenCrew' && contextualEventSelected) return `Manajemen Crew: ${contextualEventSelected.name.substring(0,15)}...`;
     if (viewId === 'pendapatan' && contextualEventSelected) return `Pendapatan: ${contextualEventSelected.name.substring(0,15)}...`;
+<<<<<<< HEAD
     
+=======
+   
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     return 'Dashboard';
   }
 
 
+<<<<<<< HEAD
   const handleSwitchView = (viewId: DashboardViewId, data?: any) => {
     if (viewId === 'daftarEvent') { 
         setContextualEventSelected(null);
@@ -490,14 +687,72 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setActiveView(viewId);
   };
   
+=======
+
+
+  const handleSwitchView = (viewId: string, data?: any) => {
+  // Validate that the viewId is a valid DashboardViewId
+  const validViewIds: DashboardViewId[] = [
+    'daftarEvent', 'ticketsCoupons', 'pesanan', 'pengunjung',
+    'accountInfo', 'createEventView', 'editEventView', 'detailEventView',
+    'savedEvents', 'ticketHistory', 'manajemenCrew', 'pendapatan'
+  ];
+
+  if (!validViewIds.includes(viewId as DashboardViewId)) {
+    console.error(`Invalid viewId: ${viewId}`);
+    return;
+  }
+
+  const typedViewId = viewId as DashboardViewId;
+
+  if (typedViewId === 'daftarEvent') {
+    setContextualEventSelected(null);
+    setSelectedEventForDetail(null);
+    setCurrentTicketEventContext(null);
+    setSelectedEventForDataView(null);
+    onSetEventForEditing(null);
+  } else if (typedViewId === 'detailEventView' && data && !contextualEventSelected) {
+    setContextualEventSelected(data as EventData);
+    setSelectedEventForDetail(data as EventData);
+  } else if (contextualEventSelected) {
+    if (typedViewId === 'ticketsCoupons' || typedViewId === 'manajemenCrew' || typedViewId === 'pendapatan') {
+      setCurrentTicketEventContext(contextualEventSelected);
+      setSelectedEventForDataView(null);
+    } else if (typedViewId === 'pesanan' || typedViewId === 'pengunjung') {
+      setSelectedEventForDataView(contextualEventSelected);
+      setCurrentTicketEventContext(null);
+    } else if (typedViewId === 'editEventView' && data) {
+      onSetEventForEditing(data as EventData);
+    } else if (typedViewId === 'detailEventView') {
+      setSelectedEventForDetail(contextualEventSelected);
+    }
+  }
+
+  if (typedViewId === 'createEventView') {
+    onSetEventForEditing(null);
+    setContextualEventSelected(null);
+  }
+
+  setActiveView(typedViewId);
+};
+ 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const handleEventSelectedForDataView = (event: EventData) => {
     setSelectedEventForDataView(event);
   };
 
+<<<<<<< HEAD
   const handleBackToEventSelectionForDataView = () => {
     setSelectedEventForDataView(null);
   };
   
+=======
+
+  const handleBackToEventSelectionForDataView = () => {
+    setSelectedEventForDataView(null);
+  };
+ 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const filteredEventsForSelectionList = useMemo(() => {
     return allEvents.filter(event =>
       event.name.toLowerCase().includes(searchTermForEventSelection.toLowerCase()) ||
@@ -505,6 +760,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     );
   }, [allEvents, searchTermForEventSelection]);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const totalPagesForEventSelection = Math.ceil(filteredEventsForSelectionList.length / ITEMS_PER_PAGE_EVENT_SELECTION);
   const currentDisplayEventsForSelection = useMemo(() => {
     const startIndex = (currentPageForEventSelection - 1) * ITEMS_PER_PAGE_EVENT_SELECTION;
@@ -512,6 +771,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   }, [filteredEventsForSelectionList, currentPageForEventSelection]);
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const renderVisitorDashboardContent = () => {
     switch (activeView) {
       case 'savedEvents':
@@ -561,10 +825,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           </section>
         );
       case 'accountInfo':
+<<<<<<< HEAD
         return <AccountInfoDB 
                   creatorData={creatorData} 
                   onUpdatePhoneNumber={handleUpdatePhoneNumber}
                   onUpdateProfilePicture={handleUpdateProfilePicture} 
+=======
+        return <AccountInfoDB
+                  creatorData={creatorData}
+                  onUpdatePhoneNumber={handleUpdatePhoneNumber}
+                  onUpdateProfilePicture={handleUpdateProfilePicture}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                   onUpdatePassword={handleUpdatePassword}
                 />;
       default:
@@ -572,10 +843,19 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     }
   };
 
+<<<<<<< HEAD
   const handleToggleEventStatus = (event: EventData, newStatus?: string) => {
     const targetStatus = newStatus || (event.status === 'Aktif' ? 'Selesai' : event.status === 'Draf' ? 'Aktif' : 'Draf'); 
     const eventToUpdate = { ...event, status: targetStatus as EventData['status'] };
     onUpdateExistingEvent(eventToUpdate); 
+=======
+
+  const handleToggleEventStatus = (event: EventData, newStatus?: string) => {
+    const targetStatus = newStatus || (event.status === 'Aktif' ? 'Selesai' : event.status === 'Draf' ? 'Aktif' : 'Draf');
+    const eventToUpdate = { ...event, status: targetStatus as EventData['status'] };
+    onUpdateExistingEvent(eventToUpdate);
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
     if (selectedEventForDetail && selectedEventForDetail.id === event.id) {
       setSelectedEventForDetail(eventToUpdate);
@@ -586,10 +866,15 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     alert(`Status event "${event.name}" diubah menjadi ${targetStatus}.`);
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const eventsForCreatorOrgList = useMemo(() => {
     if (isCreatorOrOrg) {
         return manyCreatorDashboardEvents(userName).map(event => ({
             ...event,
+<<<<<<< HEAD
             organizerName: userName, 
             narahubungName: userName, 
         }));
@@ -598,6 +883,18 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   }, [isCreatorOrOrg, userName, allEvents]);
 
 
+=======
+            organizerName: userName,
+            narahubungName: userName,
+        }));
+    }
+    return allEvents;
+  }, [isCreatorOrOrg, userName, allEvents]);
+
+
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const renderCreatorOrgDashboardContent = () => {
     switch (activeView) {
       case 'daftarEvent':
@@ -616,11 +913,19 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                 </button>
             </div>;
       case 'detailEventView':
+<<<<<<< HEAD
         if (selectedEventForDetail) { 
             return <EventDetailPageDB 
                         eventData={selectedEventForDetail} 
                         onSwitchView={handleSwitchView} 
                         onToggleEventStatus={handleToggleEventStatus} 
+=======
+        if (selectedEventForDetail) {
+            return <EventDetailPageDB
+                        eventData={selectedEventForDetail}
+                        onSwitchView={handleSwitchView}
+                        onToggleEventStatus={handleToggleEventStatus}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                         onNavigate={onNavigate}
                     />;
         }
@@ -632,6 +937,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                 </button>
             </div>;
       case 'ticketsCoupons':
+<<<<<<< HEAD
         if (!currentTicketEventContext && contextualEventSelected) { 
             setCurrentTicketEventContext(contextualEventSelected);
         }
@@ -639,22 +945,40 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                   allEvents={eventsForCreatorOrgList} 
                   currentEventContext={currentTicketEventContext || contextualEventSelected} 
                   onSetContextEvent={setCurrentTicketEventContext} 
+=======
+        if (!currentTicketEventContext && contextualEventSelected) {
+            setCurrentTicketEventContext(contextualEventSelected);
+        }
+        return <TiketKuponDB
+                  allEvents={eventsForCreatorOrgList}
+                  currentEventContext={currentTicketEventContext || contextualEventSelected}
+                  onSetContextEvent={setCurrentTicketEventContext}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                   onSwitchView={handleSwitchView}
                 />;
       case 'pesanan':
         if (!selectedEventForDataView && contextualEventSelected) {
             setSelectedEventForDataView(contextualEventSelected);
         }
+<<<<<<< HEAD
         return <PesananDB 
                     allCreatorEvents={eventsForCreatorOrgList} 
                     selectedEvent={selectedEventForDataView || contextualEventSelected!} 
                     onBackToEventList={() => handleSwitchView('daftarEvent')} 
                     onNavigate={onNavigate} 
+=======
+        return <PesananDB
+                    allCreatorEvents={eventsForCreatorOrgList}
+                    selectedEvent={selectedEventForDataView || contextualEventSelected!}
+                    onBackToEventList={() => handleSwitchView('daftarEvent')}
+                    onNavigate={onNavigate}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 />;
       case 'pengunjung':
         if (!selectedEventForDataView && contextualEventSelected) {
             setSelectedEventForDataView(contextualEventSelected);
         }
+<<<<<<< HEAD
         return <PengunjungDB 
                     allCreatorEvents={eventsForCreatorOrgList} 
                     selectedEvent={selectedEventForDataView || contextualEventSelected!}
@@ -665,6 +989,18 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           return <ManajemenCrewPageDB 
                     selectedEvent={contextualEventSelected} 
                     onSwitchView={handleSwitchView} 
+=======
+        return <PengunjungDB
+                    allCreatorEvents={eventsForCreatorOrgList}
+                    selectedEvent={selectedEventForDataView || contextualEventSelected!}
+                    onBackToEventList={() => handleSwitchView('daftarEvent')}
+                />;
+      case 'manajemenCrew':
+        if (contextualEventSelected) {
+          return <ManajemenCrewPageDB
+                    selectedEvent={contextualEventSelected}
+                    onSwitchView={handleSwitchView}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                   />;
         }
         return <div className="p-6 text-center">
@@ -672,7 +1008,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                 <p className="text-gray-700 mb-4">Pilih event untuk mengelola crew.</p>
                  <button onClick={() => handleSwitchView('daftarEvent')} className="bg-hegra-turquoise text-white px-5 py-2.5 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 mx-auto">
                     <ArrowLeft size={18}/> Kembali ke Daftar Event
+<<<<<<< HEAD
                  </button>
+=======
+                </button>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             </div>;
       case 'pendapatan': // New Case
         if (contextualEventSelected) {
@@ -686,6 +1026,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                  </button>
                </div>;
       case 'accountInfo':
+<<<<<<< HEAD
          return <AccountInfoDB 
                     creatorData={creatorData} 
                     onUpdatePhoneNumber={handleUpdatePhoneNumber}
@@ -701,6 +1042,25 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   const currentViewLabel = getLabelForView(activeView);
 
 
+=======
+         return <AccountInfoDB
+                    creatorData={creatorData}
+                    onUpdatePhoneNumber={handleUpdatePhoneNumber}
+                    onUpdateProfilePicture={handleUpdateProfilePicture}
+                    onUpdatePassword={handleUpdatePassword}
+                 />;
+      default:
+        if (activeView === 'savedEvents' || activeView === 'ticketHistory') return renderVisitorDashboardContent();
+        return <EventListPageDB initialEvents={eventsForCreatorOrgList} onNavigate={onNavigate} onSwitchView={handleSwitchView} />;
+    }
+  };
+ 
+  const currentViewLabel = getLabelForView(activeView);
+
+
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   return (
     <DashboardLayout
       activeViewId={activeView}
@@ -709,10 +1069,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       onSelectView={handleSwitchView}
       onNavigate={onNavigate}
       onLogout={onLogout}
+<<<<<<< HEAD
       userName={userName} 
       userRole={userRole} 
       onOpenRoleSwitchModal={onOpenRoleSwitchModal} 
       contextEvent={contextualEventSelected} 
+=======
+      userName={userName}
+      userRole={userRole}
+      onOpenRoleSwitchModal={onOpenRoleSwitchModal}
+      contextEvent={contextualEventSelected}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     >
       {isCreatorOrOrg ? renderCreatorOrgDashboardContent() : renderVisitorDashboardContent()}
     </DashboardLayout>

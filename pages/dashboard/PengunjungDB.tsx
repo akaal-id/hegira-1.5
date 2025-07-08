@@ -281,11 +281,19 @@ const PengunjungDB: React.FC<PengunjungDBProps> = ({ allCreatorEvents, selectedE
   ], [filteredAndSortedAttendees]);
 
   return (
+<<<<<<< HEAD
     <div className="p-0 sm:p-2 md:p-4 bg-gray-50 min-h-full space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-hegra-deep-navy">Data Pengunjung</h1>
           <p className="text-sm text-gray-600 mt-1">Menampilkan pengunjung untuk event: <strong className="text-hegra-turquoise">{selectedEvent.name}</strong></p>
+=======
+    <div className="p-0 sm:p-2 md:p-4 bg-gray-50 min-h-full ">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-hegra-deep-navy">Data Pengunjung</h1>
+          <p className="text-sm text-gray-600 mt-1 mb-6">Event: <strong className="text-hegra-turquoise">{selectedEvent.name}</strong></p>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         </div>
          {/* "Pilih Event Lain" button removed here */}
       </div>

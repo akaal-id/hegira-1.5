@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -107,7 +111,11 @@ const TicketDisplayPage: React.FC<TicketDisplayPageProps> = ({ transactionData, 
 
 
         <header className="text-center mb-8 md:mb-10">
+<<<<<<< HEAD
           <h1 className="text-3xl md:text-4xl font-jakarta font-bold opacity-95">E-Tiket Anda</h1>
+=======
+          <h1 className="text-3xl md:text-4xl font-bold opacity-95">E-Tiket Anda</h1>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           <p className="mt-2 text-base opacity-80">Berikut adalah tiket Anda. Simpan dengan baik dan tunjukkan di pintu masuk.</p>
         </header>
 
@@ -156,4 +164,8 @@ const TicketDisplayPage: React.FC<TicketDisplayPageProps> = ({ transactionData, 
   );
 };
 
+<<<<<<< HEAD
 export default TicketDisplayPage;
+=======
+export default TicketDisplayPage;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

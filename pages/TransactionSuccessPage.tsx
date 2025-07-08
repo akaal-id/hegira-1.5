@@ -235,10 +235,17 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
           
           <div className="lg:flex lg:gap-8">
             <div className="lg:w-2/3 bg-white p-6 md:p-8 rounded-xl border border-hegra-navy/10 mb-8 lg:mb-0">
+<<<<<<< HEAD
               <h2 className="text-2xl font-jakarta font-bold text-hegra-navy mb-6 border-b pb-3">Detail E-Tiket Anda</h2>
 
               <div className="mb-6 p-4 border border-dashed border-gray-300 rounded-lg text-center bg-gray-50">
                 <h3 className="text-lg font-jakarta font-medium text-hegra-navy mb-2">Pindai untuk Masuk Event</h3>
+=======
+              <h2 className="text-2xl font-semibold text-hegra-navy mb-6 border-b pb-3">Detail E-Tiket Anda</h2>
+
+              <div className="mb-6 p-4 border border-dashed border-gray-300 rounded-lg text-center bg-gray-50">
+                <h3 className="text-lg font-medium text-hegra-navy mb-2">Pindai untuk Masuk Event</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 <QrCode size={128} className="mx-auto text-hegra-navy my-4" /> 
                 <p className="text-xs text-gray-500">Tunjukkan kode ini saat memasuki area event. Detail per tiket dapat dilihat di "Lihat Tiket-ku".</p>
               </div>
@@ -257,8 +264,13 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
               <div className="mb-6 border-t pt-4">
                 <div className="flex justify-between items-start mb-3">
                   <div>
+<<<<<<< HEAD
                     <h3 className="text-lg font-jakarta font-semibold text-hegra-navy">Informasi Event</h3>
                     <p className="text-xl font-medium font-jakarta text-hegra-turquoise mt-1">{event.name}</p>
+=======
+                    <h3 className="text-lg font-semibold text-hegra-navy">Informasi Event</h3>
+                    <p className="text-xl font-medium text-hegra-turquoise mt-1">{event.name}</p>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                   </div>
                   <button
                     onClick={handleAddToCalendar}
@@ -289,7 +301,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
               </div>
 
               <div className="mb-6 border-t pt-4">
+<<<<<<< HEAD
                 <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Data Pemesan</h3>
+=======
+                <h3 className="text-lg font-semibold text-hegra-navy mb-3">Data Pemesan</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 <div className="space-y-1 text-sm">
                   <p><strong className="text-gray-500 w-24 inline-block">Nama:</strong> {formData.fullName}</p>
                   <p><strong className="text-gray-500 w-24 inline-block">Email:</strong> {formData.email}</p>
@@ -299,7 +315,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
 
               {totalTicketsPurchased > 0 && formData.additionalTicketHolders && formData.additionalTicketHolders.length > 0 && (
                 <div className="mb-6 border-t pt-4">
+<<<<<<< HEAD
                   <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-4 flex items-center">
+=======
+                  <h3 className="text-lg font-semibold text-hegra-navy mb-4 flex items-center">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     <Ticket size={20} className="mr-2 text-hegra-turquoise" />
                     Detail Pemegang Tiket ({totalTicketsPurchased} Tiket)
                   </h3>
@@ -309,7 +329,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
                                             
                       return (
                         <div key={index} className="p-3 bg-gray-50 rounded-md border border-gray-200 text-sm">
+<<<<<<< HEAD
                           <p className="font-semibold font-jakarta text-hegra-navy">Tiket #{index + 1}</p>
+=======
+                          <p className="font-semibold text-hegra-navy">Tiket #{index + 1}</p>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                           <p><strong className="text-gray-500 w-32 inline-block">Nomor Tiket:</strong> {ticketNumber}</p>
                           <p><strong className="text-gray-500 w-32 inline-block">Nama Pemegang:</strong> {holder.fullName}</p>
                           <p><strong className="text-gray-500 w-32 inline-block">No. WhatsApp:</strong> {holder.whatsAppNumber}</p>
@@ -321,7 +345,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
               )}
 
               <div className="border-t pt-4">
+<<<<<<< HEAD
                 <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-3 flex items-center">
+=======
+                <h3 className="text-lg font-semibold text-hegra-navy mb-3 flex items-center">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                   <Info size={20} className="mr-2 text-hegra-turquoise" /> Syarat & Ketentuan Penting
                 </h3>
                 <ul className="list-disc list-inside text-xs text-gray-600 space-y-1 pl-2">
@@ -347,7 +375,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
                 </div>
                 {/* Original Card Content */}
                 <div className="p-6">
+<<<<<<< HEAD
                   <h3 className="text-xl font-jakarta font-semibold text-hegra-navy mb-4">Detail Pesanan</h3>
+=======
+                  <h3 className="text-xl font-semibold text-hegra-navy mb-4">Detail Pesanan</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                   <div className="space-y-2 mb-4 text-sm">
                     {selectedTickets.map(ticket => (
                       <div key={ticket.categoryId} className="flex justify-between items-start p-2 bg-gray-50 rounded">
@@ -392,7 +424,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-gray-200">
+<<<<<<< HEAD
                     <p className="text-sm font-jakarta font-semibold text-hegra-navy mb-2 text-center">Butuh Bantuan terkait Event?</p>
+=======
+                    <p className="text-sm font-semibold text-hegra-navy mb-2 text-center">Butuh Bantuan terkait Event?</p>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     <p className="text-xs text-gray-500 mb-3 text-center">Hubungi langsung penyelenggara event:</p>
                     <div className="flex gap-3">
                       <button

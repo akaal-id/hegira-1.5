@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -86,7 +89,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-3 md:grid-cols-3">
             {/* Quick Links */}
             <div>
+<<<<<<< HEAD
               <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Navigasi</h5>
+=======
+              <h5 className="text-lg font-semibold text-hegra-yellow mb-5">Navigasi</h5>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               <ul className="space-y-3">
                 {quickLinks.map(link => (
                   <li key={link.name}>
@@ -103,7 +110,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
 
             {/* Legal & Support */}
             <div>
+<<<<<<< HEAD
               <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Legal & Bantuan</h5>
+=======
+              <h5 className="text-lg font-semibold text-hegra-yellow mb-5">Legal & Bantuan</h5>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               <ul className="space-y-3">
                 {legalLinks.map(link => (
                   <li key={link.name}>
@@ -125,7 +136,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
 
             {/* Contact Info */}
             <div>
+<<<<<<< HEAD
               <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Hubungi Kami</h5>
+=======
+              <h5 className="text-lg font-semibold text-hegra-yellow mb-5">Hubungi Kami</h5>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               <ul className="space-y-3 text-sm text-hegra-white">
                 <li className="flex items-start">
                   <Mail size={18} className="mr-3 mt-1 text-hegra-white flex-shrink-0" />

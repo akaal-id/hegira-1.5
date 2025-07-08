@@ -1,11 +1,21 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from 'react';
 import { CouponData } from '../CouponItemCardDB';
 import { TicketCategory } from '../../../HegiraApp';
 import { X, Save } from 'lucide-react';
+=======
+import React, { useState, useEffect } from 'react';
+import { CouponData } from '../CouponItemCardDB'; // Assuming CouponData is defined here or imported
+import { X, Save, Tag, Percent, DollarSign, Hash, CalendarDays, ShoppingBag } from 'lucide-react';
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
 type CouponFormData = Omit<CouponData, 'id'> & { id?: string };
 
@@ -14,10 +24,16 @@ interface AddCouponModalProps {
   onClose: () => void;
   onSave: (couponData: CouponFormData) => void;
   initialCouponData?: CouponFormData | null;
+<<<<<<< HEAD
   availableTickets: TicketCategory[];
 }
 
 const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave, initialCouponData, availableTickets }) => {
+=======
+}
+
+const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave, initialCouponData }) => {
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const [formData, setFormData] = useState<CouponFormData>({
     name: '',
     code: '',
@@ -27,6 +43,7 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
     startDate: undefined,
     endDate: undefined,
     minPurchase: undefined,
+<<<<<<< HEAD
     applicableTicketIds: [],
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -46,6 +63,16 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
     } else {
       setFormData({
         id: `KUPON-${Date.now().toString().slice(-6)}`,
+=======
+  });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (initialCouponData) {
+      setFormData({ ...initialCouponData });
+    } else {
+      setFormData({
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         name: '',
         code: '',
         discountType: 'percentage',
@@ -54,12 +81,16 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
         startDate: undefined,
         endDate: undefined,
         minPurchase: undefined,
+<<<<<<< HEAD
         applicableTicketIds: [],
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       });
     }
     setFormErrors({});
   }, [initialCouponData, isOpen]);
 
+<<<<<<< HEAD
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ticketSelectorRef.current && !ticketSelectorRef.current.contains(event.target as Node)) {
@@ -72,6 +103,8 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
     };
   }, [ticketSelectorRef]);
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   if (!isOpen) return null;
 
   const validateForm = (): boolean => {
@@ -116,6 +149,7 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
     }
   };
   
+<<<<<<< HEAD
   const handleTicketSelect = (ticketId: string) => {
     setFormData(prev => {
         const currentIds = prev.applicableTicketIds || [];
@@ -144,6 +178,10 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
   const modalTitle = initialCouponData ? "Edit Kupon" : "Tambah Kupon Baru";
   const saveButtonText = initialCouponData ? "Simpan Perubahan" : "Tambah Kupon";
   const inputClass = `w-full py-2.5 px-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm`;
+=======
+  const modalTitle = initialCouponData ? "Edit Kupon" : "Tambah Kupon Baru";
+  const saveButtonText = initialCouponData ? "Simpan Perubahan" : "Tambah Kupon";
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
   return (
     <div
@@ -153,6 +191,7 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
       aria-modal="true"
     >
       <div className="bg-white text-hegra-navy p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg relative transform transition-all duration-300 ease-out scale-95 opacity-0 animate-modal-appear max-h-[90vh] overflow-y-auto custom-scrollbar-modal">
+<<<<<<< HEAD
         <div className="flex justify-between items-center mb-6">
           <h2 id="add-coupon-modal-title" className="text-xl sm:text-2xl font-semibold text-hegra-navy">
             {modalTitle}
@@ -179,54 +218,103 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nama Kupon <span className="text-red-500">*</span></label>
             <input type="text" name="name" id="name" value={formData.name} onChange={handleInputChange} required className={`${inputClass} ${formErrors.name ? 'border-red-500' : 'border-gray-300'}`} placeholder="cth: Diskon Peluncuran" />
             {formErrors.name && <p className="mt-1 text-xs text-red-500">{formErrors.name}</p>}
+=======
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-hegra-turquoise transition-colors z-20"
+          aria-label="Tutup modal"
+        >
+          <X size={24} />
+        </button>
+
+        <h2 id="add-coupon-modal-title" className="text-xl sm:text-2xl font-semibold text-hegra-navy mb-6">
+          {modalTitle}
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Nama Kupon */}
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nama Kupon <span className="text-red-500">*</span></label>
+            <div className="relative"><Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" /><input type="text" name="name" id="name" value={formData.name} onChange={handleInputChange} required className={`w-full py-2 pl-9 pr-3 input-field ${formErrors.name ? 'border-red-500' : 'border-gray-300'}`} placeholder="cth: Diskon Peluncuran" /></div>
+            {formErrors.name && <p className="error-text">{formErrors.name}</p>}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           </div>
 
           {/* Kode Kupon */}
           <div>
             <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-1">Kode Kupon <span className="text-red-500">*</span></label>
+<<<<<<< HEAD
             <input type="text" name="code" id="code" value={formData.code} onChange={handleInputChange} required className={`${inputClass} uppercase ${formErrors.code ? 'border-red-500' : 'border-gray-300'}`} placeholder="cth: LAUNCH10 (tanpa spasi)" />
             {formErrors.code && <p className="mt-1 text-xs text-red-500">{formErrors.code}</p>}
+=======
+            <div className="relative"><Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" /><input type="text" name="code" id="code" value={formData.code} onChange={handleInputChange} required className={`w-full py-2 pl-9 pr-3 input-field uppercase ${formErrors.code ? 'border-red-500' : 'border-gray-300'}`} placeholder="cth: LAUNCH10 (tanpa spasi)" /></div>
+            {formErrors.code && <p className="error-text">{formErrors.code}</p>}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           </div>
 
           {/* Jenis & Nilai Diskon */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="discountType" className="block text-sm font-medium text-gray-700 mb-1">Jenis Diskon <span className="text-red-500">*</span></label>
+<<<<<<< HEAD
               <select name="discountType" id="discountType" value={formData.discountType} onChange={handleInputChange} className={`${inputClass} appearance-none border-gray-300`}>
+=======
+              <select name="discountType" id="discountType" value={formData.discountType} onChange={handleInputChange} className="w-full py-2 pl-3 pr-8 input-field appearance-none">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 <option value="percentage">Persentase (%)</option>
                 <option value="fixed">Nominal Tetap (IDR)</option>
               </select>
             </div>
             <div>
               <label htmlFor="discountValue" className="block text-sm font-medium text-gray-700 mb-1">Nilai Diskon <span className="text-red-500">*</span></label>
+<<<<<<< HEAD
               <input type="number" name="discountValue" id="discountValue" value={formData.discountValue} onChange={handleInputChange} required min="0" className={`${inputClass} ${formErrors.discountValue ? 'border-red-500' : 'border-gray-300'}`} placeholder={formData.discountType === 'percentage' ? 'cth: 10' : 'cth: 50000'} />
               {formErrors.discountValue && <p className="mt-1 text-xs text-red-500">{formErrors.discountValue}</p>}
+=======
+              <div className="relative"><DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" /><input type="number" name="discountValue" id="discountValue" value={formData.discountValue} onChange={handleInputChange} required min="0" className={`w-full py-2 pl-9 pr-3 input-field ${formErrors.discountValue ? 'border-red-500' : 'border-gray-300'}`} placeholder={formData.discountType === 'percentage' ? 'cth: 10 untuk 10%' : 'cth: 50000'} /></div>
+              {formErrors.discountValue && <p className="error-text">{formErrors.discountValue}</p>}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             </div>
           </div>
           
           {/* Jumlah Kupon */}
           <div>
             <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">Jumlah Kupon Tersedia (Opsional)</label>
+<<<<<<< HEAD
             <input type="number" name="quantity" id="quantity" value={formData.quantity === undefined ? '' : formData.quantity} onChange={handleInputChange} min="0" className={`${inputClass} ${formErrors.quantity ? 'border-red-500' : 'border-gray-300'}`} placeholder="Kosongkan jika tidak terbatas" />
             {formErrors.quantity && <p className="mt-1 text-xs text-red-500">{formErrors.quantity}</p>}
+=======
+            <div className="relative"><Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" /><input type="number" name="quantity" id="quantity" value={formData.quantity === undefined ? '' : formData.quantity} onChange={handleInputChange} min="0" className={`w-full py-2 pl-9 pr-3 input-field ${formErrors.quantity ? 'border-red-500' : 'border-gray-300'}`} placeholder="Kosongkan jika tidak terbatas" /></div>
+            {formErrors.quantity && <p className="error-text">{formErrors.quantity}</p>}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           </div>
 
           {/* Validitas Kupon */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai (Opsional)</label>
+<<<<<<< HEAD
               <input type="date" name="startDate" id="startDate" value={formData.startDate || ''} onChange={handleInputChange} className={`${inputClass} border-gray-300`} />
             </div>
             <div>
               <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-1">Tanggal Akhir (Opsional)</label>
               <input type="date" name="endDate" id="endDate" value={formData.endDate || ''} onChange={handleInputChange} className={`${inputClass} ${formErrors.endDate ? 'border-red-500' : 'border-gray-300'}`} />
               {formErrors.endDate && <p className="mt-1 text-xs text-red-500">{formErrors.endDate}</p>}
+=======
+              <div className="relative"><CalendarDays className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" /><input type="date" name="startDate" id="startDate" value={formData.startDate || ''} onChange={handleInputChange} className="w-full py-2 pl-9 pr-3 input-field" /></div>
+            </div>
+            <div>
+              <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-1">Tanggal Akhir (Opsional)</label>
+              <div className="relative"><CalendarDays className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" /><input type="date" name="endDate" id="endDate" value={formData.endDate || ''} onChange={handleInputChange} className={`w-full py-2 pl-9 pr-3 input-field ${formErrors.endDate ? 'border-red-500' : 'border-gray-300'}`} /></div>
+              {formErrors.endDate && <p className="error-text">{formErrors.endDate}</p>}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             </div>
           </div>
 
           {/* Minimum Pembelian */}
           <div>
             <label htmlFor="minPurchase" className="block text-sm font-medium text-gray-700 mb-1">Minimum Pembelian (IDR, Opsional)</label>
+<<<<<<< HEAD
             <input type="number" name="minPurchase" id="minPurchase" value={formData.minPurchase === undefined ? '' : formData.minPurchase} onChange={handleInputChange} min="0" className={`${inputClass} ${formErrors.minPurchase ? 'border-red-500' : 'border-gray-300'}`} placeholder="cth: 200000" />
             {formErrors.minPurchase && <p className="mt-1 text-xs text-red-500">{formErrors.minPurchase}</p>}
           </div>
@@ -288,16 +376,36 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
             >
               Batal
             </button>
+=======
+            <div className="relative"><ShoppingBag className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" /><input type="number" name="minPurchase" id="minPurchase" value={formData.minPurchase === undefined ? '' : formData.minPurchase} onChange={handleInputChange} min="0" className={`w-full py-2 pl-9 pr-3 input-field ${formErrors.minPurchase ? 'border-red-500' : 'border-gray-300'}`} placeholder="cth: 200000" /></div>
+            {formErrors.minPurchase && <p className="error-text">{formErrors.minPurchase}</p>}
+          </div>
+
+          <div className="flex flex-col sm:flex-row-reverse gap-3 pt-4 border-t border-gray-200 mt-6">
+            <button type="submit" className="btn-primary w-full sm:w-auto"><Save size={18} /> {saveButtonText}</button>
+            <button type="button" onClick={onClose} className="btn-secondary w-full sm:w-auto">Batal</button>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           </div>
         </form>
       </div>
       <style>{`
+<<<<<<< HEAD
+=======
+        .input-field { background-color: white; border-radius: 0.5rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); transition: border-color 0.2s, box-shadow 0.2s; }
+        .input-field:focus { outline: none; border-color: var(--hegra-turquoise, #4b998e); box-shadow: 0 0 0 2px rgba(75, 153, 142, 0.3); }
+        .error-text { font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; }
+        .btn-primary { display: inline-flex; items-center; justify-content: center; gap: 0.5rem; border-radius: 0.5rem; border: 1px solid transparent; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); padding: 0.625rem 1.5rem; background-color: var(--hegra-turquoise, #4b998e); font-size: 0.875rem; font-weight: 500; color: white; transition: background-color 0.2s; }
+        .btn-primary:hover { background-color: rgba(75, 153, 142, 0.9); }
+        .btn-secondary { display: inline-flex; justify-content: center; border-radius: 0.5rem; border: 1px solid #d1d5db; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); padding: 0.625rem 1.5rem; background-color: white; font-size: 0.875rem; font-weight: 500; color: #374151; transition: background-color 0.2s; }
+        .btn-secondary:hover { background-color: #f9fafb; }
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         .animate-modal-appear { animation: modalAppear 0.3s ease-out forwards; }
         @keyframes modalAppear { to { opacity: 1; transform: scale(1); } }
         .custom-scrollbar-modal::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar-modal::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
         .custom-scrollbar-modal::-webkit-scrollbar-thumb { background: var(--hegra-chino, #d0cea9); border-radius: 10px; }
         .custom-scrollbar-modal::-webkit-scrollbar-thumb:hover { background: #b8b495; }
+<<<<<<< HEAD
         select {
           background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
           background-position: right 0.5rem center;
@@ -305,9 +413,15 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
           background-size: 1.5em 1.5em;
           padding-right: 2.5rem;
         }
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       `}</style>
     </div>
   );
 };
 
+<<<<<<< HEAD
 export default AddCouponModal;
+=======
+export default AddCouponModal;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

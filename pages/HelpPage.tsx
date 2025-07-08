@@ -24,7 +24,11 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpenInitially = f
           aria-expanded={isOpen}
           aria-controls={`faq-answer-${id}`}
         >
+<<<<<<< HEAD
           <span className="font-semibold font-jakarta text-base sm:text-lg group-hover:text-hegra-turquoise">{question}</span>
+=======
+          <span className="font-semibold text-base sm:text-lg group-hover:text-hegra-turquoise">{question}</span>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           {isOpen ? <ChevronUp size={24} className="text-hegra-turquoise flex-shrink-0" /> : <ChevronDown size={24} className="text-gray-500 group-hover:text-hegra-turquoise flex-shrink-0" />}
         </button>
       </h3>
@@ -70,7 +74,11 @@ const HelpPage: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
         <header className="text-center mb-10 md:mb-16">
           <HelpCircle size={48} className="mx-auto text-hegra-turquoise mb-4" />
+<<<<<<< HEAD
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-navy">Pusat Bantuan Hegira</h1>
+=======
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-navy">Pusat Bantuan Hegira</h1>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           <p className="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">
             Temukan jawaban atas pertanyaan Anda mengenai platform Hegira.
           </p>
@@ -78,7 +86,11 @@ const HelpPage: React.FC = () => {
 
         <div className="max-w-3xl mx-auto">
           <section aria-labelledby="faq-heading" className="bg-hegra-white p-6 sm:p-8 md:p-10 rounded-xl border border-hegra-navy/10">
+<<<<<<< HEAD
             <h2 id="faq-heading" className="text-2xl sm:text-3xl font-jakarta font-semibold text-hegra-navy mb-6 sm:mb-8">
+=======
+            <h2 id="faq-heading" className="text-2xl sm:text-3xl font-semibold text-hegra-navy mb-6 sm:mb-8">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               Pertanyaan Umum (FAQ)
             </h2>
             <div className="space-y-1">
@@ -95,7 +107,11 @@ const HelpPage: React.FC = () => {
 
           <section aria-labelledby="contact-support-heading" className="mt-12 md:mt-16 text-center bg-hegra-white p-6 sm:p-8 md:p-10 rounded-xl border border-hegra-navy/10">
             <Mail size={40} className="mx-auto text-hegra-turquoise mb-4" />
+<<<<<<< HEAD
             <h2 id="contact-support-heading" className="text-2xl sm:text-3xl font-jakarta font-semibold text-hegra-navy mb-4">
+=======
+            <h2 id="contact-support-heading" className="text-2xl sm:text-3xl font-semibold text-hegra-navy mb-4">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               Masih Membutuhkan Bantuan?
             </h2>
             <p className="text-gray-700 mb-6 sm:mb-8 max-w-lg mx-auto text-sm sm:text-base">

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -86,7 +89,11 @@ const EventCard: React.FC<EventCardProps> = (props) => {
       </div>
 
       <div className="p-5 flex flex-col flex-grow">
+<<<<<<< HEAD
         <h3 className="text-xl font-bold font-jakarta text-hegra-deep-navy mb-2 leading-tight group-hover:text-hegra-gradient-start transition-colors truncate">{name}</h3>
+=======
+        <h3 className="text-xl font-bold text-hegra-deep-navy mb-2 leading-tight group-hover:text-hegra-gradient-start transition-colors truncate">{name}</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         
         <div className="flex items-center text-sm text-gray-500 mb-1">
           <CalendarDays size={15} className="mr-1.5 text-hegra-turquoise flex-shrink-0" />
@@ -118,7 +125,11 @@ const EventCard: React.FC<EventCardProps> = (props) => {
         
         <div className="mt-auto"> {/* Pushes content below to the bottom */}
           <div className="flex items-baseline mb-4">
+<<<<<<< HEAD
             <p className={`text-2xl font-bold font-jakarta ${finalPriceColorClass}`}>
+=======
+            <p className={`text-2xl font-bold ${finalPriceColorClass}`}>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               {finalPriceDisplay}
             </p>
           </div>

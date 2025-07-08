@@ -15,7 +15,11 @@ html {
 }
 
 body {
+<<<<<<< HEAD
   font-family: 'Inter', sans-serif;
+=======
+  font-family: 'Plus Jakarta Sans', sans-serif;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   background-color: var(--hegra-light-bg);
   color: var(--hegra-deep-navy);
   margin: 0;
@@ -69,7 +73,11 @@ body {
 
 /* Section title styling */
 .section-title {
+<<<<<<< HEAD
   @apply text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy mb-4 text-center;
+=======
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy mb-4 text-center;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 }
 .section-subtitle {
   @apply text-lg text-gray-600 max-w-2xl mx-auto text-center mb-10 md:mb-16; /* text-gray-600 might need to become a chino variant if too cool */
@@ -122,8 +130,12 @@ body {
 }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
   color: var(--hegra-deep-navy);
+<<<<<<< HEAD
   font-weight: 700;
   font-family: 'Plus Jakarta Sans', sans-serif;
+=======
+  font-weight: 600; /* semibold */
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 }
 .prose strong {
   color: var(--hegra-deep-navy);
@@ -165,4 +177,8 @@ body {
   padding: 0;
   border-radius: 0;
   font-size: 1em;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

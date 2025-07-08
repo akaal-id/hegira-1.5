@@ -29,8 +29,13 @@ export interface BusinessMatchingCardData {
 }
 
 interface BusinessMatchingCardProps extends BusinessMatchingCardData {
+<<<<<<< HEAD
   onNavigate: (page: PageName, data?: any) => void; // For navigation from BusinessMatchingPage
   onActionClick?: () => void; // For custom actions like opening a modal from LandingPage
+=======
+  onNavigate: (page: PageName, data?: any) => void; // Updated to use onNavigate
+  // onOpenMeetingScheduler prop is removed, will be handled by CompanyDetailPage
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 }
 
 const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
@@ -41,8 +46,12 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
     location,
     budget,
     specialFeatures = [],
+<<<<<<< HEAD
     onNavigate,
     onActionClick, 
+=======
+    onNavigate, 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   } = props;
 
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -58,18 +67,27 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
     : ["Verified", "Respon Cepat", "Terdaftar OJK"].slice(0,3); 
 
   const handleCardClick = () => {
+<<<<<<< HEAD
     if (onActionClick) {
       onActionClick();
     } else {
       // Default navigation behavior
       onNavigate('businessDetail', props); 
     }
+=======
+    // Pass all vendor data (props) to the detail page
+    onNavigate('businessDetail', props); 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   };
 
   return (
     <div 
       className="bg-hegra-white rounded-xl border border-hegra-navy/10 hover:border-hegra-turquoise/30 overflow-hidden transition-all duration-300 group flex flex-col h-full shadow-sm hover:shadow-lg cursor-pointer"
+<<<<<<< HEAD
       onClick={handleCardClick}
+=======
+      onClick={handleCardClick} // Main card click navigates
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleCardClick(); }}
@@ -94,7 +112,11 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
           </button>
         </div>
 
+<<<<<<< HEAD
         <h3 className="text-xl sm:text-2xl font-bold font-jakarta text-hegra-deep-navy group-hover:text-hegra-turquoise transition-colors mb-2 truncate" title={name}>
+=======
+        <h3 className="text-xl sm:text-2xl font-bold text-hegra-deep-navy group-hover:text-hegra-turquoise transition-colors mb-2 truncate" title={name}>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           {name}
         </h3>
 
@@ -125,7 +147,11 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
         </div>
 
         <div className="mt-auto pt-4 border-t border-gray-100">
+<<<<<<< HEAD
           <button // This button is part of the card's main click area due to onClick on parent div
+=======
+          <button // This button is now part of the card's main click area, but can retain its style
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             className="w-full text-hegra-turquoise font-semibold py-2.5 px-4 rounded-lg
                        transition-all duration-300
                        flex items-center justify-center group/button
@@ -141,4 +167,8 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
   );
 };
 
+<<<<<<< HEAD
 export default BusinessMatchingCard;
+=======
+export default BusinessMatchingCard;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

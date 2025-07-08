@@ -190,7 +190,11 @@ const ArticleListPage: React.FC<ArticleListPageProps> = ({ onNavigate }) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <header className="mb-10 md:mb-16 text-center">
           <BookOpen size={48} className="mx-auto text-hegra-turquoise mb-4" />
+<<<<<<< HEAD
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-jakarta text-hegra-navy">
+=======
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-hegra-navy">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             Artikel & Wawasan <span className="text-gradient">Event</span>
           </h1>
           <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
@@ -350,4 +354,8 @@ const ArticleListPage: React.FC<ArticleListPageProps> = ({ onNavigate }) => {
   );
 };
 
+<<<<<<< HEAD
 export default ArticleListPage;
+=======
+export default ArticleListPage;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

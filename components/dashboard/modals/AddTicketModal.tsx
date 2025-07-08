@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -6,13 +11,20 @@ import React, { useState, useEffect } from 'react';
 import { TicketCategory } from '../../../HegiraApp';
 import { X, Save,DollarSign, List, CheckSquare, AlertTriangle, Info, Calendar, ClockIcon } from 'lucide-react';
 
+<<<<<<< HEAD
 type TicketFormData = Omit<TicketCategory, 'id' | 'maxQuantity' | 'availabilityStatus'> & { id?: string; maxQuantity: number }; // maxQuantity is now number, availabilityStatus removed
+=======
+
+type TicketFormData = Omit<TicketCategory, 'id' | 'maxQuantity'> & { id?: string; maxQuantity: number }; // maxQuantity is now number
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
 interface AddTicketModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (ticketData: TicketFormData) => void;
   initialTicketData?: Omit<TicketCategory, 'id'> & { id?: string } | null; // Allow initialTicketData to have maxQuantity as number | undefined
+<<<<<<< HEAD
   eventTimezone?: string; 
 }
 
@@ -30,6 +42,26 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
     description: '',
     maxQuantity: 100, // Default to 100, must be > 0
     useEventSchedule: false, 
+=======
+  eventTimezone?: string;
+}
+
+
+const AddTicketModal: React.FC<AddTicketModalProps> = ({
+  isOpen,
+  onClose,
+  onSave,
+  initialTicketData,
+  eventTimezone
+}) => {
+  const getDefaultFormData = (): TicketFormData => ({
+    name: '',
+    price: 0,
+    description: '',
+    maxQuantity: 100, // Default to 100, must be > 0
+    availabilityStatus: 'available',
+    useEventSchedule: true,
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     ticketStartDate: '',
     ticketEndDate: '',
     ticketStartTime: '',
@@ -38,6 +70,7 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
     ticketTimezone: eventTimezone ? (eventTimezone as TicketCategory['ticketTimezone']) : 'WIB',
   });
 
+<<<<<<< HEAD
   const [formData, setFormData] = useState<TicketFormData>(getDefaultFormData());
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -52,10 +85,25 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
         categoryLabel: initialTicketData.categoryLabel || '',
         maxQuantity: initialTicketData.maxQuantity === undefined ? 100 : initialTicketData.maxQuantity, // Ensure maxQuantity is a number
         useEventSchedule: initialTicketData.useEventSchedule === undefined ? false : initialTicketData.useEventSchedule,
+=======
+
+  const [formData, setFormData] = useState<TicketFormData>(getDefaultFormData());
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+
+  useEffect(() => {
+    if (initialTicketData) {
+      setFormData({
+        ...getDefaultFormData(),
+        ...initialTicketData,
+        maxQuantity: initialTicketData.maxQuantity === undefined ? 100 : initialTicketData.maxQuantity, // Ensure maxQuantity is a number
+        useEventSchedule: initialTicketData.useEventSchedule === undefined ? true : initialTicketData.useEventSchedule,
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         ticketTimezone: initialTicketData.ticketTimezone || (eventTimezone ? (eventTimezone as TicketCategory['ticketTimezone']) : 'WIB'),
         ticketIsTimeRange: initialTicketData.ticketIsTimeRange === undefined ? true : initialTicketData.ticketIsTimeRange,
        });
     } else {
+<<<<<<< HEAD
       const newTicketId = `TICKET-${Date.now().toString().slice(-6)}`;
       setFormData({
         ...getDefaultFormData(),
@@ -72,6 +120,22 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
     if (!formData.name.trim()) errors.name = "Nama tiket tidak boleh kosong.";
     if (formData.price < 0) errors.price = "Harga tiket tidak boleh negatif.";
     
+=======
+      setFormData(getDefaultFormData());
+    }
+    setFormErrors({});
+  }, [initialTicketData, isOpen, eventTimezone]);
+
+
+  if (!isOpen) return null;
+
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    if (!formData.name.trim()) errors.name = "Nama kategori tiket tidak boleh kosong.";
+    if (formData.price < 0) errors.price = "Harga tiket tidak boleh negatif.";
+   
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (formData.maxQuantity === undefined || formData.maxQuantity === null) { // Should not happen with type change but good for safety
       errors.maxQuantity = "Jumlah tiket tersedia harus diisi.";
     } else if (formData.maxQuantity <= 0) {
@@ -81,6 +145,11 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
     }
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (!formData.useEventSchedule) {
         if (!formData.ticketStartDate) errors.ticketStartDate = "Tanggal mulai tiket harus diisi jika tidak menggunakan jadwal event.";
         if (!formData.ticketStartTime) errors.ticketStartTime = "Waktu mulai tiket harus diisi jika tidak menggunakan jadwal event.";
@@ -94,10 +163,18 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
         if (!formData.ticketTimezone) errors.ticketTimezone = "Zona waktu tiket harus dipilih.";
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
@@ -105,6 +182,7 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
     }
   };
 
+<<<<<<< HEAD
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
@@ -112,12 +190,27 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
     setFormData(prev => {
       const newFormData = { ...prev };
       const key = name as keyof Omit<TicketFormData, 'availabilityStatus'>;
+=======
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+   
+    setFormData(prev => {
+      const newFormData = { ...prev };
+      const key = name as keyof TicketFormData;
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
       if (key === "useEventSchedule") {
         newFormData.useEventSchedule = checked;
       } else if (key === "ticketIsTimeRange"){
         newFormData.ticketIsTimeRange = checked;
+<<<<<<< HEAD
         if (!checked) newFormData.ticketEndTime = ''; 
+=======
+        if (!checked) newFormData.ticketEndTime = '';
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       } else {
         let valueToAssign: string | number | boolean;
         if (type === 'number') {
@@ -139,15 +232,34 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
       return newFormData;
     });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (formErrors[name as keyof TicketFormData]) {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
 
+<<<<<<< HEAD
   const modalTitle = initialTicketData ? "Edit Tiket" : "Tambah Tiket Baru";
   const saveButtonText = initialTicketData ? "Simpan Perubahan" : "Tambah Tiket";
   
+=======
+
+
+  const modalTitle = initialTicketData ? "Edit Kategori Tiket" : "Tambah Kategori Tiket Baru";
+  const saveButtonText = initialTicketData ? "Simpan Perubahan" : "Tambah Tiket";
+
+
+  const availabilityOptions: { value: TicketCategory['availabilityStatus'], label: string, icon?: React.ElementType }[] = [
+    { value: 'available', label: 'Tersedia', icon: CheckSquare },
+    { value: 'almost-sold', label: 'Hampir Habis', icon: AlertTriangle },
+    { value: 'sold-out', label: 'Habis Terjual', icon: X },
+  ];
+ 
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const timezoneOptions: {value: TicketCategory['ticketTimezone'], label: string}[] = [
     {value: "WIB", label: "WIB (Waktu Indonesia Barat)"},
     {value: "WITA", label: "WITA (Waktu Indonesia Tengah)"},
@@ -155,6 +267,11 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
   ];
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
@@ -163,6 +280,7 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
       aria-modal="true"
     >
       <div className="bg-white text-hegra-navy p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg relative transform transition-all duration-300 ease-out scale-95 opacity-0 animate-modal-appear max-h-[90vh] overflow-y-auto custom-scrollbar-modal">
+<<<<<<< HEAD
         <div className="flex justify-between items-center mb-6">
           <h2 id="add-ticket-modal-title" className="text-xl sm:text-2xl font-semibold text-hegra-navy">
             {modalTitle}
@@ -193,10 +311,34 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
             <div className="relative">
               <input type="text" name="name" id="name" value={formData.name} onChange={handleInputChange} required
                      className={`w-full py-2.5 pl-3 pr-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.name ? 'border-red-500' : 'border-gray-300'}`}
+=======
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-hegra-turquoise transition-colors z-20"
+          aria-label="Tutup modal"
+        >
+          <X size={24} />
+        </button>
+
+
+        <h2 id="add-ticket-modal-title" className="text-xl sm:text-2xl font-semibold text-hegra-navy mb-6">
+          {modalTitle}
+        </h2>
+
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nama Kategori Tiket <span className="text-red-500">*</span></label>
+            <div className="relative">
+              <List className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input type="text" name="name" id="name" value={formData.name} onChange={handleInputChange} required
+                     className={`w-full py-2.5 pl-9 pr-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.name ? 'border-red-500' : 'border-gray-300'}`}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                      placeholder="cth: Regular, VIP, Early Bird" />
             </div>
             {formErrors.name && <p className="mt-1 text-xs text-red-500">{formErrors.name}</p>}
           </div>
+<<<<<<< HEAD
           
           <div>
             <label htmlFor="categoryLabel" className="block text-sm font-medium text-gray-700 mb-1">Kategori Tiket (Opsional)</label>
@@ -207,36 +349,87 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
             </div>
             <p className="mt-1 text-xs text-gray-500">Gunakan untuk mengelompokkan tiket, misal berdasarkan hari, zona, atau fase penjualan.</p>
           </div>
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
           <div>
             <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">Harga Tiket (IDR) <span className="text-red-500">*</span></label>
              <div className="relative">
+<<<<<<< HEAD
               <input type="number" name="price" id="price" value={formData.price} onChange={handleInputChange} required min="0" step="1000"
                      className={`w-full py-2.5 pl-3 pr-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.price ? 'border-red-500' : 'border-gray-300'}`}
+=======
+              <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input type="number" name="price" id="price" value={formData.price} onChange={handleInputChange} required min="0" step="1000"
+                     className={`w-full py-2.5 pl-9 pr-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.price ? 'border-red-500' : 'border-gray-300'}`}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                      placeholder="cth: 150000" />
             </div>
             {formErrors.price && <p className="mt-1 text-xs text-red-500">{formErrors.price}</p>}
           </div>
+<<<<<<< HEAD
           
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Deskripsi Tiket (Opsional)</label>
              <div className="relative">
                 <textarea name="description" id="description" value={formData.description} onChange={handleInputChange} rows={3}
                         className="w-full py-2.5 pl-3 pr-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm"
+=======
+         
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Deskripsi Tiket (Opsional)</label>
+             <div className="relative">
+                <Info className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <textarea name="description" id="description" value={formData.description} onChange={handleInputChange} rows={3}
+                        className="w-full py-2.5 pl-9 pr-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm"
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                         placeholder="cth: Akses ke semua area, Merchandise eksklusif"></textarea>
             </div>
           </div>
 
+<<<<<<< HEAD
           <div>
             <label htmlFor="maxQuantity" className="block text-sm font-medium text-gray-700 mb-1">Jumlah Tiket Tersedia <span className="text-red-500">*</span></label>
              <div className="relative">
                 <input type="number" name="maxQuantity" id="maxQuantity" value={formData.maxQuantity} onChange={handleInputChange} required min="1"
                     className={`w-full py-2.5 pl-3 pr-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.maxQuantity ? 'border-red-500' : 'border-gray-300'}`}
+=======
+
+          <div>
+            <label htmlFor="maxQuantity" className="block text-sm font-medium text-gray-700 mb-1">Jumlah Tiket Tersedia <span className="text-red-500">*</span></label>
+             <div className="relative">
+                <CheckSquare className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input type="number" name="maxQuantity" id="maxQuantity" value={formData.maxQuantity} onChange={handleInputChange} required min="1"
+                    className={`w-full py-2.5 pl-9 pr-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.maxQuantity ? 'border-red-500' : 'border-gray-300'}`}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     placeholder="Masukkan jumlah tiket (minimal 1)" />
             </div>
             {formErrors.maxQuantity && <p className="mt-1 text-xs text-red-500">{formErrors.maxQuantity}</p>}
           </div>
 
+<<<<<<< HEAD
+=======
+
+          <div>
+            <label htmlFor="availabilityStatus" className="block text-sm font-medium text-gray-700 mb-1">Status Ketersediaan <span className="text-red-500">*</span></label>
+            <div className="relative">
+              {formData.availabilityStatus && availabilityOptions.find(opt => opt.value === formData.availabilityStatus)?.icon &&
+                React.createElement(availabilityOptions.find(opt => opt.value === formData.availabilityStatus)!.icon!, { className: "absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" })
+              }
+              <select name="availabilityStatus" id="availabilityStatus" value={formData.availabilityStatus} onChange={handleInputChange} required
+                      className="w-full py-2.5 pl-9 pr-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors text-sm appearance-none">
+                {availabilityOptions.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+          </div>
+         
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           {/* Ticket Specific Schedule Section */}
           <div className="pt-4 border-t border-gray-100">
             <div className="flex items-center mb-3">
@@ -244,6 +437,10 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
                 <label htmlFor="useEventSchedule" className="ml-2 block text-sm font-medium text-gray-700">Gunakan Jadwal Event Utama</label>
             </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             {!formData.useEventSchedule && (
                 <div className="space-y-4 p-4 bg-gray-50 rounded-md border border-gray-200 animate-fade-in-up-sm">
                     <p className="text-xs text-gray-500 mb-2">Atur tanggal dan waktu berlaku khusus untuk kategori tiket ini.</p>
@@ -272,7 +469,11 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
                                 {formErrors.ticketEndTime && <p className="error-text-sm">{formErrors.ticketEndTime}</p>}
                             </div>
                              <label className="flex items-center space-x-1.5 text-xs text-gray-700 mt-1 md:mt-6 whitespace-nowrap">
+<<<<<<< HEAD
                                 <input type="checkbox" name="ticketIsTimeRange" checked={!formData.ticketIsTimeRange} 
+=======
+                                <input type="checkbox" name="ticketIsTimeRange" checked={!formData.ticketIsTimeRange}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                                        onChange={(e) => handleInputChange({ target: { name: 'ticketIsTimeRange', value: (!e.target.checked).toString(), type: 'checkbox', checked: !e.target.checked } } as any)}
                                        className="form-checkbox h-3.5 w-3.5 text-hegra-turquoise rounded focus:ring-hegra-turquoise/20"/>
                                 <span>Selesai</span>
@@ -292,6 +493,11 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
           </div>
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           <div className="flex flex-col sm:flex-row-reverse gap-3 pt-4 border-t border-gray-200">
             <button
               type="submit"
@@ -310,7 +516,11 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
         </form>
       </div>
       <style>{`
+<<<<<<< HEAD
         .animate-modal-appear { 
+=======
+        .animate-modal-appear {
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           animation: modalAppear 0.3s ease-out forwards;
         }
         @keyframes modalAppear {
@@ -338,11 +548,27 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
           background-position: right 0.5rem center;
           background-repeat: no-repeat;
           background-size: 1.5em 1.5em;
+<<<<<<< HEAD
           padding-right: 2.5rem; 
+=======
+          padding-right: 2.5rem;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         }
       `}</style>
     </div>
   );
 };
 
+<<<<<<< HEAD
 export default AddTicketModal;
+=======
+
+export default AddTicketModal;
+
+
+
+
+
+
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

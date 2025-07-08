@@ -14,6 +14,7 @@ interface AddCrewModalProps {
   onSave: (crewData: CrewFormData) => void;
 }
 
+<<<<<<< HEAD
 const countryCodeOptions = [
   { code: "+62", name: "Indonesia", flag: "🇮🇩" },
   { code: "+1", name: "United States", flag: "🇺🇸" },
@@ -28,14 +29,26 @@ const AddCrewModal: React.FC<AddCrewModalProps> = ({ isOpen, onClose, onSave }) 
   });
   const [localPhoneNumber, setLocalPhoneNumber] = useState('');
   const [selectedCountryCode, setSelectedCountryCode] = useState('+62');
+=======
+const AddCrewModal: React.FC<AddCrewModalProps> = ({ isOpen, onClose, onSave }) => {
+  const [formData, setFormData] = useState<CrewFormData>({
+    name: '',
+    role: '',
+    phoneNumber: '',
+  });
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (isOpen) {
       // Reset form when modal opens
+<<<<<<< HEAD
       setFormData({ name: '', role: '' });
       setLocalPhoneNumber('');
       setSelectedCountryCode('+62');
+=======
+      setFormData({ name: '', role: '', phoneNumber: '' });
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       setFormErrors({});
     }
   }, [isOpen]);
@@ -46,9 +59,15 @@ const AddCrewModal: React.FC<AddCrewModalProps> = ({ isOpen, onClose, onSave }) 
     const errors: Record<string, string> = {};
     if (!formData.name.trim()) errors.name = "Nama lengkap tidak boleh kosong.";
     if (!formData.role.trim()) errors.role = "Role tidak boleh kosong.";
+<<<<<<< HEAD
     if (!localPhoneNumber.trim()) errors.phoneNumber = "Nomor telepon tidak boleh kosong.";
     else if (!/^\d{9,15}$/.test(localPhoneNumber.replace(/\D/g, ''))) {
       errors.phoneNumber = "Format nomor telepon tidak valid (9-15 digit).";
+=======
+    if (!formData.phoneNumber.trim()) errors.phoneNumber = "Nomor telepon tidak boleh kosong.";
+    else if (!/^\d{10,15}$/.test(formData.phoneNumber.replace(/\D/g, ''))) {
+      errors.phoneNumber = "Format nomor telepon tidak valid (10-15 digit).";
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -57,12 +76,20 @@ const AddCrewModal: React.FC<AddCrewModalProps> = ({ isOpen, onClose, onSave }) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
+<<<<<<< HEAD
       const fullPhoneNumber = selectedCountryCode + localPhoneNumber;
       onSave({ ...formData, phoneNumber: fullPhoneNumber });
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+=======
+      onSave(formData);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (formErrors[name]) {
@@ -115,6 +142,7 @@ const AddCrewModal: React.FC<AddCrewModalProps> = ({ isOpen, onClose, onSave }) 
           
           <div>
             <label htmlFor="crew-phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon <span className="text-red-500">*</span></label>
+<<<<<<< HEAD
             <div className="relative flex items-stretch w-full mt-1">
               <div className="relative">
                 <select 
@@ -144,6 +172,13 @@ const AddCrewModal: React.FC<AddCrewModalProps> = ({ isOpen, onClose, onSave }) 
                   className={`w-full py-2.5 pl-9 pr-3 bg-white border rounded-r-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
                   placeholder="81234567890" />
               </div>
+=======
+             <div className="relative">
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input type="tel" name="phoneNumber" id="crew-phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} required
+                    className={`w-full py-2.5 pl-9 pr-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm ${formErrors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
+                    placeholder="cth: 081234567890" />
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             </div>
             {formErrors.phoneNumber && <p className="mt-1 text-xs text-red-500">{formErrors.phoneNumber}</p>}
           </div>
@@ -179,4 +214,8 @@ const AddCrewModal: React.FC<AddCrewModalProps> = ({ isOpen, onClose, onSave }) 
   );
 };
 
+<<<<<<< HEAD
 export default AddCrewModal;
+=======
+export default AddCrewModal;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

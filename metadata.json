@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "Hegira-1-5",
+=======
+  "name": "Hegira-1-4",
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   "description": "Hegira adalah platform terintegrasi untuk manajemen event dan penjualan tiket (B2C/B2B/B2G). Temukan, kelola, dan hadiri event dengan mudah.",
   "requestFramePermissions": [
     "camera"

@@ -1,4 +1,8 @@
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -6,11 +10,25 @@
 import React, { useEffect, useRef } from 'react';
 import HeroSlider from '../components/HeroSlider';
 import EventCard from '../components/EventCard';
+<<<<<<< HEAD
 import FeatureItem from '../components/FeatureItem'; 
 import ArticleCard from '../components/ArticleCard'; 
 import BusinessMatchingCard, { BusinessMatchingCardData } from '../components/BusinessMatchingCard';
 import { Briefcase, Users, Mail, TrendingUp, Zap, Ticket as TicketIconLucide, BookOpen, Edit3, Users2, BarChart3, PlusCircle, CalendarPlus, Settings, Lightbulb, ShieldCheck, Search, CalendarCheck } from 'lucide-react'; 
 import { PageName, EventData } from '../HegiraApp'; 
+=======
+import BusinessMatchingCard from '../components/BusinessMatchingCard'; // Re-added import
+import FeatureItem from '../components/FeatureItem'; // Updated import
+import ArticleCard from '../components/ArticleCard'; // New import
+import { Briefcase, CalendarDays, BarChart3, Users, Mail, TrendingUp, Zap, ShieldCheck, Search, Lightbulb, Link2, CheckCircle, SpeakerIcon, Heart, TrendingUpIcon, CalendarCheck2, Headset, LayoutGrid, Ticket as TicketIcon, BookOpen } from 'lucide-react'; 
+import { PageName, EventData } from '../HegiraApp'; // Renamed import
+
+// Re-added sample vendors
+const sampleVendors = [
+  { id: 1, logoUrl: 'https://picsum.photos/seed/vendor1/150/150', name: 'PT Solusi Teknologi Cerdas', matchScore: 4.8, sector: 'Teknologi Informasi', location: 'Jakarta', budget: 'Rp 100jt - Rp 500jt' },
+  { id: 2, logoUrl: 'https://picsum.photos/seed/vendor2/150/150', name: 'CV Kreasi Nusantara Mandiri', matchScore: 4.5, sector: 'Industri Kreatif', location: 'Bandung', budget: 'Rp 50jt - Rp 200jt' },
+];
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
 const sampleArticles = [
   {
@@ -42,6 +60,7 @@ const sampleArticles = [
   },
 ];
 
+<<<<<<< HEAD
 const sampleBusinessMatchingPartners: BusinessMatchingCardData[] = [
   {
     id: 1001,
@@ -75,6 +94,8 @@ const sampleBusinessMatchingPartners: BusinessMatchingCardData[] = [
   },
 ];
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
 const useIntersectionObserver = (options?: IntersectionObserverInit) => {
   const [elements, setElements] = React.useState<HTMLElement[]>([]);
@@ -105,10 +126,16 @@ interface LandingPageProps {
   featuredEvents: EventData[];
   onNavigate: (page: PageName, data?: any) => void;
   onOpenLoginModal?: () => void; 
+<<<<<<< HEAD
   openSubscriptionModal: () => void; 
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, onNavigate, onOpenLoginModal, openSubscriptionModal }) => {
+=======
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, onNavigate, onOpenLoginModal }) => {
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const setObservedElements = useIntersectionObserver({ threshold: 0.1 });
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   
@@ -144,7 +171,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
         <div className="container mx-auto px-0 sm:px-6 lg:px-8"> {/* Adjusted padding for full-bleed scroll */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-10 md:mb-16  px-4 sm:px-0"> {/* Padding for title section */}
             <div>
+<<<<<<< HEAD
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy text-center md:text-left">Temukan Event <span className="text-gradient">Menarik</span></h2>
+=======
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy text-center md:text-left">Temukan Event <span className="text-gradient">Menarik</span></h2>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               <p className="text-neutral-700 mt-2 text-center md:text-left">Jelajahi berbagai acara terbaru dan paling populer.</p>
             </div>
             <button 
@@ -155,7 +186,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
             </button>
           </div>
           {/* Horizontal Scroll Container for Event Cards */}
+<<<<<<< HEAD
           <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 "> {/* Negative margins for full bleed effect */}
+=======
+          <div className="relative -mx-4 sm:-mx-6 lg:-mx-8"> {/* Negative margins for full bleed effect */}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             <div className="flex overflow-x-auto space-x-4 sm:space-x-6 lg:space-x-8 py-4 px-4 sm:px-6 lg:px-8 horizontal-event-scroll">
               {featuredEvents.length > 0 ? featuredEvents.map((event, index) => (
                 <div 
@@ -175,14 +210,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
       </section>
 
       {/* Section 3: About Hegira - Reconstructed */}
+<<<<<<< HEAD
       <section id="about-hegira" className="py-16 md:py-24 bg-hegra-chino/20 animate-on-scroll fade-in-up" ref={addToRefs}>
+=======
+      <section id="about-hegira" className="py-16 md:py-24 bg-hegra-chino/20 animate-on-scroll fade-in" ref={addToRefs}>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-4">
             <span className="bg-hegra-turquoise/20 text-hegra-turquoise font-semibold px-4 py-1.5 rounded-full text-xs inline-block">
               ABOUT US
             </span>
           </div>
+<<<<<<< HEAD
           <h2 className="text-4xl md:text-5xl font-bold font-jakarta text-hegra-deep-navy mb-8">
+=======
+          <h2 className="text-4xl md:text-5xl font-bold text-hegra-deep-navy mb-8">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             Apa itu <span className="text-hegra-turquoise">Hegira?</span>
           </h2>
           
@@ -197,7 +240,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
 
           <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 md:mb-16 ">
             <FeatureItem
+<<<<<<< HEAD
               icon={TicketIconLucide}
+=======
+              icon={TicketIcon}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               title="Tiket Terintegrasi"
               description="Beli dan jual tiket untuk berbagai jenis event (B2C, B2B, B2G) dengan mudah, aman, dan cepat."
               iconBgClass="bg-hegra-turquoise/20"
@@ -227,6 +274,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
         </div>
       </section>
       
+<<<<<<< HEAD
       {/* Section 4: Buat Event Anda */}
       <section id="create-your-event" className="py-16 md:py-24 bg-hegra-white  animate-on-scroll fade-in-up" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -338,10 +386,33 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
                          inline-flex items-center gap-2.5"
             >
               <Briefcase size={22} /> Jelajahi Peluang Business Matching
+=======
+      {/* Section 4: Business Matching - RE-ADDED */}
+      <section id="business-matching" className="py-16 md:py-24 bg-hegra-card-bg animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10 md:mb-16 ">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy">Jalin Koneksi <span className="text-gradient">Bisnis Strategis</span></h2>
+            <p className="text-lg text-neutral-700 mt-3 max-w-3xl mx-auto">Temukan partner, vendor, atau investor potensial untuk pertumbuhan bisnis Anda melalui platform business matching kami yang inovatif.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {sampleVendors.map((vendor, index) => (
+              <div key={vendor.id} className=" " style={{ animationDelay: `${index * 0.15}s` }}>
+                <BusinessMatchingCard {...vendor} onNavigate={onNavigate} />
+              </div>
+            ))}
+          </div>
+           <div className="text-center mt-12 md:mt-16 ">
+            <button 
+                onClick={() => onNavigate('business')} 
+                className="bg-hegra-turquoise text-white font-semibold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-hegra-yellow focus:ring-offset-2 shadow-md hover:shadow-lg"
+            >
+                Jelajahi Semua Peluang Business Matching
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             </button>
           </div>
         </div>
       </section>
+<<<<<<< HEAD
 
       {/* Section 6: Articles & Insights */}
       <section id="articles" className="py-16 md:py-24 bg-hegra-white  animate-on-scroll fade-in-up" ref={addToRefs}>
@@ -402,6 +473,74 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
               <Mail size={20} className="inline mr-2 -mt-0.5" /> Daftar Sekarang
             </button>
           </form>
+=======
+      
+      {/* Section 5: Articles - NEW SECTION */}
+      <section id="articles" className="py-16 md:py-24 bg-hegra-chino/20 animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-0 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-10 md:mb-16 px-4 sm:px-0">
+            <div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy text-center md:text-left">
+                Artikel & Wawasan <span className="text-gradient">Terbaru</span>
+              </h2>
+              <p className="text-neutral-700 mt-2 text-center md:text-left">
+                Dapatkan insight, tips, dan cerita inspiratif seputar dunia event dan bisnis.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate('articlesPage')} 
+              className="mt-4 md:mt-0 text-hegra-gradient-start hover:text-hegra-gradient-mid font-semibold transition-colors duration-300 group flex items-center"
+            >
+              Baca Artikel Lain <BookOpen size={20} className="ml-2 transform transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
+          <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 ">
+            <div className="flex overflow-x-auto space-x-4 sm:space-x-6 lg:space-x-8 py-4 px-4 sm:px-6 lg:px-8 horizontal-event-scroll">
+              {sampleArticles.map((article, index) => (
+                <div
+                  key={article.slug}
+                  className="flex-shrink-0 w-[90%] xs:w-[80%] sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+                >
+                  <ArticleCard {...article} onNavigate={(slug) => alert(`Navigasi ke artikel: ${slug} (placeholder)`)} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 6: Newsletter */}
+      <section id="newsletter" className="py-16 md:py-24 bg-gradient-to-b from-hegra-turquoise/60 to-hegra-turquoise text-hegra-white" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className=" ">
+            <Mail size={48} className="mx-auto mb-4" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">Tetap Terhubung!</h2>
+            <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">
+              Dapatkan berita terbaru, promo eksklusif, dan info event pilihan dari Hegira langsung ke kotak masuk Anda.
+            </p>
+            <form 
+              onSubmit={handleNewsletterSubmit} 
+              className="max-w-lg mx-auto flex flex-col sm:flex-row gap-3 items-center"
+            >
+              <label htmlFor="newsletter-email" className="sr-only">Alamat Email</label>
+              <input
+                type="email"
+                id="newsletter-email"
+                name="email"
+                placeholder="Masukkan alamat email Anda"
+                required
+                className="w-full sm:flex-grow py-3 px-5 rounded-lg text-hegra-deep-navy placeholder-gray-500 focus:ring-2 focus:ring-hegra-yellow focus:outline-none transition-shadow shadow-sm bg-white"
+                aria-label="Alamat email untuk newsletter"
+              />
+              <button
+                type="submit"
+                className="w-full sm:w-auto bg-hegra-yellow text-hegra-navy font-semibold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-hegra-navy focus:ring-offset-2 focus:ring-offset-hegra-turquoise shadow-md"
+              >
+                Berlangganan
+              </button>
+            </form>
+          </div>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         </div>
       </section>
     </>

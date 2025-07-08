@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -332,7 +336,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
         </div>
 
         <header className="text-center mb-8 md:mb-12">
+<<<<<<< HEAD
           <h1 className="text-3xl md:text-4xl font-bold font-jakarta text-hegra-navy">Konfirmasi Pesanan Anda</h1>
+=======
+          <h1 className="text-3xl md:text-4xl font-bold text-hegra-navy">Konfirmasi Pesanan Anda</h1>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           <p className="mt-2 text-lg text-gray-600">Silakan periksa detail pesanan Anda dan lengkapi data diri.</p>
         </header>
 
@@ -347,13 +355,21 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
               />
             </div>
             <div className="p-6">
+<<<<<<< HEAD
               <h2 className="text-2xl font-semibold font-jakarta text-hegra-navy mb-6 border-b pb-3 flex items-center">
+=======
+              <h2 className="text-2xl font-semibold text-hegra-navy mb-6 border-b pb-3 flex items-center">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 <TicketIcon size={24} className="mr-3 text-hegra-turquoise" />
                 Detail Tiket
               </h2>
               
               <div className="mb-6">
+<<<<<<< HEAD
                 <h3 className="text-xl font-semibold font-jakarta text-hegra-navy mb-2">{event.name}</h3>
+=======
+                <h3 className="text-xl font-semibold text-hegra-navy mb-2">{event.name}</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 <div className="flex items-center text-sm text-gray-600 mb-1">
                   <CalendarDays size={16} className="mr-2 text-hegra-turquoise" />
                   <span>{event.dateDisplay}</span>
@@ -369,7 +385,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
               </div>
 
               <div className="space-y-3 mb-6">
+<<<<<<< HEAD
                 <h4 className="text-md font-jakarta font-semibold text-hegra-navy">Tiket yang Dipilih:</h4>
+=======
+                <h4 className="text-md font-semibold text-hegra-navy">Tiket yang Dipilih:</h4>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                 {selectedTickets.map(ticket => (
                   <div key={ticket.categoryId} className="flex justify-between items-center text-sm p-3 bg-gray-50 rounded-md">
                     <div>
@@ -424,12 +444,20 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
 
           <form onSubmit={handleSubmit} id="checkoutForm" className="lg:w-2/3 bg-white p-6 md:p-8 rounded-xl border border-hegra-navy/10">
             <div className="lg:hidden bg-gray-50 p-4 rounded-lg border border-hegra-navy/10 mb-6">
+<<<<<<< HEAD
                 <h2 className="text-xl font-semibold font-jakarta text-hegra-navy mb-4 border-b pb-2 flex items-center">
+=======
+                <h2 className="text-xl font-semibold text-hegra-navy mb-4 border-b pb-2 flex items-center">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     <TicketIcon size={22} className="mr-2 text-hegra-turquoise"/>
                     Detail Tiket
                 </h2>
                 <div className="mb-4">
+<<<<<<< HEAD
                     <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-1">{event.name}</h3>
+=======
+                    <h3 className="text-lg font-semibold text-hegra-navy mb-1">{event.name}</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     <div className="flex items-center text-xs text-gray-600 mb-0.5">
                         <CalendarDays size={14} className="mr-1.5 text-hegra-turquoise" />
                         <span>{event.dateDisplay}</span>
@@ -444,7 +472,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                     </div>
                 </div>
                 <div className="space-y-2 mb-4 border-b pb-4">
+<<<<<<< HEAD
                     <h4 className="text-sm font-jakarta font-semibold text-hegra-navy">Tiket:</h4>
+=======
+                    <h4 className="text-sm font-semibold text-hegra-navy">Tiket:</h4>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     {selectedTickets.map(ticket => (
                         <div key={ticket.categoryId} className="flex justify-between items-center text-xs p-2 bg-white rounded-md border">
                         <div>
@@ -457,7 +489,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                 </div>
             </div>
 
+<<<<<<< HEAD
             <h2 className="text-2xl font-semibold font-jakarta text-hegra-navy mb-6 border-b pb-3">Data Pemesan</h2>
+=======
+            <h2 className="text-2xl font-semibold text-hegra-navy mb-6 border-b pb-3">Data Pemesan</h2>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             <div className="space-y-6">
               <div>
                 <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap Sesuai KTP/Identitas</label>
@@ -495,13 +531,20 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                 <label htmlFor="localPhoneNumber" className="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
                 <div className="relative flex items-stretch w-full mt-1">
                   <div className="relative">
+<<<<<<< HEAD
                     <label htmlFor="countryCode" className="sr-only">Kode Negara</label>
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     <select 
                       id="countryCode" 
                       name="countryCode" 
                       value={selectedCountryCode} 
                       onChange={(e) => setSelectedCountryCode(e.target.value)} 
                       className="appearance-none z-10 h-full block w-auto py-2.5 pl-3 pr-8 text-sm text-gray-900 border border-r-0 border-gray-300 rounded-l-lg focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 bg-white"
+<<<<<<< HEAD
+=======
+                      aria-label="Kode negara"
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                     >
                       {countryCodeOptions.map(opt => (
                         <option key={opt.code} value={opt.code}>{opt.flag} {opt.code}</option>
@@ -571,12 +614,21 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
 
             {ticketHoldersData.length > 0 && (
                 <div className="mt-8 pt-6 border-t">
+<<<<<<< HEAD
                     <h2 className="text-xl font-semibold font-jakarta text-hegra-navy mb-4">Data Pemegang Tiket</h2>
                     {ticketHoldersData.map((holder, index) => (
                         <div key={index} className="mb-6 p-4 border border-gray-200 rounded-lg bg-white">
                             <div className="flex justify-between items-center mb-3">
                                 <h3 className="text-md font-semibold font-jakarta text-hegra-navy">
                                   Data untuk Tiket {index + 1}: <span className="font-normal font-sans text-gray-700">{flatTicketCategoryNames[index] || 'Tiket'}</span>
+=======
+                    <h2 className="text-xl font-semibold text-hegra-navy mb-4">Data Pemegang Tiket</h2>
+                    {ticketHoldersData.map((holder, index) => (
+                        <div key={index} className="mb-6 p-4 border border-gray-200 rounded-lg bg-white">
+                            <div className="flex justify-between items-center mb-3">
+                                <h3 className="text-md font-semibold text-hegra-navy">
+                                  Data untuk Tiket {index + 1}: <span className="font-normal text-gray-700">{flatTicketCategoryNames[index] || 'Tiket'}</span>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                                 </h3>
                                 <label htmlFor={`syncData-${index}`} className="flex items-center cursor-pointer">
                                   <div className="relative">
@@ -629,7 +681,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
             )}
             
             <div className="pt-6 border-t mt-6">
+<<<<<<< HEAD
                  <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Metode Pembayaran</h3>
+=======
+                 <h3 className="text-lg font-semibold text-hegra-navy mb-3">Metode Pembayaran</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
                  <p className="text-sm text-gray-600 mb-3">Pilihan metode pembayaran akan tersedia di langkah berikutnya setelah konfirmasi data ini. Untuk saat ini, ini adalah simulasi.</p>
                  <div className="p-4 bg-gray-100 rounded-lg flex items-center gap-3 border border-gray-200">
                     <CreditCard size={24} className="text-hegra-turquoise flex-shrink-0"/>
@@ -722,4 +778,8 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
   );
 };
 
+<<<<<<< HEAD
 export default CheckoutPage;
+=======
+export default CheckoutPage;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

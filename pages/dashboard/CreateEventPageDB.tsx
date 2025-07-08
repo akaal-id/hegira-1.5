@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -12,6 +16,7 @@ interface CreateEventPageDBProps {
   onCancel: (viewId: DashboardViewId) => void;
 }
 
+<<<<<<< HEAD
 const countryCodeOptions = [
   { code: "+62", name: "Indonesia", flag: "🇮🇩" },
   { code: "+1", name: "United States", flag: "🇺🇸" },
@@ -19,6 +24,8 @@ const countryCodeOptions = [
   { code: "+65", name: "Singapore", flag: "🇸🇬" },
 ];
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 interface FormEventData {
   id: string; // Auto-generated
   name: string;
@@ -47,11 +54,20 @@ interface FormEventData {
   coverImageUrlPreview: string; // For image preview
 
   narahubungName: string;
+<<<<<<< HEAD
+=======
+  narahubungPhone: string;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   narahubungEmail: string;
   
   fullDescription: string;
   termsAndConditions: string;
+<<<<<<< HEAD
   // narahubungPhone removed from here, will be handled by separate state
+=======
+  // ticketCategories removed
+  // displayPrice removed
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 }
 
 const initialFormState: FormEventData = {
@@ -75,6 +91,10 @@ const initialFormState: FormEventData = {
   coverImageFile: null,
   coverImageUrlPreview: '',
   narahubungName: '',
+<<<<<<< HEAD
+=======
+  narahubungPhone: '',
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   narahubungEmail: '',
   fullDescription: '',
   termsAndConditions: '',
@@ -82,8 +102,11 @@ const initialFormState: FormEventData = {
 
 const CreateEventPageDB: React.FC<CreateEventPageDBProps> = ({ onNewEventCreated, onCancel }) => {
   const [formData, setFormData] = useState<FormEventData>(initialFormState);
+<<<<<<< HEAD
   const [localNarahubungPhone, setLocalNarahubungPhone] = useState('');
   const [selectedCountryCode, setSelectedCountryCode] = useState('+62');
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
   useEffect(() => {
     setFormData(prev => ({ ...prev, id: `HEGIRA-EVT-${Date.now()}`})); 
@@ -137,8 +160,11 @@ const CreateEventPageDB: React.FC<CreateEventPageDBProps> = ({ onNewEventCreated
         }
     }
     
+<<<<<<< HEAD
     const fullPhoneNumber = localNarahubungPhone ? selectedCountryCode + localNarahubungPhone : undefined;
     
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     const newEvent: EventData = {
       id: parseInt(formData.id.split('-').pop() || Date.now().toString()), 
       name: formData.name,
@@ -163,7 +189,11 @@ const CreateEventPageDB: React.FC<CreateEventPageDBProps> = ({ onNewEventCreated
       coverImageUrl: formData.coverImageUrlPreview || undefined, 
 
       narahubungName: formData.narahubungName || undefined,
+<<<<<<< HEAD
       narahubungPhone: fullPhoneNumber,
+=======
+      narahubungPhone: formData.narahubungPhone || undefined,
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       narahubungEmail: formData.narahubungEmail || undefined,
       
       fullDescription: formData.fullDescription,
@@ -320,6 +350,7 @@ const CreateEventPageDB: React.FC<CreateEventPageDBProps> = ({ onNewEventCreated
       
       {renderSection("Narahubung", UserCircle2, <>
         {renderInput("Nama Narahubung", "narahubungName", "text", "Nama PIC Event", false)}
+<<<<<<< HEAD
         <div>
           <label htmlFor="localNarahubungPhone" className="block text-sm font-medium text-gray-700 mb-1">No. Telpon Narahubung (Opsional)</label>
           <div className="relative flex items-stretch w-full mt-1">
@@ -354,6 +385,9 @@ const CreateEventPageDB: React.FC<CreateEventPageDBProps> = ({ onNewEventCreated
             </div>
           </div>
         </div>
+=======
+        {renderInput("No. Telpon Narahubung", "narahubungPhone", "tel", "cth: +628123456789", false)}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         {renderInput("Email Narahubung", "narahubungEmail", "email", "cth: kontak@eventanda.com", false)}
       </>)}
 
@@ -374,4 +408,8 @@ const CreateEventPageDB: React.FC<CreateEventPageDBProps> = ({ onNewEventCreated
   );
 };
 
+<<<<<<< HEAD
 export default CreateEventPageDB;
+=======
+export default CreateEventPageDB;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

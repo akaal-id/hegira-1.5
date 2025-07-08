@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -60,7 +63,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
       <div className="p-5 flex flex-col flex-grow">
         <h3 
             id={`article-title-${slug}`}
+<<<<<<< HEAD
             className="text-lg font-bold font-jakarta text-hegra-deep-navy mb-2 leading-tight group-hover:text-hegra-gradient-start transition-colors cursor-pointer"
+=======
+            className="text-lg font-bold text-hegra-deep-navy mb-2 leading-tight group-hover:text-hegra-gradient-start transition-colors cursor-pointer"
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             onClick={() => onNavigate(slug)}
         >
             {title}
@@ -96,4 +103,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   );
 };
 
+<<<<<<< HEAD
 export default ArticleCard;
+=======
+export default ArticleCard;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

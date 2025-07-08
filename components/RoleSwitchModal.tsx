@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -24,15 +28,22 @@ const RoleSwitchModal: React.FC<RoleSwitchModalProps> = ({
 
   if (!isOpen) return null;
 
+<<<<<<< HEAD
   const allPossibleRoles: { display: AuthRoleType, internal: UserRole, icon: React.ElementType, description: string }[] = [
+=======
+  const rolesToDisplay: { display: AuthRoleType, internal: UserRole, icon: React.ElementType, description: string }[] = [
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     { display: "Event Visitor", internal: "visitor", icon: User, description: "Jelajahi dan hadiri berbagai event menarik." },
     { display: "Event Creator", internal: "creator", icon: Edit3, description: "Buat, kelola, dan publikasikan event Anda." },
     { display: "Organization", internal: "organization", icon: Briefcase, description: "Manajemen event untuk tim dan skala besar." },
   ];
 
+<<<<<<< HEAD
   const rolesToDisplay = allPossibleRoles.filter(role => role.internal !== "organization");
 
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
   };
@@ -150,4 +161,8 @@ const RoleSwitchModal: React.FC<RoleSwitchModalProps> = ({
   );
 };
 
+<<<<<<< HEAD
 export default RoleSwitchModal;
+=======
+export default RoleSwitchModal;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

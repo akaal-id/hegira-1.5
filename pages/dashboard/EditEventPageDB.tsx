@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -5,7 +9,11 @@
 import React, { useState, useEffect } from 'react';
 import { EventData } from '../../HegiraApp';
 import { DashboardViewId } from '../../pages/DashboardPage';
+<<<<<<< HEAD
 import { Save, Image as ImageIcon, Info, Calendar, ClockIcon, MapPinIcon, FileTextIcon, UserCircle2, Link as LinkIconLucide, ArrowLeft, Bold, Italic, Underline, UploadCloud, PhoneIcon } from 'lucide-react'; // Added ArrowLeft and text formatting icons, UploadCloud
+=======
+import { Save, Image as ImageIcon, Info, Calendar, ClockIcon, MapPinIcon, FileTextIcon, UserCircle2, Link as LinkIconLucide, ArrowLeft, Bold, Italic, Underline, UploadCloud } from 'lucide-react'; // Added ArrowLeft and text formatting icons, UploadCloud
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 
 interface EditEventPageDBProps {
   eventToEdit: EventData;
@@ -13,6 +21,7 @@ interface EditEventPageDBProps {
   onCancel: (viewId: DashboardViewId, data?: any) => void; // Added data param for detail view
 }
 
+<<<<<<< HEAD
 const countryCodeOptions = [
   { code: "+62", name: "Indonesia", flag: "🇮🇩" },
   { code: "+1", name: "United States", flag: "🇺🇸" },
@@ -20,6 +29,8 @@ const countryCodeOptions = [
   { code: "+65", name: "Singapore", flag: "🇸🇬" },
 ];
 
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 interface FormEventData {
   id: string; 
   name: string;
@@ -47,6 +58,10 @@ interface FormEventData {
   coverImageUrlPreview: string; 
 
   narahubungName: string;
+<<<<<<< HEAD
+=======
+  narahubungPhone: string;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   narahubungEmail: string;
   
   fullDescription: string;
@@ -76,16 +91,25 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
     coverImageFile: null,
     coverImageUrlPreview: eventToEdit.coverImageUrl || eventToEdit.posterUrl || '',
     narahubungName: eventToEdit.narahubungName || eventToEdit.organizerName || '',
+<<<<<<< HEAD
+=======
+    narahubungPhone: eventToEdit.narahubungPhone || '',
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     narahubungEmail: eventToEdit.narahubungEmail || '',
     fullDescription: eventToEdit.fullDescription || '',
     termsAndConditions: eventToEdit.termsAndConditions || '',
   });
+<<<<<<< HEAD
   
   const [localNarahubungPhone, setLocalNarahubungPhone] = useState('');
   const [selectedCountryCode, setSelectedCountryCode] = useState('+62');
 
   useEffect(() => {
     // Populate date fields
+=======
+
+  useEffect(() => {
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (eventToEdit.dateDisplay) {
       const dates = eventToEdit.dateDisplay.split(' - ');
       setFormData(prev => ({ 
@@ -94,7 +118,11 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
         endDate: dates[1] ? dates[1].replace(/\//g, '-') : ''
       }));
     }
+<<<<<<< HEAD
     // Populate time fields
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     if (eventToEdit.timeDisplay) {
         const timeParts = eventToEdit.timeDisplay.replace(/\s*\((WIB|WITA|WIT)\)\s*$/, '').split(' - '); // Remove timezone before splitting
         const startTime = timeParts[0] || '';
@@ -108,6 +136,7 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
           isTimeRange: !isSelesai && !!endTimeRaw, 
         }));
       }
+<<<<<<< HEAD
     // Populate phone fields
     if (eventToEdit.narahubungPhone) {
         const matchedOption = countryCodeOptions.find(opt => eventToEdit.narahubungPhone!.startsWith(opt.code));
@@ -119,6 +148,8 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
             setLocalNarahubungPhone(eventToEdit.narahubungPhone.replace(/\D/g, ''));
         }
     }
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   }, [eventToEdit]);
 
 
@@ -162,8 +193,11 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
             timeDisplayValue = `${formData.startTime} - Selesai`;
         }
     }
+<<<<<<< HEAD
 
     const fullPhoneNumber = localNarahubungPhone ? selectedCountryCode + localNarahubungPhone : undefined;
+=======
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     
     const updatedEventData: EventData = {
       ...eventToEdit, 
@@ -190,7 +224,11 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
       posterUrl: (formData.coverImageFile ? undefined : eventToEdit.posterUrl), 
 
       narahubungName: formData.narahubungName || undefined,
+<<<<<<< HEAD
       narahubungPhone: fullPhoneNumber,
+=======
+      narahubungPhone: formData.narahubungPhone || undefined,
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       narahubungEmail: formData.narahubungEmail || undefined,
       organizerName: formData.narahubungName || eventToEdit.organizerName, 
       
@@ -349,6 +387,7 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
       
       {renderSection("Narahubung", UserCircle2, <>
         {renderInput("Nama Narahubung", "narahubungName", "text", "Nama PIC Event", false)}
+<<<<<<< HEAD
         <div>
           <label htmlFor="localNarahubungPhone" className="block text-sm font-medium text-gray-700 mb-1">No. Telpon Narahubung (Opsional)</label>
           <div className="relative flex items-stretch w-full mt-1">
@@ -383,6 +422,9 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
             </div>
           </div>
         </div>
+=======
+        {renderInput("No. Telpon Narahubung", "narahubungPhone", "tel", "cth: +628123456789", false)}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
         {renderInput("Email Narahubung", "narahubungEmail", "email", "cth: kontak@eventanda.com", false)}
       </>)}
 
@@ -407,4 +449,8 @@ const EditEventPageDB: React.FC<EditEventPageDBProps> = ({ eventToEdit, onUpdate
   );
 };
 
+<<<<<<< HEAD
 export default EditEventPageDB;
+=======
+export default EditEventPageDB;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec

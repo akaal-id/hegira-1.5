@@ -63,6 +63,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose, 
           </div>
           
           <div className="space-y-3">
+<<<<<<< HEAD
             {/* Button Container with overflow-hidden for ribbon effect */}
             <div className="relative w-full rounded-lg overflow-hidden"> 
                 <button
@@ -86,6 +87,23 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose, 
                 >
                   COMING SOON
                 </div>
+=======
+            {/* Container for the button - ribbon removed */}
+            <div className="relative w-full rounded-lg"> 
+                <button
+                onClick={onSubscribe} // Action is now active
+                type="button"
+                // removed disabled attribute
+                className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-bold
+                            bg-hegra-yellow text-hegra-navy hover:bg-opacity-90 transform hover:scale-105
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hegra-navy focus:ring-offset-hegra-navy
+                            transition-all duration-300" 
+                aria-label="Subscribe Sekarang"
+                >
+                <Star size={20} className="mr-2" /> Subscribe Sekarang
+                </button>
+                {/* Coming Soon Ribbon Removed */}
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             </div>
 
             <button

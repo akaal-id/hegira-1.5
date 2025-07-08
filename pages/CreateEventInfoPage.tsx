@@ -17,7 +17,11 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ imageUrl, eventName, desc
   <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
     <img src={imageUrl} alt={eventName} className="w-full h-48 object-cover" />
     <div className="p-6">
+<<<<<<< HEAD
       <h4 className="text-xl font-jakarta font-semibold text-hegra-navy mb-2">{eventName}</h4>
+=======
+      <h4 className="text-xl font-semibold text-hegra-navy mb-2">{eventName}</h4>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
       <p className="text-sm text-gray-600 leading-relaxed">{description}</p>
     </div>
   </div>
@@ -34,7 +38,11 @@ const CreatorFeatureCard: React.FC<CreatorFeatureCardProps> = ({ icon: Icon, tit
     <div className="inline-block p-4 bg-hegra-turquoise text-white rounded-full mb-4">
       <Icon size={32} />
     </div>
+<<<<<<< HEAD
     <h4 className="text-lg font-jakarta font-semibold text-hegra-navy mb-2">{title}</h4>
+=======
+    <h4 className="text-lg font-semibold text-hegra-navy mb-2">{title}</h4>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
     <p className="text-xs text-gray-600">{description}</p>
   </div>
 );
@@ -100,10 +108,17 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
   return (
     <div className="bg-hegra-light-bg">
       {/* Hero Section */}
+<<<<<<< HEAD
       <section className="bg-gradient-to-br from-hegra-navy to-hegra-turquoise py-20 md:py-32 text-white text-center" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in-up">
           <Zap size={64} className="mx-auto mb-6 text-hegra-yellow" />
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-jakarta font-bold mb-4">Wujudkan Event <span className="text-hegra-yellow">Impian Anda</span></h1>
+=======
+      <section className="bg-gradient-to-br from-hegra-navy to-hegra-turquoise py-20 md:py-32 text-white text-center animate-on-scroll fade-in-up" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
+          <Zap size={64} className="mx-auto mb-6 text-hegra-yellow" />
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Wujudkan Event <span className="text-hegra-yellow">Impian Anda</span></h1>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           <p className="text-lg md:text-xl opacity-90 max-w-3xl mx-auto mb-8">
             Hegra menyediakan platform lengkap untuk membantu Anda merencanakan, mempromosikan, dan mengelola event dengan sukses dan mudah.
           </p>
@@ -117,10 +132,17 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* About Hegra for Creators Section */}
+<<<<<<< HEAD
       <section className="py-16 md:py-24 bg-hegra-white" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy">
+=======
+      <section className="py-16 md:py-24 bg-hegra-white animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               Mengapa Memilih <span className="text-hegra-turquoise">Hegra</span> untuk Event Anda?
             </h2>
             <p className="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
@@ -154,10 +176,17 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* Portfolio Section */}
+<<<<<<< HEAD
       <section className="py-16 md:py-24 bg-gray-50" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy">
+=======
+      <section className="py-16 md:py-24 bg-gray-50 animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               Portfolio <span className="text-gradient">Event Sukses</span> Kami
             </h2>
             <p className="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
@@ -173,10 +202,17 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* Platform Features Section */}
+<<<<<<< HEAD
       <section className="py-16 md:py-24 bg-hegra-white" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy">
+=======
+      <section className="py-16 md:py-24 bg-hegra-white animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               Fitur <span className="text-hegra-turquoise">Unggulan</span> Platform Kami
             </h2>
             <p className="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
@@ -197,10 +233,17 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* How to Start Section */}
+<<<<<<< HEAD
       <section className="py-16 md:py-24 bg-gradient-to-b from-hegra-chino/20 to-hegra-chino/50" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll fade-in">
           <Award size={48} className="mx-auto mb-6 text-hegra-yellow" />
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy mb-4">
+=======
+      <section className="py-16 md:py-24 bg-gradient-to-b from-hegra-chino/20 to-hegra-chino/50 animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center ">
+          <Award size={48} className="mx-auto mb-6 text-hegra-yellow" />
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy mb-4">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
             Langkah Mudah Membuat Event Anda di Hegra
           </h2>
           <p className="text-lg text-gray-700 mb-12 max-w-2xl mx-auto">
@@ -208,6 +251,7 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
           </p>
           <div className="grid md:grid-cols-3 gap-8 text-left max-w-4xl mx-auto mb-12">
             <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-hegra-turquoise">
+<<<<<<< HEAD
               <h3 className="text-xl font-jakarta font-semibold text-hegra-navy mb-2"><span className="text-hegra-turquoise font-bold text-2xl mr-2">1.</span>Daftar Akun</h3>
               <p className="text-sm text-gray-600">Buat akun Event Creator atau Organisasi Anda di Hegra. Prosesnya cepat dan mudah.</p>
             </div>
@@ -217,6 +261,17 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-hegra-navy">
               <h3 className="text-xl font-jakarta font-semibold text-hegra-navy mb-2"><span className="text-hegra-navy font-bold text-2xl mr-2">3.</span>Publikasi & Kelola</h3>
+=======
+              <h3 className="text-xl font-semibold text-hegra-navy mb-2"><span className="text-hegra-turquoise font-bold text-2xl mr-2">1.</span>Daftar Akun</h3>
+              <p className="text-sm text-gray-600">Buat akun Event Creator atau Organisasi Anda di Hegra. Prosesnya cepat dan mudah.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-hegra-yellow">
+              <h3 className="text-xl font-semibold text-hegra-navy mb-2"><span className="text-hegra-yellow font-bold text-2xl mr-2">2.</span>Buat Event</h3>
+              <p className="text-sm text-gray-600">Lengkapi detail event Anda, mulai dari deskripsi, jadwal, lokasi, hingga pengaturan tiket.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-hegra-navy">
+              <h3 className="text-xl font-semibold text-hegra-navy mb-2"><span className="text-hegra-navy font-bold text-2xl mr-2">3.</span>Publikasi & Kelola</h3>
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               <p className="text-sm text-gray-600">Publikasikan event Anda dan manfaatkan fitur kami untuk promosi dan manajemen peserta.</p>
             </div>
           </div>

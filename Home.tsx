@@ -2,7 +2,11 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
+=======
+import  { useEffect } from 'react';
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 import { PageName } from './HegiraApp'; // Assuming PageName is in HegiraApp or a types file
 
 // Temporary Home component.

@@ -17,6 +17,7 @@ interface AuthSelectionModalProps {
 const AuthSelectionModal: React.FC<AuthSelectionModalProps> = ({ isOpen, onClose, onSelectRole }) => {
   if (!isOpen) return null;
 
+<<<<<<< HEAD
   const allRoles: { type: AuthRoleType; label: string; icon: React.ElementType }[] = [
     { type: "Event Visitor", label: "Masuk sebagai Visitor", icon: User },
     // "Event Creator" button removed
@@ -27,6 +28,13 @@ const AuthSelectionModal: React.FC<AuthSelectionModalProps> = ({ isOpen, onClose
   const roles = allRoles.filter(role => role.type !== "Organization");
 
 
+=======
+  const roles: { type: AuthRoleType; label: string; icon: React.ElementType }[] = [
+    // { type: "Event Visitor", label: "Masuk sebagai Visitor", icon: User },
+    // { type: "Organization", label: "Masuk sebagai Organisasi", icon: Briefcase },
+  ];
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   const handleCreatorDashboardLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     onSelectRole("Event Creator"); // This will trigger navigation to CreatorAuthPage in HegiraApp

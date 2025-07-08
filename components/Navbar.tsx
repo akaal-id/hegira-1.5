@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -155,7 +159,11 @@ const Navbar: React.FC<NavbarProps> = ({
   const navItems = [
     { name: 'Beranda', target: 'landing' as PageName },
     { name: 'Event', target: 'events' as PageName },
+<<<<<<< HEAD
     // { name: 'Business Matching', target: 'business' as PageName }, // Removed Business Matching
+=======
+    // { name: 'Business Matching', target: 'business' as PageName },
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
   ];
 
   const handleLinkClick = (target: PageName) => {

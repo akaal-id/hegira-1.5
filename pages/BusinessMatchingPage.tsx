@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -146,7 +150,11 @@ const BusinessMatchingPage: React.FC<BusinessMatchingPageProps> = ({ onNavigate 
         </div>
       )}
       {!forMobile && (
+<<<<<<< HEAD
         <h2 className="text-xl font-semibold font-jakarta text-hegra-deep-navy mb-5 flex items-center">
+=======
+        <h2 className="text-xl font-semibold text-hegra-deep-navy mb-5 flex items-center">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
           <SlidersHorizontal size={22} className="mr-2.5 text-hegra-turquoise" /> Filter Cerdas
         </h2>
       )}
@@ -217,7 +225,11 @@ const BusinessMatchingPage: React.FC<BusinessMatchingPageProps> = ({ onNavigate 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <header className="mb-6 md:mb-8 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center">
           <div>
+<<<<<<< HEAD
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy">
+=======
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hegra-deep-navy">
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
               Jelajahi <span className="text-gradient">Peluang Bisnis</span> Anda
             </h1>
             <p className="mt-3 text-base md:text-lg text-gray-600 max-w-3xl mx-auto lg:mx-0">
@@ -307,4 +319,8 @@ const BusinessMatchingPage: React.FC<BusinessMatchingPageProps> = ({ onNavigate 
   );
 };
 
+<<<<<<< HEAD
 export default BusinessMatchingPage;
+=======
+export default BusinessMatchingPage;
+>>>>>>> 9d6e35a8089e767e27e085b51a51b23558e643ec
