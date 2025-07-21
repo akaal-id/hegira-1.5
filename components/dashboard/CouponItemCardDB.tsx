@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { Tag, Edit3, Trash2 } from 'lucide-react';
 import { TicketCategory } from '../../HegiraApp'; // Import TicketCategory
-import DeleteConfirmationModal from './modals/DeleteConfirmationModal'; // New import
+import DeleteConfirmationModal from './modals/DeleteConfirmationModal';
 
 export interface CouponData {
   id: string;
@@ -14,6 +14,7 @@ export interface CouponData {
   discountType: 'percentage' | 'fixed';
   discountValue: number;
   quantity?: number; // Max uses
+  resetsDaily?: boolean; // New field
   startDate?: string; // YYYY-MM-DD
   endDate?: string;   // YYYY-MM-DD
   minPurchase?: number; // Minimum purchase amount
@@ -114,7 +115,7 @@ const CouponItemCardDB: React.FC<CouponItemCardDBProps> = ({ coupon, eventTicket
             </div>
             {coupon.quantity !== undefined && (
               <div className="flex justify-between items-center">
-                <span className="text-gray-500">Jumlah Tersedia</span>
+                <span className="text-gray-500">{coupon.resetsDaily ? "Tersedia per Hari" : "Jumlah Tersedia"}</span>
                 <span className="font-medium">{coupon.quantity}</span>
               </div>
             )}

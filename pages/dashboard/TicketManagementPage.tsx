@@ -3,18 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState, useMemo, useEffect } from 'react';
-import { EventData, TicketCategory } from '../../HegiraApp';
+import { EventData, TicketCategory, TicketCategoryWithEventInfo } from '../../HegiraApp';
 import TicketItemCardDB from '../../components/dashboard/TicketItemCardDB';
 import AddTicketModal from '../../components/dashboard/modals/AddTicketModal';
-import { PlusCircle, Search, ChevronLeft, ChevronRight, Info } from 'lucide-react';
-
-export interface TicketCategoryWithEventInfo extends TicketCategory {
-  eventId: number;
-  eventName: string;
-  eventDateDisplay: string;
-  eventTimeDisplay: string;
-  eventTimezone?: string;
-}
+import { PlusCircle, Search, ChevronLeft, ChevronRight, Info, Download } from 'lucide-react';
+import { sampleOrders } from './PesananDB';
 
 interface TicketManagementPageProps {
   selectedEvent: EventData;
@@ -22,10 +15,12 @@ interface TicketManagementPageProps {
 }
 
 const ITEMS_PER_PAGE = 10;
+const formatCurrency = (amount: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
 
 const TicketManagementPage: React.FC<TicketManagementPageProps> = ({ selectedEvent, onUpdateEvent }) => {
   const [activeTab, setActiveTab] = useState<'management' | 'report'>('management');
   const [searchTerm, setSearchTerm] = useState('');
+  const [reportSearchTerm, setReportSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showAddEditTicketModal, setShowAddEditTicketModal] = useState(false);
   const [editingTicket, setEditingTicket] = useState<TicketCategoryWithEventInfo | null>(null);
@@ -55,7 +50,57 @@ const TicketManagementPage: React.FC<TicketManagementPageProps> = ({ selectedEve
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, reportSearchTerm]);
+  
+  const ticketReportData = useMemo(() => {
+    const relevantOrders = sampleOrders.filter(
+      order => order.eventId === selectedEvent.id && order.status === 'Berhasil'
+    );
+
+    const aggregation: Record<string, { ticketName: string; sold: number; revenue: number }> = {};
+    
+    relevantOrders.forEach(order => {
+        order.tickets.forEach(ticket => {
+            const key = ticket.categoryName; // Group by ticket name only
+            if (!aggregation[key]) {
+                aggregation[key] = { ticketName: ticket.categoryName, sold: 0, revenue: 0 };
+            }
+            aggregation[key].sold += ticket.quantity;
+            aggregation[key].revenue += ticket.quantity * ticket.pricePerTicket;
+        });
+    });
+
+    let finalData = Object.values(aggregation);
+    if (reportSearchTerm) {
+        finalData = finalData.filter(item => item.ticketName.toLowerCase().includes(reportSearchTerm.toLowerCase()));
+    }
+    return finalData.sort((a, b) => b.revenue - a.revenue); // Sort by revenue
+  }, [selectedEvent.id, reportSearchTerm]);
+  
+  const totalReportRevenue = useMemo(() => ticketReportData.reduce((sum, item) => sum + item.revenue, 0), [ticketReportData]);
+
+
+  const handleDownloadTicketReportCSV = () => {
+    const headers = ["Nama Tiket", "Tiket Terjual", "Pendapatan"];
+    let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
+    
+    ticketReportData.forEach(item => {
+        const row = [ `"${item.ticketName}"`, item.sold, item.revenue ];
+        csvContent += row.join(",") + "\r\n";
+    });
+    
+    csvContent += "\r\n"; // Add a blank line
+    csvContent += `Total Pendapatan,,${totalReportRevenue}\r\n`;
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `laporan_tiket_${selectedEvent.name.replace(/\s+/g, '_')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
 
   const handleSaveTicket = (ticketData: Omit<TicketCategory, 'id'> & { id?: string }) => {
     const updatedCategories = [...(selectedEvent.ticketCategories || [])];
@@ -123,7 +168,7 @@ const TicketManagementPage: React.FC<TicketManagementPageProps> = ({ selectedEve
           <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
             <div className="relative flex-grow w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input type="text" placeholder="Cari nama tiket" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-hegra-turquoise/20 text-sm" />
+              <input type="text" placeholder="Cari nama tiket" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-hegra-turquoise/20 text-sm bg-white" />
             </div>
             <button onClick={() => { setEditingTicket(null); setShowAddEditTicketModal(true); }} className="w-full sm:w-auto bg-hegra-turquoise text-white font-semibold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-sm flex-shrink-0">
               <PlusCircle size={18} /> Tambah Tiket
@@ -148,10 +193,38 @@ const TicketManagementPage: React.FC<TicketManagementPageProps> = ({ selectedEve
       )}
 
       {activeTab === 'report' && (
-        <div className="bg-white p-6 rounded-b-lg border border-t-0 border-gray-200 text-center">
-            <Info size={40} className="mx-auto text-gray-300 mb-3" />
-            <h3 className="text-lg font-semibold text-gray-700">Fitur Segera Hadir</h3>
-            <p className="text-sm text-gray-500 mt-1">Halaman laporan tiket sedang dalam pengembangan.</p>
+        <div className="bg-white p-4 rounded-b-lg border border-t-0 border-gray-200">
+          <h2 className="text-xl font-semibold text-hegra-deep-navy mb-4">Laporan Tiket</h2>
+          <div className="flex flex-col sm:flex-row items-end gap-4 mb-6">
+            <div className="relative flex-grow w-full sm:w-auto">
+              <label htmlFor="report-search" className="text-xs font-medium text-gray-600">Cari Nama Tiket</label>
+              <Search className="absolute left-3 top-1/2 transform translate-y-1 h-4 w-4 text-gray-400" />
+              <input id="report-search" type="text" placeholder="Nama tiket..." value={reportSearchTerm} onChange={e => setReportSearchTerm(e.target.value)} className="w-full mt-1 pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-hegra-turquoise/20 text-sm bg-white" />
+            </div>
+            <button onClick={handleDownloadTicketReportCSV} className="w-full sm:w-auto p-2.5 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors" title="Download Laporan (CSV)"><Download size={18} /></button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50"><tr>{["Nama Tiket", "Tiket Terjual", "Pendapatan"].map(header => (<th key={header} scope="col" className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">{header}</th>))}</tr></thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {ticketReportData.length > 0 ? ticketReportData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="px-4 py-3 text-sm text-gray-800">{item.ticketName}</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">{item.sold}</td>
+                    <td className="px-4 py-3 text-sm font-semibold text-green-700">{formatCurrency(item.revenue)}</td>
+                  </tr>
+                )) : (<tr><td colSpan={3} className="text-center py-10 text-gray-500">Tidak ada data penjualan tiket yang ditemukan.</td></tr>)}
+              </tbody>
+              {ticketReportData.length > 0 && (
+                <tfoot className="bg-gray-100">
+                    <tr>
+                        <td className="px-4 py-3 text-sm font-bold text-gray-800 text-right" colSpan={2}>Total Pendapatan</td>
+                        <td className="px-4 py-3 text-sm font-bold text-green-800">{formatCurrency(totalReportRevenue)}</td>
+                    </tr>
+                </tfoot>
+              )}
+            </table>
+          </div>
         </div>
       )}
 

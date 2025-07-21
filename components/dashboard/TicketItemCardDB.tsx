@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState } from 'react';
-import { TicketCategoryWithEventInfo } from '../../pages/dashboard/TicketManagementPage';
-import { formatEventTime } from '../../HegiraApp';
+import { TicketCategoryWithEventInfo, formatEventTime, formatDisplayDate } from '../../HegiraApp';
 import { Edit3, Trash2, AlertTriangle, Globe, Ticket as TicketIcon } from 'lucide-react';
-import DeleteConfirmationModal from './modals/DeleteConfirmationModal'; // New import
+import DeleteConfirmationModal from './modals/DeleteConfirmationModal';
 
 interface TicketItemCardDBProps {
   ticket: TicketCategoryWithEventInfo;
@@ -18,42 +17,6 @@ const formatCurrency = (amount: number | undefined) => {
   if (amount === undefined) return 'N/A';
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
 };
-
-const formatDateDisplayForTicketCard = (dateString?: string, secondaryDateString?: string): string => {
-  if (!dateString) return 'Mengikuti Jadwal Event';
-
-  const formatPart = (dateStr: string): string => {
-    // Handles YYYY-MM-DD or YYYY/MM/DD
-    const parts = dateStr.replace(/\//g, '-').split('-');
-    if (parts.length === 3) {
-      const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
-      const day = parseInt(parts[2], 10);
-      if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-        return new Date(year, month, day).toLocaleDateString('id-ID', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric'
-        });
-      }
-    }
-    return dateStr; // fallback
-  };
-  
-  // This handles case for custom ticket dates with start and end
-  if (secondaryDateString && secondaryDateString !== dateString) {
-      return `${formatPart(dateString)} - ${formatPart(secondaryDateString)}`;
-  }
-  
-  // This handles eventDateDisplay which can be 'YYYY/MM/DD' or 'YYYY/MM/DD - YYYY/MM/DD'
-  const dateParts = dateString.split(' - ');
-  if (dateParts.length === 2) {
-    return `${formatPart(dateParts[0])} - ${formatPart(dateParts[1])}`;
-  }
-  
-  return formatPart(dateString);
-};
-
 
 const TicketItemCardDB: React.FC<TicketItemCardDBProps> = ({ ticket, onEdit, onDelete }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -87,10 +50,19 @@ const TicketItemCardDB: React.FC<TicketItemCardDBProps> = ({ ticket, onEdit, onD
 
   const useEventSched = ticket.useEventSchedule === undefined ? true : ticket.useEventSchedule;
 
-  const displayTicketDate = formatDateDisplayForTicketCard(
-    useEventSched || !ticket.ticketStartDate ? ticket.eventDateDisplay : ticket.ticketStartDate,
-    useEventSched || !ticket.ticketStartDate ? undefined : ticket.ticketEndDate
-  );
+  let dateStringToFormat = ticket.eventDateDisplay;
+  if (!useEventSched && ticket.ticketStartDate) {
+      // ticket.ticketStartDate and ticket.ticketEndDate are YYYY-MM-DD.
+      // formatDisplayDate expects YYYY/MM/DD, so we replace hyphens.
+      const startDate = ticket.ticketStartDate.replace(/-/g, '/');
+      if (ticket.ticketEndDate && ticket.ticketEndDate !== ticket.ticketStartDate) {
+          const endDate = ticket.ticketEndDate.replace(/-/g, '/');
+          dateStringToFormat = `${startDate} - ${endDate}`;
+      } else {
+          dateStringToFormat = startDate;
+      }
+  }
+  const displayTicketDate = formatDisplayDate(dateStringToFormat);
 
   let ticketTimeDisplayValue = ticket.eventTimeDisplay; 
   let ticketTzValue = ticket.eventTimezone;
@@ -175,30 +147,25 @@ const TicketItemCardDB: React.FC<TicketItemCardDBProps> = ({ ticket, onEdit, onD
                 {derivedStatusText}
               </span>
             </div>
-            
-            <div className="pt-2 border-t border-gray-100">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-500">Tanggal Berlaku</span>
-                <span className="text-gray-700 text-xs text-right">{displayTicketDate}</span>
-              </div>
+          </div>
+        </div>
+        
+        <div className="p-5 border-t border-gray-100 mt-auto bg-gray-50/50">
+          <div className="space-y-1.5 text-xs">
+            <div className="flex items-center">
+              <Globe size={14} className="mr-1.5 text-gray-400 flex-shrink-0"/>
+              <span className="text-gray-500">Jadwal Berlaku: {useEventSched ? 'Mengikuti Jadwal Event' : 'Jadwal Khusus'}</span>
             </div>
-            
-            <div className="flex justify-between items-center">
-              <span className="text-gray-500">Waktu Berlaku</span>
-              <span className="text-gray-700 text-xs text-right">{formatEventTime(ticketTimeDisplayValue, ticketTzValue)}</span>
-            </div>
-            
-            {(!useEventSched && ticket.ticketTimezone) && (
-              <div className="flex justify-between items-center">
-                <span className="text-gray-500">Zona Waktu Tiket</span>
-                <span className="text-gray-700 text-xs text-right">{ticket.ticketTimezone}</span>
+            {!useEventSched && (
+              <div className="pl-5 text-gray-600">
+                <p>Tgl: {displayTicketDate}</p>
+                <p>Waktu: {formatEventTime(ticketTimeDisplayValue, ticketTzValue)}</p>
               </div>
             )}
-            
-            <div className="flex justify-between items-baseline pt-2 mt-2 border-t border-gray-100">
-              <span className="text-lg text-hegra-deep-navy">Harga Tiket</span>
-              <span className="text-lg font-bold text-hegra-turquoise">{formatCurrency(ticket.price)}</span>
-            </div>
+          </div>
+          <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-baseline">
+            <span className="text-md font-semibold text-hegra-deep-navy">Harga</span>
+            <span className="text-xl font-bold text-hegra-yellow">{formatCurrency(ticket.price)}</span>
           </div>
         </div>
       </div>

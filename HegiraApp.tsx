@@ -1,4 +1,3 @@
-
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -12,7 +11,7 @@ import HelpPage from './pages/HelpPage';
 import Footer from './components/Footer';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import DashboardPage, { DashboardViewId as DashboardViewIdCreatorVisitor } from './pages/DashboardPage'; // Renamed import
+import DashboardPage from './pages/DashboardPage';
 import BusinessMatchingDashboardPage, { DashboardViewIdBM } from './pages/dashboard-bm/BusinessMatchingDashboardPage'; // New BM Dashboard
 import EventDetailPage from './pages/EventDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -54,6 +53,14 @@ export interface TicketCategory {
   ticketEndTime?: string;
   ticketIsTimeRange?: boolean;
   ticketTimezone?: 'WIB' | 'WITA' | 'WIT' | '';
+}
+
+export interface TicketCategoryWithEventInfo extends TicketCategory {
+  eventId: number;
+  eventName: string;
+  eventDateDisplay: string; // Main event date
+  eventTimeDisplay: string; // Main event time
+  eventTimezone?: string; // Main event timezone
 }
 
 export interface EventData {
@@ -202,6 +209,49 @@ export function formatEventTime(timeDisplay: string | undefined, timezone?: stri
   }
   return `${originalTimeDisplay}`;
 }
+
+export const formatDisplayDate = (dateDisplayString: string | undefined): string => {
+  if (!dateDisplayString) return 'Tanggal tidak tersedia';
+
+  const parts = dateDisplayString.split(' - ');
+
+  const formatDatePart = (part: string): Date | null => {
+    // Handles YYYY/MM/DD and YYYY-MM-DD
+    const cleanedPart = part.replace(/\//g, '-');
+    const dateParts = cleanedPart.split('-');
+    if (dateParts.length === 3) {
+      const year = parseInt(dateParts[0], 10);
+      const month = parseInt(dateParts[1], 10) - 1; // Month is 0-indexed
+      const day = parseInt(dateParts[2], 10);
+      if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+        return new Date(year, month, day);
+      }
+    }
+    return null;
+  };
+
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+
+  if (parts.length === 1) {
+    const date = formatDatePart(parts[0]);
+    return date ? date.toLocaleDateString('id-ID', options) : dateDisplayString;
+  } else if (parts.length === 2) {
+    const startDate = formatDatePart(parts[0]);
+    const endDate = formatDatePart(parts[1]);
+
+    if (startDate && endDate) {
+      if (startDate.getFullYear() === endDate.getFullYear() && startDate.getMonth() === endDate.getMonth()) {
+        return `${startDate.getDate()} - ${endDate.toLocaleDateString('id-ID', options)}`;
+      } else if (startDate.getFullYear() === endDate.getFullYear()) {
+        const startOptions: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
+        return `${startDate.toLocaleDateString('id-ID', startOptions)} - ${endDate.toLocaleDateString('id-ID', options)}`;
+      } else {
+        return `${startDate.toLocaleDateString('id-ID', options)} - ${endDate.toLocaleDateString('id-ID', options)}`;
+      }
+    }
+  }
+  return dateDisplayString; // Fallback
+};
 
 const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCategories: Array<Partial<TicketCategory> & {id: string; name: string; price: number; maxQuantity?:number}> })[] = [
   {
@@ -378,6 +428,8 @@ const HegiraApp: React.FC = () => {
   const [activeAuthRole, setActiveAuthRole] = useState<AuthRoleType | null>(null);
   const [userEmailForOtpContext, setUserEmailForOtpContext] = useState('');
   const [userNameForOtpContext, setUserNameForOtpContext] = useState<string | undefined>(undefined);
+  const [postLoginRedirect, setPostLoginRedirect] = useState<PendingNavigationTarget | null>(null);
+
 
   const [isRoleSwitchModalOpen, setIsRoleSwitchModalOpen] = useState(false);
   const [isOrganizationVerificationModalOpen, setIsOrganizationVerificationModalOpen] = useState(false);
@@ -489,11 +541,20 @@ const HegiraApp: React.FC = () => {
   const handleLogin = (role: UserRole, name?: string) => {
     setIsLoggedIn(true);
     setUserRole(role);
-    setUserName(name || (role === 'visitor' ? 'Pengunjung Hegira' : role === 'creator' ? 'Kreator Event' : 'Organisasi Hegira'));
+    const loggedInName = name || (role === 'visitor' ? 'Pengunjung Hegira' : role === 'creator' ? 'Kreator Event' : 'Organisasi Hegira');
+    setUserName(loggedInName);
+    // Persist email context from signup/login for the session
+    const loggedInEmail = userEmailForOtpContext || `${role}@hegira.com`;
+    setUserEmailForOtpContext(loggedInEmail); 
+
     setAuthPageToShow(null);
     setShowOtpModalForVisitor(false);
     setIsAuthSelectionModalOpen(false);
-    if (role === 'creator' || role === 'organization') {
+    
+    if (postLoginRedirect) {
+      navigate(postLoginRedirect.page, postLoginRedirect.data);
+      setPostLoginRedirect(null);
+    } else if (role === 'creator' || role === 'organization') {
         navigate('dashboard');
     } else {
         navigate('landing');
@@ -522,13 +583,20 @@ const HegiraApp: React.FC = () => {
         setShowOtpModalForVisitor(false);
         setIsRoleSwitchModalOpen(false);
         setIsOrganizationVerificationModalOpen(false);
+        setUserEmailForOtpContext('');
       }
     });
     setIsConfirmationModalOpen(true);
   };
 
 
-  const handleOpenAuthModal = (selectedAuthRole?: AuthRoleType) => {
+  const handleOpenAuthModal = (selectedAuthRole?: AuthRoleType, redirect?: PendingNavigationTarget) => {
+    if (redirect) {
+      setPostLoginRedirect(redirect);
+    } else {
+      setPostLoginRedirect(null); // Clear previous redirect if none is provided
+    }
+
     if (selectedAuthRole) {
       setActiveAuthRole(selectedAuthRole);
       setAuthPageToShow('login');
@@ -593,6 +661,7 @@ const HegiraApp: React.FC = () => {
     setShowOtpModalForVisitor(false);
     setIsRoleSwitchModalOpen(false);
     setIsOrganizationVerificationModalOpen(false);
+    setPostLoginRedirect(null); // Clear redirect on close
     navigate('landing');
   };
 
@@ -643,6 +712,14 @@ const HegiraApp: React.FC = () => {
     navigate('paymentLoading');
   };
 
+  const loggedInUserEmail = userEmailForOtpContext || (isLoggedIn ? `${userRole}@hegira.com` : '');
+  const loggedInUserData = isLoggedIn ? {
+      fullName: userName,
+      email: loggedInUserEmail,
+      gender: 'Laki-laki', // Hardcoded as per sample
+      dateOfBirth: '1990-01-15', // Hardcoded as per sample
+  } : undefined;
+
 
   const renderPage = () => {
     if (isAppLoading && currentPage !== 'paymentLoading') return <FullScreenLoader />;
@@ -673,7 +750,7 @@ const HegiraApp: React.FC = () => {
                   />;
         }
       case 'eventDetail': return selectedEvent ? <EventDetailPage event={selectedEvent} onNavigate={navigate} onNavigateRequestWithConfirmation={handleNavigateRequestWithConfirmation}/> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
-      case 'checkout': return checkoutData ? <CheckoutPage checkoutInfo={checkoutData} eventForBackNav={checkoutData.event} onNavigate={navigate} onProcessPayment={handleProcessPayment} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
+      case 'checkout': return checkoutData ? <CheckoutPage checkoutInfo={checkoutData} eventForBackNav={checkoutData.event} onNavigate={navigate} onProcessPayment={handleProcessPayment} isLoggedIn={isLoggedIn} loggedInUserData={loggedInUserData} onOpenLoginModal={(role) => handleOpenAuthModal(role, { page: 'checkout', data: checkoutData })} formatDisplayDate={formatDisplayDate} formatEventTime={formatEventTime} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
       case 'paymentLoading': return transactionResult ? <PaymentLoadingPage onNavigate={navigate} onNavigateRequestWithConfirmation={handleNavigateRequestWithConfirmation} checkoutInfoToReturnTo={transactionResult.checkoutInfo} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
       case 'transactionSuccess': return transactionResult ? <TransactionSuccessPage transactionData={transactionResult} onNavigate={navigate} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
       case 'ticketDisplay': return transactionResult ? <TicketDisplayPage transactionData={transactionResult} onNavigate={navigate}/> : <LandingPage heroEvents={allEventsData.slice(0,3)} featuredEvents={allEventsData.slice(0,6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
@@ -835,8 +912,8 @@ const HegiraApp: React.FC = () => {
 
        <style>{`
         body {
-          background-color: #FEFFFF; /* hegira-light-bg */
-          color: #18093B; /* hegira-deep-navy */
+          background-color: #FEFFFF; /* hegra-light-bg */
+          color: #18093B; /* hegra-deep-navy */
         }
       `}</style>
     </>

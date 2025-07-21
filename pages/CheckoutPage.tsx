@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { CheckoutInfo, PageName, TransactionFormData, EventData, formatEventTime } from '../HegiraApp'; // Renamed import
+import type { CheckoutInfo, PageName, TransactionFormData, EventData, AuthRoleType } from '../HegiraApp'; // Changed import
 import ConfirmationModal from '../components/ConfirmationModal'; 
 import CheckoutConfirmationModal from '../components/CheckoutConfirmationModal'; // New Import
-import { CalendarDays, MapPin, Ticket as TicketIcon, User, Mail, Phone, CreditCard, ShoppingCart, ArrowLeft, Tag, Users, Calendar, Clock, AlertCircle } from 'lucide-react';
+import { CalendarDays, MapPin, Ticket as TicketIcon, User, Mail, Phone, CreditCard, ShoppingCart, ArrowLeft, Tag, Users, Calendar, Clock, AlertCircle, LogIn } from 'lucide-react';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {
@@ -43,23 +43,45 @@ const MIN_PHONE_DIGITS = 9;
 const FALLBACK_POSTER_URL = 'https://via.placeholder.com/640x240/cccccc/888888?text=Event+Poster';
 const ERROR_POSTER_URL = 'https://via.placeholder.com/640x240/f0f0f0/969696?text=Image+Error';
 
+interface LoggedInUserData {
+  fullName: string;
+  email: string;
+  gender: string;
+  dateOfBirth: string;
+}
+
 
 interface CheckoutPageProps {
   checkoutInfo: CheckoutInfo;
   eventForBackNav: EventData; 
   onNavigate: (page: PageName, data?: any) => void;
-  onProcessPayment: (formData: TransactionFormData, checkoutInfo: CheckoutInfo) => void; // New prop
+  onProcessPayment: (formData: TransactionFormData, checkoutInfo: CheckoutInfo) => void;
+  isLoggedIn: boolean;
+  loggedInUserData?: LoggedInUserData;
+  onOpenLoginModal: (role: AuthRoleType) => void;
+  formatDisplayDate: (dateDisplay: string | undefined) => string;
+  formatEventTime: (timeDisplay: string | undefined, timezone?: string | undefined) => string;
 }
 
-const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackNav, onNavigate, onProcessPayment }) => {
+const CheckoutPage: React.FC<CheckoutPageProps> = ({ 
+  checkoutInfo, 
+  eventForBackNav, 
+  onNavigate, 
+  onProcessPayment, 
+  isLoggedIn, 
+  loggedInUserData, 
+  onOpenLoginModal,
+  formatDisplayDate,
+  formatEventTime
+}) => {
   const { event, selectedTickets, totalPrice: originalTotalPrice } = checkoutInfo;
   
   const [formData, setFormData] = useState<Omit<TransactionFormData, 'additionalTicketHolders'>>({ 
-    fullName: '',
-    email: '',
-    phoneNumber: '', 
-    gender: '',
-    dateOfBirth: '',
+    fullName: (isLoggedIn && loggedInUserData) ? loggedInUserData.fullName : '',
+    email: (isLoggedIn && loggedInUserData) ? loggedInUserData.email : '',
+    phoneNumber: '',
+    gender: (isLoggedIn && loggedInUserData) ? loggedInUserData.gender : '',
+    dateOfBirth: (isLoggedIn && loggedInUserData) ? loggedInUserData.dateOfBirth : '',
   });
 
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>("+62");
@@ -230,7 +252,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    const isEmailValid = validateEmail(formData.email);
+    const isEmailValid = isLoggedIn || validateEmail(formData.email);
     const isPhoneValid = validatePhoneNumber(localPhoneNumber);
 
     if (!formData.fullName || !formData.email || !localPhoneNumber || !formData.gender || !formData.dateOfBirth) {
@@ -324,7 +346,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
         <div className="mb-6">
           <button
             onClick={handleBackNavigation}
-            className="flex items-center text-sm text-hegira-turquoise hover:text-hegira-navy font-semibold transition-colors group"
+            className="flex items-center text-sm text-hegra-turquoise hover:text-hegra-navy font-semibold transition-colors group"
           >
             <ArrowLeft size={18} className="mr-2 transform group-hover:-translate-x-1 transition-transform" />
             Kembali ke Detail Event
@@ -332,12 +354,12 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
         </div>
 
         <header className="text-center mb-8 md:mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold font-jakarta text-hegira-navy">Konfirmasi Pesanan Anda</h1>
+          <h1 className="text-3xl md:text-4xl font-bold font-jakarta text-hegra-navy">Konfirmasi Pesanan Anda</h1>
           <p className="mt-2 text-lg text-gray-600">Silakan periksa detail pesanan Anda dan lengkapi data diri.</p>
         </header>
 
         <div className="lg:flex lg:gap-8">
-          <div className="hidden lg:block lg:w-1/3 bg-white rounded-xl border border-hegira-navy/10 mb-8 lg:mb-0 lg:sticky lg:top-24 self-start overflow-hidden">
+          <div className="hidden lg:block lg:w-1/3 bg-white rounded-xl border border-hegra-navy/10 mb-8 lg:mb-0 lg:sticky lg:top-24 self-start overflow-hidden">
             <div className="relative w-full" style={{ paddingTop: '37.5%' }}>
               <img
                 src={event.coverImageUrl || event.posterUrl || FALLBACK_POSTER_URL}
@@ -347,29 +369,29 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
               />
             </div>
             <div className="p-6">
-              <h2 className="text-2xl font-semibold font-jakarta text-hegira-navy mb-6 border-b pb-3 flex items-center">
-                <TicketIcon size={24} className="mr-3 text-hegira-turquoise" />
+              <h2 className="text-2xl font-semibold font-jakarta text-hegra-navy mb-6 border-b pb-3 flex items-center">
+                <TicketIcon size={24} className="mr-3 text-hegra-turquoise" />
                 Detail Tiket
               </h2>
               
               <div className="mb-6">
-                <h3 className="text-xl font-semibold font-jakarta text-hegira-navy mb-2">{event.name}</h3>
+                <h3 className="text-xl font-semibold font-jakarta text-hegra-navy mb-2">{event.name}</h3>
                 <div className="flex items-center text-sm text-gray-600 mb-1">
-                  <CalendarDays size={16} className="mr-2 text-hegira-turquoise" />
-                  <span>{event.dateDisplay}</span>
+                  <CalendarDays size={16} className="mr-2 text-hegra-turquoise" />
+                  <span>{formatDisplayDate(event.dateDisplay)}</span>
                 </div>
                 <div className="flex items-center text-sm text-gray-600 mb-1">
-                  <Clock size={16} className="mr-2 text-hegira-turquoise" />
+                  <Clock size={16} className="mr-2 text-hegra-turquoise" />
                   <span>{formatEventTime(event.timeDisplay, event.timezone)}</span>
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
-                  <MapPin size={16} className="mr-2 text-hegira-turquoise" />
+                  <MapPin size={16} className="mr-2 text-hegra-turquoise" />
                   <span>{event.location}</span>
                 </div>
               </div>
 
               <div className="space-y-3 mb-6">
-                <h4 className="text-md font-jakarta font-semibold text-hegira-navy">Tiket yang Dipilih:</h4>
+                <h4 className="text-md font-jakarta font-semibold text-hegra-navy">Tiket yang Dipilih:</h4>
                 {selectedTickets.map(ticket => (
                   <div key={ticket.categoryId} className="flex justify-between items-center text-sm p-3 bg-gray-50 rounded-md">
                     <div>
@@ -391,13 +413,13 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
                     placeholder="Masukkan kode kupon"
-                    className="flex-grow py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 transition-colors text-sm bg-white"
+                    className="flex-grow py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors text-sm bg-white"
                   />
                   <button
                     type="button"
                     onClick={handleApplyCoupon}
                     aria-label="Terapkan kupon"
-                    className="bg-hegira-turquoise text-white p-2 rounded-lg hover:bg-opacity-90 transition-colors"
+                    className="bg-hegra-turquoise text-white p-2 rounded-lg hover:bg-opacity-90 transition-colors"
                   >
                     <Tag size={20} />
                   </button>
@@ -415,36 +437,36 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                   </div>
                 )}
                 <div className="flex justify-between items-center text-lg font-bold mt-1">
-                  <span className="text-hegira-navy">Total Pembayaran:</span>
-                  <span className="text-hegira-yellow">{formatCurrency(effectiveTotalPrice)}</span>
+                  <span className="text-hegra-navy">Total Pembayaran:</span>
+                  <span className="text-hegra-yellow">{formatCurrency(effectiveTotalPrice)}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} id="checkoutForm" className="lg:w-2/3 bg-white p-6 md:p-8 rounded-xl border border-hegira-navy/10">
-            <div className="lg:hidden bg-gray-50 p-4 rounded-lg border border-hegira-navy/10 mb-6">
-                <h2 className="text-xl font-semibold font-jakarta text-hegira-navy mb-4 border-b pb-2 flex items-center">
-                    <TicketIcon size={22} className="mr-2 text-hegira-turquoise"/>
+          <form onSubmit={handleSubmit} id="checkoutForm" className="lg:w-2/3 bg-white p-6 md:p-8 rounded-xl border border-hegra-navy/10">
+            <div className="lg:hidden bg-gray-50 p-4 rounded-lg border border-hegra-navy/10 mb-6">
+                <h2 className="text-xl font-semibold font-jakarta text-hegra-navy mb-4 border-b pb-2 flex items-center">
+                    <TicketIcon size={22} className="mr-2 text-hegra-turquoise"/>
                     Detail Tiket
                 </h2>
                 <div className="mb-4">
-                    <h3 className="text-lg font-jakarta font-semibold text-hegira-navy mb-1">{event.name}</h3>
+                    <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-1">{event.name}</h3>
                     <div className="flex items-center text-xs text-gray-600 mb-0.5">
-                        <CalendarDays size={14} className="mr-1.5 text-hegira-turquoise" />
-                        <span>{event.dateDisplay}</span>
+                        <CalendarDays size={14} className="mr-1.5 text-hegra-turquoise" />
+                        <span>{formatDisplayDate(event.dateDisplay)}</span>
                     </div>
                      <div className="flex items-center text-xs text-gray-600 mb-0.5">
-                        <Clock size={14} className="mr-1.5 text-hegira-turquoise" />
+                        <Clock size={14} className="mr-1.5 text-hegra-turquoise" />
                         <span>{formatEventTime(event.timeDisplay, event.timezone)}</span>
                     </div>
                     <div className="flex items-center text-xs text-gray-600">
-                        <MapPin size={14} className="mr-1.5 text-hegira-turquoise" />
+                        <MapPin size={14} className="mr-1.5 text-hegra-turquoise" />
                         <span>{event.location}</span>
                     </div>
                 </div>
                 <div className="space-y-2 mb-4 border-b pb-4">
-                    <h4 className="text-sm font-jakarta font-semibold text-hegira-navy">Tiket:</h4>
+                    <h4 className="text-sm font-jakarta font-semibold text-hegra-navy">Tiket:</h4>
                     {selectedTickets.map(ticket => (
                         <div key={ticket.categoryId} className="flex justify-between items-center text-xs p-2 bg-white rounded-md border">
                         <div>
@@ -457,15 +479,24 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                 </div>
             </div>
 
-            <h2 className="text-2xl font-semibold font-jakarta text-hegira-navy mb-6 border-b pb-3">Data Pemesan</h2>
-            <div className="space-y-6">
+            <h2 className="text-2xl font-semibold font-jakarta text-hegra-navy mb-2 border-b pb-3">Data Pemesan</h2>
+            
+            {!isLoggedIn && (
+                <div className="my-4 text-center bg-hegra-turquoise/10 p-3 rounded-lg border border-hegra-turquoise/20">
+                    <button onClick={() => onOpenLoginModal("Event Visitor")} className="text-sm font-semibold text-hegra-turquoise hover:text-hegra-navy transition-colors flex items-center justify-center w-full gap-2">
+                        <LogIn size={16} /> Login untuk memudahkan pengisian form
+                    </button>
+                </div>
+            )}
+            
+            <div className="space-y-6 mt-4">
               <div>
                 <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap Sesuai KTP/Identitas</label>
                 <div className="relative mt-1">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
                   <input 
                     type="text" name="fullName" id="fullName" required 
-                    className="w-full py-2.5 px-4 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 transition-colors bg-white" 
+                    className="w-full py-2.5 px-4 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors bg-white" 
                     placeholder="Masukkan nama lengkap Anda"
                     value={formData.fullName} onChange={handleMainFormInputChange} aria-describedby="fullName-hint"
                   />
@@ -473,23 +504,34 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                 <p id="fullName-hint" className="mt-1 text-xs text-gray-500">Pastikan nama sesuai dengan identitas untuk verifikasi.</p>
               </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Alamat Email Aktif</label>
-                 <div className="relative mt-1">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                  <input 
-                    type="email" name="email" id="email" required 
-                    className={`w-full py-2.5 px-4 pl-10 border rounded-lg shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 transition-colors bg-white ${emailError ? 'border-red-500' : 'border-gray-300'}`}
-                    placeholder="cth: email@anda.com" value={formData.email} 
-                    onChange={handleMainFormInputChange} 
-                    onBlur={(e) => validateEmail(e.target.value)}
-                    aria-describedby="email-hint email-error"
-                    aria-invalid={!!emailError}
-                  />
+              {isLoggedIn && loggedInUserData ? (
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Alamat Email Aktif</label>
+                    <div className="relative mt-1">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <p className="w-full py-2.5 px-4 pl-10 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 text-sm">{loggedInUserData.email}</p>
+                    </div>
+                    <p id="email-hint" className="mt-1 text-xs text-gray-500">E-tiket akan dikirimkan ke alamat email ini.</p>
                 </div>
-                {emailError && <p id="email-error" className="mt-1 text-xs text-red-600 flex items-center"><AlertCircle size={14} className="mr-1" />{emailError}</p>}
-                <p id="email-hint" className="mt-1 text-xs text-gray-500">E-tiket akan dikirimkan ke alamat email ini.</p>
-              </div>
+              ) : (
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Alamat Email Aktif</label>
+                   <div className="relative mt-1">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                    <input 
+                      type="email" name="email" id="email" required 
+                      className={`w-full py-2.5 px-4 pl-10 border rounded-lg shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors bg-white ${emailError ? 'border-red-500' : 'border-gray-300'}`}
+                      placeholder="cth: email@anda.com" value={formData.email} 
+                      onChange={handleMainFormInputChange} 
+                      onBlur={(e) => validateEmail(e.target.value)}
+                      aria-describedby="email-hint email-error"
+                      aria-invalid={!!emailError}
+                    />
+                  </div>
+                  {emailError && <p id="email-error" className="mt-1 text-xs text-red-600 flex items-center"><AlertCircle size={14} className="mr-1" />{emailError}</p>}
+                  <p id="email-hint" className="mt-1 text-xs text-gray-500">E-tiket akan dikirimkan ke alamat email ini.</p>
+                </div>
+              )}
 
               <div>
                 <label htmlFor="localPhoneNumber" className="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
@@ -501,7 +543,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                       name="countryCode" 
                       value={selectedCountryCode} 
                       onChange={(e) => setSelectedCountryCode(e.target.value)} 
-                      className="appearance-none z-10 h-full block w-auto py-2.5 pl-3 pr-8 text-sm text-gray-900 border border-r-0 border-gray-300 rounded-l-lg focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 bg-white"
+                      className="appearance-none z-10 h-full block w-auto py-2.5 pl-3 pr-8 text-sm text-gray-900 border border-r-0 border-gray-300 rounded-l-lg focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 bg-white"
                     >
                       {countryCodeOptions.map(opt => (
                         <option key={opt.code} value={opt.code}>{opt.flag} {opt.code}</option>
@@ -517,7 +559,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                     </div>
                     <input 
                       type="tel" name="localPhoneNumber" id="localPhoneNumber" required 
-                      className={`block w-full py-2.5 pl-10 pr-3 text-sm border rounded-r-lg focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 focus:z-20 shadow-sm bg-white ${phoneError ? 'border-red-500' : 'border-gray-300'}`}
+                      className={`block w-full py-2.5 pl-10 pr-3 text-sm border rounded-r-lg focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 focus:z-20 shadow-sm bg-white ${phoneError ? 'border-red-500' : 'border-gray-300'}`}
                       placeholder="81234567890" 
                       value={localPhoneNumber} 
                       onChange={(e) => setLocalPhoneNumber(e.target.value.replace(/\D/g, ''))}
@@ -529,53 +571,72 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                 </div>
                 {phoneError && <p id="phone-error" className="mt-1 text-xs text-red-600 flex items-center"><AlertCircle size={14} className="mr-1" />{phoneError}</p>}
                 <div className="mt-2 flex items-center">
-                    <input type="checkbox" id="isWhatsappActive" name="isWhatsappActive" defaultChecked className="h-4 w-4 text-hegira-turquoise border-gray-300 rounded focus:ring-hegira-turquoise/20 cursor-not-allowed" disabled />
+                    <input type="checkbox" id="isWhatsappActive" name="isWhatsappActive" defaultChecked className="h-4 w-4 text-hegra-turquoise border-gray-300 rounded focus:ring-hegra-turquoise/20 cursor-not-allowed" disabled />
                     <label htmlFor="isWhatsappActive" className="ml-2 block text-xs text-gray-600">Nomor WhatsApp Aktif</label>
                 </div>
                 <p id="phoneNumber-hint" className="mt-1 text-xs text-gray-500">Digunakan untuk konfirmasi dan informasi penting. Masukkan tanpa angka 0 di depan.</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
-                    <div className="relative mt-1">
-                        <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                        <select 
-                            name="gender" id="gender" required 
-                            className="w-full py-2.5 px-4 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 transition-colors appearance-none bg-white"
-                            value={formData.gender} onChange={handleMainFormInputChange}
-                        >
-                            <option value="" disabled>Pilih jenis kelamin</option>
-                            <option value="Laki-laki">Laki-laki</option>
-                            <option value="Perempuan">Perempuan</option>
-                            <option value="Lainnya">Lainnya</option>
-                        </select>
-                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              {isLoggedIn && loggedInUserData ? (
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                        <div className="relative mt-1">
+                            <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                            <p className="w-full py-2.5 px-4 pl-10 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 text-sm">{loggedInUserData.gender || 'N/A'}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
+                        <div className="relative mt-1">
+                            <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                            <p className="w-full py-2.5 px-4 pl-10 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 text-sm">{loggedInUserData.dateOfBirth ? new Date(loggedInUserData.dateOfBirth + 'T00:00:00').toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) : 'N/A'}</p>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
-                    <div className="relative mt-1">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                        <input 
-                            type="date" name="dateOfBirth" id="dateOfBirth" required 
-                            className="w-full py-2.5 px-4 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 transition-colors bg-white"
-                            value={formData.dateOfBirth} onChange={handleMainFormInputChange}
-                        />
-                    </div>
+              ) : (
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                      <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                      <div className="relative mt-1">
+                          <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                          <select 
+                              name="gender" id="gender" required 
+                              className="w-full py-2.5 px-4 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors appearance-none bg-white"
+                              value={formData.gender} onChange={handleMainFormInputChange}
+                          >
+                              <option value="" disabled>Pilih jenis kelamin</option>
+                              <option value="Laki-laki">Laki-laki</option>
+                              <option value="Perempuan">Perempuan</option>
+                              <option value="Lainnya">Lainnya</option>
+                          </select>
+                           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                      </div>
+                  </div>
+                  <div>
+                      <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
+                      <div className="relative mt-1">
+                          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                          <input 
+                              type="date" name="dateOfBirth" id="dateOfBirth" required 
+                              className="w-full py-2.5 px-4 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors bg-white"
+                              value={formData.dateOfBirth} onChange={handleMainFormInputChange}
+                          />
+                      </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {ticketHoldersData.length > 0 && (
                 <div className="mt-8 pt-6 border-t">
-                    <h2 className="text-xl font-semibold font-jakarta text-hegira-navy mb-4">Data Pemegang Tiket</h2>
+                    <h2 className="text-xl font-semibold font-jakarta text-hegra-navy mb-4">Data Pemegang Tiket</h2>
                     {ticketHoldersData.map((holder, index) => (
                         <div key={index} className="mb-6 p-4 border border-gray-200 rounded-lg bg-white">
                             <div className="flex justify-between items-center mb-3">
-                                <h3 className="text-md font-semibold font-jakarta text-hegira-navy">
+                                <h3 className="text-md font-semibold font-jakarta text-hegra-navy">
                                   Data untuk Tiket {index + 1}: <span className="font-normal font-sans text-gray-700">{flatTicketCategoryNames[index] || 'Tiket'}</span>
                                 </h3>
                                 <label htmlFor={`syncData-${index}`} className="flex items-center cursor-pointer">
@@ -587,7 +648,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                                       checked={syncWithBookerFlags[index] || false}
                                       onChange={() => handleToggleSyncWithBooker(index)}
                                     />
-                                    <div className="w-10 h-6 bg-gray-300 rounded-full peer-checked:bg-hegira-turquoise transition-colors"></div>
+                                    <div className="w-10 h-6 bg-gray-300 rounded-full peer-checked:bg-hegra-turquoise transition-colors"></div>
                                     <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-full"></div>
                                   </div>
                                   <span className="ml-2 text-xs text-gray-700 font-medium">Sama dengan Data Pemesan</span>
@@ -603,7 +664,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                                         value={holder.fullName}
                                         onChange={(e) => handleTicketHolderChange(index, 'fullName', e.target.value)}
                                         disabled={syncWithBookerFlags[index]}
-                                        className="w-full py-2 px-3 pl-9 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 text-sm disabled:bg-white disabled:text-gray-500 bg-white"
+                                        className="w-full py-2 px-3 pl-9 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 text-sm disabled:bg-white disabled:text-gray-500 bg-white"
                                         placeholder="Nama pemegang tiket"
                                       />
                                     </div>
@@ -617,7 +678,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                                         value={holder.whatsAppNumber}
                                         onChange={(e) => handleTicketHolderChange(index, 'whatsAppNumber', e.target.value)}
                                         disabled={syncWithBookerFlags[index]}
-                                        className="w-full py-2 px-3 pl-9 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 text-sm disabled:bg-white disabled:text-gray-500 bg-white"
+                                        className="w-full py-2 px-3 pl-9 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 text-sm disabled:bg-white disabled:text-gray-500 bg-white"
                                         placeholder="Nomor WhatsApp pemegang tiket"
                                       />
                                     </div>
@@ -629,21 +690,21 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
             )}
             
             <div className="pt-6 border-t mt-6">
-                 <h3 className="text-lg font-jakarta font-semibold text-hegira-navy mb-3">Metode Pembayaran</h3>
+                 <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Metode Pembayaran</h3>
                  <p className="text-sm text-gray-600 mb-3">Pilihan metode pembayaran akan tersedia di langkah berikutnya setelah konfirmasi data ini. Untuk saat ini, ini adalah simulasi.</p>
                  <div className="p-4 bg-gray-100 rounded-lg flex items-center gap-3 border border-gray-200">
-                    <CreditCard size={24} className="text-hegira-turquoise flex-shrink-0"/>
+                    <CreditCard size={24} className="text-hegra-turquoise flex-shrink-0"/>
                     <span className="text-gray-700 text-sm">Anda akan diarahkan ke halaman simulasi proses pembayaran setelah mengkonfirmasi data.</span>
                  </div>
             </div>
               
             <div className="hidden lg:block mt-8 pt-4 border-t">
             <p className="text-xs text-gray-500 mb-4">
-                Dengan mengklik tombol di bawah, Anda menyetujui <a href="#" className="text-hegira-turquoise hover:underline">Syarat & Ketentuan Pembelian Tiket</a> dan <a href="#" className="text-hegira-turquoise hover:underline">Kebijakan Privasi</a> Hegira.
+                Dengan mengklik tombol di bawah, Anda menyetujui <a href="#" className="text-hegra-turquoise hover:underline">Syarat & Ketentuan Pembelian Tiket</a> dan <a href="#" className="text-hegra-turquoise hover:underline">Kebijakan Privasi</a> Hegira.
             </p>
             <button 
                 type="submit"
-                className="w-full bg-hegira-yellow text-hegira-navy font-bold py-3.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-lg focus:outline-none focus:ring-2 focus:ring-hegira-navy focus:ring-offset-2 shadow-md hover:shadow-lg transform hover:scale-105"
+                className="w-full bg-hegra-yellow text-hegra-navy font-bold py-3.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-lg focus:outline-none focus:ring-2 focus:ring-hegra-navy focus:ring-offset-2 shadow-md hover:shadow-lg transform hover:scale-105"
             >
                 <ShoppingCart size={22} className="mr-1"/>
                 Konfirmasi Data & Lanjutkan
@@ -680,7 +741,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
             <div className="flex justify-between items-center mb-2">
                 <div>
                     <p className="text-xs text-gray-500">Total Pembayaran</p>
-                    <p className="text-lg font-bold text-hegira-yellow">{formatCurrency(effectiveTotalPrice)}</p>
+                    <p className="text-lg font-bold text-hegra-yellow">{formatCurrency(effectiveTotalPrice)}</p>
                 </div>
                  {couponApplied && discountedPrice !== null && (
                      <span className="text-xs text-green-600 bg-green-100 px-1.5 py-0.5 rounded-full">Diskon 10%</span>
@@ -693,14 +754,14 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
                     placeholder="Kode Kupon"
-                    className="flex-grow py-2 px-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-hegira-turquoise/20 focus:border-hegira-turquoise/50 text-xs bg-white"
+                    className="flex-grow py-2 px-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 text-xs bg-white"
                     aria-label="Kode Kupon Mobile"
                 />
                 <button
                     type="button"
                     onClick={handleApplyCoupon}
                     aria-label="Terapkan kupon"
-                    className="bg-hegira-turquoise text-white p-1.5 rounded-md hover:bg-opacity-90"
+                    className="bg-hegra-turquoise text-white p-1.5 rounded-md hover:bg-opacity-90"
                 >
                     <Tag size={18} />
                 </button>
@@ -709,7 +770,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ checkoutInfo, eventForBackN
             <button
                 type="submit"
                 form="checkoutForm"
-                className="w-full bg-hegira-yellow text-hegira-navy font-bold py-3 px-5 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-sm"
+                className="w-full bg-hegra-yellow text-hegra-navy font-bold py-3 px-5 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-sm"
             >
                 <ShoppingCart size={18} />
                 Lanjutkan ke Pembayaran
